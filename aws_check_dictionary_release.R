@@ -11,9 +11,9 @@ library(dplyr)
 #options(scipen=999999999999999999999999999999999999999999)
 
 
-Sys.setenv("AWS_ACCESS_KEY_ID" = "AKIAIXGHDGQILFCVWGJA",
-           "AWS_SECRET_ACCESS_KEY" = "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",
-           "AWS_DEFAULT_REGION" = "eu-west-1")
+Sys.setenv("AWS_ACCESS_KEY_ID" = "X",
+           "AWS_SECRET_ACCESS_KEY" = "X",
+           "AWS_DEFAULT_REGION" = "X")
 		   
 BOL_content <- get_bucket_df(bucket = 'trase-storage', prefix = 'data/1-TRADE/BoL/')
 
