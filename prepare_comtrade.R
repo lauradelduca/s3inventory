@@ -13,7 +13,7 @@ din <- 'C:/Users/laura.delduca/Desktop/COMTRADE'
 
 setwd(din)
 
-ff <- list.files(din, pattern = '2005.csv$', full = TRUE)
+ff <- list.files(din, pattern = '2009.csv$', full = TRUE)
 
 
 # read the file
@@ -29,8 +29,10 @@ if(length(k)>0) j<- j[-k,]
 
 # zoom in
 
-countries <- c("Argentina", "Bolivia", "Brazil", "Chile", "China", "Colombia", "Ecuador", "Indonesia",
-				"Mexico", "Panama", "Paraguay", "Peru", "Russia", "Uruguay", "Venezuela")
+countries <- c("Argentina", "Bolivia (Plurinational State of)", "Brazil", "Chile", 
+				"China", "China, Hong Kong SAR", "China, Macao SAR", "Colombia", 
+				"Costa Rica", "Ecuador", "India", "Indonesia", "Mexico", "Panama", "Paraguay", 
+				"Peru", "Russia", "Uruguay", "USA", "Venezuela")
 
 j <- j[(j$'Trade Flow' == 'Export') & (j$Partner %in% countries)]
 
@@ -66,4 +68,4 @@ names(data) <- c('country', 'hs', 'net_weight')
 
 
 # write file
-write.csv2(j, 'COMTRADE_ZOOMIN_2005.csv', quote = FALSE, row.names = FALSE)
+write.csv2(j, 'COMTRADE_ZOOMIN_2009.csv', quote = FALSE, row.names = FALSE)
