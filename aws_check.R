@@ -1,7 +1,5 @@
 # AWS check
 
-## only list release codes
-
  
 library(aws.s3)
 library(stringr)
@@ -9,7 +7,6 @@ library(gsubfn)
 library(dplyr)
 
 #options(scipen=999999999999999999999999999999999999999999)
-
 
 
 		   
@@ -126,7 +123,7 @@ for (f in as.vector(CD$file)){
 		release <- c('BEEF', 'CHICKEN', 'CORN', 'COTTON', 'LEATHER (CATTLE)', 
 					'NATURAL TIMBER', 'PAPER AND PULP', 'SHRIMPS', 'SOY', 'SUGARCANE')
 		
-		countries <- c(countries, CD$country[CD$file == f]) }
+		countries <- unique(c(countries, as.character(CD$country[CD$file == f]))) }
 	
 	if (CD$country[CD$file == f] == 'BOLIVIA'){
 	
@@ -137,7 +134,7 @@ for (f in as.vector(CD$file)){
 		release <- c('CHICKEN', 'COFFEE', 'CORN', 'LEATHER (CATTLE)', 
 					'NATURAL TIMBER', 'SOY')
 		
-		countries <- c(countries, CD$country[CD$file == f]) }
+		countries <- unique(c(countries, as.character(CD$country[CD$file == f]))) }
 		
 	if (grepl("data/1-TRADE/CD/EXPORT/BRAZIL/DATAMYNE/DASHBOARD/", f)){
 	
@@ -148,7 +145,7 @@ for (f in as.vector(CD$file)){
 		release <- c('BEEF', 'CHICKEN', 'COCOA', 'COFFEE', 'CORN', 'COTTON', 'LEATHER (CATTLE)', 
 					'NATURAL TIMBER', 'OIL PALM', 'PAPER AND PULP', 'SOY', 'SUGARCANE')
 		
-		countries <- c(countries, CD$country[CD$file == f]) }
+		countries <- unique(c(countries, as.character(CD$country[CD$file == f]))) }
 		
 	if (grepl("data/1-TRADE/CD/EXPORT/BRAZIL/DATAMYNE/THIRD_PARTY/", f)){
 	
@@ -159,7 +156,7 @@ for (f in as.vector(CD$file)){
 		release <- c('BEEF', 'CHICKEN', 'COCOA', 'COFFEE', 'CORN', 'COTTON', 'LEATHER (CATTLE)', 
 					'NATURAL TIMBER', 'OIL PALM', 'PAPER AND PULP', 'SOY', 'SUGARCANE')
 		
-		countries <- c(countries, CD$country[CD$file == f]) }
+		countries <- unique(c(countries, as.character(CD$country[CD$file == f]))) }
 		
 	if (CD$country[CD$file == f] == 'CHILE'){
 	
@@ -169,7 +166,7 @@ for (f in as.vector(CD$file)){
 		
 		release <- c()
 		
-		countries <- c(countries, CD$country[CD$file == f]) }
+		countries <- unique(c(countries, as.character(CD$country[CD$file == f]))) }
 		
 	if (CD$country[CD$file == f] == 'COLOMBIA'){
 	
@@ -180,7 +177,7 @@ for (f in as.vector(CD$file)){
 		release <- c('BEEF', 'CHICKEN', 'COCOA', 'COFFEE', 'CORN', 'LEATHER (CATTLE)', 
 					'NATURAL TIMBER', 'OIL PALM', 'PAPER AND PULP', 'SHRIMPS', 'SUGARCANE')
 		
-		countries <- c(countries, CD$country[CD$file == f]) }
+		countries <- unique(c(countries, as.character(CD$country[CD$file == f]))) }
 		
 	if (CD$country[CD$file == f] == 'COSTARICA'){
 	
@@ -191,7 +188,7 @@ for (f in as.vector(CD$file)){
 		release <- c('BEEF', 'COFFEE', 'LEATHER (CATTLE)', 
 					'NATURAL TIMBER', 'OIL PALM', 'SHRIMPS', 'SOY', 'SUGARCANE')
 		
-		countries <- c(countries, CD$country[CD$file == f]) }	
+		countries <- unique(c(countries, as.character(CD$country[CD$file == f]))) }	
 		
 	if (CD$country[CD$file == f] == 'ECUADOR'){
 	
@@ -202,7 +199,7 @@ for (f in as.vector(CD$file)){
 		release <- c('COCOA', 'COFFEE', 'LEATHER (CATTLE)', 
 					'OIL PALM', 'PAPER AND PULP', 'SHRIMPS')
 		
-		countries <- c(countries, CD$country[CD$file == f]) }
+		countries <- unique(c(countries, as.character(CD$country[CD$file == f]))) }
 		
 	if (CD$country[CD$file == f] == 'MEXICO'){
 	
@@ -213,7 +210,7 @@ for (f in as.vector(CD$file)){
 		release <- c('BEEF', 'CHICKEN', 'COCOA', 'COFFEE', 'CORN', 'COTTON', 'LEATHER (CATTLE)', 
 					'NATURAL TIMBER', 'PAPER AND PULP', 'SHRIMPS', 'SOY', 'SUGARCANE')
 		
-		countries <- c(countries, CD$country[CD$file == f]) }		
+		countries <- unique(c(countries, as.character(CD$country[CD$file == f]))) }		
 
 	if (CD$country[CD$file == f] == 'PANAMA'){
 	
@@ -224,7 +221,7 @@ for (f in as.vector(CD$file)){
 		release <- c('COFFEE', 'LEATHER (CATTLE)', 
 					'NATURAL TIMBER', 'OIL PALM', 'SHRIMPS', 'SUGARCANE')		
 		
-		countries <- c(countries, CD$country[CD$file == f]) }
+		countries <- unique(c(countries, as.character(CD$country[CD$file == f]))) }
 	
 	if (grepl("data/1-TRADE/CD/EXPORT/PARAGUAY/SICEX/", f)){
 	
@@ -234,7 +231,7 @@ for (f in as.vector(CD$file)){
 		
 		release <- c()
 		
-		countries <- c(countries, CD$country[CD$file == f]) }
+		countries <- unique(c(countries, as.character(CD$country[CD$file == f]))) }
 		
 	if (grepl("data/1-TRADE/CD/EXPORT/PARAGUAY/MINTRADE/", f)){
 	
@@ -245,7 +242,7 @@ for (f in as.vector(CD$file)){
 		release <- c('BEEF', 'CORN', 'LEATHER (CATTLE)', 
 					'NATURAL TIMBER', 'SOY', 'SUGARCANE')
 		
-		countries <- c(countries, CD$country[CD$file == f]) }
+		countries <- unique(c(countries, as.character(CD$country[CD$file == f]))) }
 		
 	if (CD$country[CD$file == f] == 'PERU'){
 	
@@ -256,7 +253,7 @@ for (f in as.vector(CD$file)){
 		release <- c('CHICKEN', 'COCOA', 'COFFEE', 'CORN', 'LEATHER (CATTLE)', 
 					'NATURAL TIMBER', 'OIL PALM', 'SHRIMPS', 'SUGARCANE')
 		
-		countries <- c(countries, CD$country[CD$file == f]) }
+		countries <- unique(c(countries, as.character(CD$country[CD$file == f]))) }
 	
 	if (CD$country[CD$file == f] == 'URUGUAY'){
 	
@@ -267,7 +264,7 @@ for (f in as.vector(CD$file)){
 		release <- c('BEEF', 'CHICKEN', 'COCOA', 'CORN', 'LEATHER (CATTLE)', 
 					'PAPER AND PULP', 'SOY')
 		
-		countries <- c(countries, CD$country[CD$file == f]) }
+		countries <- unique(c(countries, as.character(CD$country[CD$file == f]))) }
 	
 	if (CD$country[CD$file == f] == 'VENEZUELA'){
 	
@@ -278,14 +275,14 @@ for (f in as.vector(CD$file)){
 		release <- c('COCOA', 'LEATHER (CATTLE)', 
 					'PAPER AND PULP', 'SHRIMPS')
 		
-		countries <- c(countries, CD$country[CD$file == f]) }
+		countries <- unique(c(countries, as.character(CD$country[CD$file == f]))) }
 		
 	
 	CD$release[CD$file == f] <- paste(release, collapse=", ")
 	
 	## filter for codes relevant for next release -----------------------------------------------------------------------------------------
 	
-	hs6_release <- as.vector(as.numeric(hs$code_value[ (hs$code_type == 'HS_6') & (hs$ï..prod_name %in% release) ]))
+	hs6_release <- as.vector(as.numeric(hs$code_value[ (hs$code_type == 'HS_6') & (hs$prod_name %in% release) ]))
 	
 	
 	
@@ -311,18 +308,18 @@ for (f in as.vector(CD$file)){
 		## check if weight == 0 -----------------------------------------------------------------------------------------------------------
 		
 		zero_codes <- as.vector(as.numeric(data[, hs_column][data[, weight_column] == 0]))
-		CD$weight_zero[CD$file == f] <- paste(zero_codes, collapse=", ")
+		CD$weight_zero[CD$file == f] <- paste(unique(zero_codes), collapse=", ")
 		
 		##  unit checks: deviation from mean ratio  ---------------------------------------------------------------------------------------
 		
 		ratios <- data.frame(	commodity = as.numeric(data[, hs_column]), 
 								ratio = as.numeric(data[, price_column]) / as.numeric(data[, weight_column]))
-		ratios <- ratios[!is.na(ratios$ratio)]
+		ratios <- ratios[!is.na(ratios$ratio),]
 		ratios$mean_ratio <- ave(ratios$ratio, ratios$commodity, FUN = function(x) mean(x, na.rm = TRUE))
 		
 		units_codes <- c()
 		for (i in 1:nrow(ratios)){
-			if ( (ratios$ratio[i] >= (1.3 * ratios$mean_ratio[i])) || (ratios$ratio[i] <= (0.7 * ratios$mean_ratio[i])) ){
+			if ( (ratios$ratio[i] >= (12 * ratios$mean_ratio[i])) || (ratios$ratio[i] <= (1/12 * ratios$mean_ratio[i])) ){
 				units_codes <- c(units_codes, ratios$commodity[i])
 			}
 		}
@@ -359,10 +356,10 @@ for (f in as.vector(CD$file)){
 		for (i in 1:nrow(weight)){
 			
 			if ( (!is.na(weight$total_weight[i])) & (!is.na(weight$comtrade_weight[i])) & 
-			( (weight$comtrade_weight[i] >= (1.3 * weight$total_weight)) || 
-			(weight$comtrade_weight[i] <= (0.7 * weight$total_weight)) )) {
+			( (weight$comtrade_weight[i] >= (1.5 * weight$total_weight)) || 
+			(weight$comtrade_weight[i] <= (0.5 * weight$total_weight)) )) {
 			
-				weight_codes <- c(weight_codes, weight$commodity[i]) 
+				weight_codes <- c(weight_codes, weight$commodity[i])
 			} 
 		}
 		
@@ -386,13 +383,13 @@ for (f in as.vector(CD$file)){
 }
 
 
-CD_commodities <- CD[CD$year != 2018]
+#CD_commodities <- CD[CD$year != 2018]
 
-CD_commodities$hs_column <- NULL
-CD_commodities$price_column <- NULL
-CD_commodities$weight_column <- NULL
+#CD_commodities$hs_column <- NULL
+#CD_commodities$price_column <- NULL
+#CD_commodities$weight_column <- NULL
 
-write.csv2(CD_commodities, 'CD_release.csv', quote = FALSE, row.names = FALSE)
+#write.csv2(CD_commodities, 'CD_release.csv', quote = FALSE, row.names = FALSE)
 
 # write file
 write.csv2(BOL, 'BOL_check.csv', quote = FALSE, row.names = FALSE)
