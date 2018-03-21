@@ -122,6 +122,7 @@ for (f in as.vector(CD$file)){
 		
 		release <- c('BEEF', 'CHICKEN', 'CORN', 'COTTON', 'LEATHER (CATTLE)', 
 					'NATURAL TIMBER', 'PAPER AND PULP', 'SHRIMPS', 'SOY', 'SUGARCANE')
+		comtrade_countries <- c('Argentina')
 		
 		countries <- unique(c(countries, as.character(CD$country[CD$file == f]))) }
 	
@@ -133,6 +134,7 @@ for (f in as.vector(CD$file)){
 		
 		release <- c('CHICKEN', 'COFFEE', 'CORN', 'LEATHER (CATTLE)', 
 					'NATURAL TIMBER', 'SOY')
+		comtrade_countries <- c('Bolivia (Plurinational State of)')
 		
 		countries <- unique(c(countries, as.character(CD$country[CD$file == f]))) }
 		
@@ -144,8 +146,10 @@ for (f in as.vector(CD$file)){
 		
 		release <- c('BEEF', 'CHICKEN', 'COCOA', 'COFFEE', 'CORN', 'COTTON', 'LEATHER (CATTLE)', 
 					'NATURAL TIMBER', 'OIL PALM', 'PAPER AND PULP', 'SOY', 'SUGARCANE')
+		comtrade_countries <- c('Brazil')
 		
-		countries <- unique(c(countries, as.character(CD$country[CD$file == f]))) }
+		#countries <- unique(c(countries, as.character(CD$country[CD$file == f]))) 
+		}
 		
 	if (grepl("data/1-TRADE/CD/EXPORT/BRAZIL/DATAMYNE/THIRD_PARTY/", f)){
 	
@@ -155,8 +159,10 @@ for (f in as.vector(CD$file)){
 		
 		release <- c('BEEF', 'CHICKEN', 'COCOA', 'COFFEE', 'CORN', 'COTTON', 'LEATHER (CATTLE)', 
 					'NATURAL TIMBER', 'OIL PALM', 'PAPER AND PULP', 'SOY', 'SUGARCANE')
+		comtrade_countries <- c('Brazil')
 		
-		countries <- unique(c(countries, as.character(CD$country[CD$file == f]))) }
+		#countries <- unique(c(countries, as.character(CD$country[CD$file == f]))) 
+		}
 		
 	if (CD$country[CD$file == f] == 'CHILE'){
 	
@@ -165,8 +171,11 @@ for (f in as.vector(CD$file)){
 		CD$weight_column[CD$file == f] <- weight_column <- 'TOTAL_NET_WEIGHT_KG'
 		
 		release <- c()
+		comtrade_countries <- c('Chile')
 		
-		countries <- unique(c(countries, as.character(CD$country[CD$file == f]))) }
+		#countries <- unique(c(countries, as.character(CD$country[CD$file == f]))) 
+		#chile 2012
+		}
 		
 	if (CD$country[CD$file == f] == 'COLOMBIA'){
 	
@@ -176,8 +185,11 @@ for (f in as.vector(CD$file)){
 		
 		release <- c('BEEF', 'CHICKEN', 'COCOA', 'COFFEE', 'CORN', 'LEATHER (CATTLE)', 
 					'NATURAL TIMBER', 'OIL PALM', 'PAPER AND PULP', 'SHRIMPS', 'SUGARCANE')
+		comtrade_countries <- c('Colombia')
 		
-		countries <- unique(c(countries, as.character(CD$country[CD$file == f]))) }
+		#countries <- unique(c(countries, as.character(CD$country[CD$file == f])))
+		#colombia 2010
+		}
 		
 	if (CD$country[CD$file == f] == 'COSTARICA'){
 	
@@ -187,6 +199,7 @@ for (f in as.vector(CD$file)){
 		
 		release <- c('BEEF', 'COFFEE', 'LEATHER (CATTLE)', 
 					'NATURAL TIMBER', 'OIL PALM', 'SHRIMPS', 'SOY', 'SUGARCANE')
+		comtrade_countries <- c('Costa Rica')
 		
 		countries <- unique(c(countries, as.character(CD$country[CD$file == f]))) }	
 		
@@ -198,6 +211,7 @@ for (f in as.vector(CD$file)){
 		
 		release <- c('COCOA', 'COFFEE', 'LEATHER (CATTLE)', 
 					'OIL PALM', 'PAPER AND PULP', 'SHRIMPS')
+		comtrade_countries <- c('Ecuador')
 		
 		countries <- unique(c(countries, as.character(CD$country[CD$file == f]))) }
 		
@@ -209,6 +223,7 @@ for (f in as.vector(CD$file)){
 		
 		release <- c('BEEF', 'CHICKEN', 'COCOA', 'COFFEE', 'CORN', 'COTTON', 'LEATHER (CATTLE)', 
 					'NATURAL TIMBER', 'PAPER AND PULP', 'SHRIMPS', 'SOY', 'SUGARCANE')
+		comtrade_countries <- c('Mexico')
 		
 		countries <- unique(c(countries, as.character(CD$country[CD$file == f]))) }		
 
@@ -219,7 +234,8 @@ for (f in as.vector(CD$file)){
 		CD$weight_column[CD$file == f] <- weight_column <- 'TOTAL_NET_WEIGHT_KG'
 		
 		release <- c('COFFEE', 'LEATHER (CATTLE)', 
-					'NATURAL TIMBER', 'OIL PALM', 'SHRIMPS', 'SUGARCANE')		
+					'NATURAL TIMBER', 'OIL PALM', 'SHRIMPS', 'SUGARCANE')	
+		comtrade_countries <- c('Panama')
 		
 		countries <- unique(c(countries, as.character(CD$country[CD$file == f]))) }
 	
@@ -230,6 +246,7 @@ for (f in as.vector(CD$file)){
 		CD$weight_column[CD$file == f] <- weight_column <- 'TOTAL Net Weight Kg'
 		
 		release <- c()
+		comtrade_countries <- c('Paraguay')
 		
 		countries <- unique(c(countries, as.character(CD$country[CD$file == f]))) }
 		
@@ -241,6 +258,7 @@ for (f in as.vector(CD$file)){
 		
 		release <- c('BEEF', 'CORN', 'LEATHER (CATTLE)', 
 					'NATURAL TIMBER', 'SOY', 'SUGARCANE')
+		comtrade_countries <- c('Paraguay')
 		
 		countries <- unique(c(countries, as.character(CD$country[CD$file == f]))) }
 		
@@ -252,6 +270,7 @@ for (f in as.vector(CD$file)){
 		
 		release <- c('CHICKEN', 'COCOA', 'COFFEE', 'CORN', 'LEATHER (CATTLE)', 
 					'NATURAL TIMBER', 'OIL PALM', 'SHRIMPS', 'SUGARCANE')
+		comtrade_countries <- c('Peru')
 		
 		countries <- unique(c(countries, as.character(CD$country[CD$file == f]))) }
 	
@@ -263,6 +282,7 @@ for (f in as.vector(CD$file)){
 		
 		release <- c('BEEF', 'CHICKEN', 'COCOA', 'CORN', 'LEATHER (CATTLE)', 
 					'PAPER AND PULP', 'SOY')
+		comtrade_countries <- c('Uruguay')
 		
 		countries <- unique(c(countries, as.character(CD$country[CD$file == f]))) }
 	
@@ -274,6 +294,7 @@ for (f in as.vector(CD$file)){
 		
 		release <- c('COCOA', 'LEATHER (CATTLE)', 
 					'PAPER AND PULP', 'SHRIMPS')
+		comtrade_countries <- c('Venezuela')
 		
 		countries <- unique(c(countries, as.character(CD$country[CD$file == f]))) }
 		
@@ -344,8 +365,10 @@ for (f in as.vector(CD$file)){
 		
 		obj <- get_object(object = y, bucket = 'trase-storage')
 		comtrade <- read.csv(text = rawToChar(obj), quote = '', sep = ';')
-		comtrade$country <- toupper(comtrade$country)
-		comtrade <- comtrade[comtrade$country == CD$country[CD$file == f],]
+		
+		comtrade <- comtrade[comtrade$country %in% comtrade_countries,]
+		
+		
 		comtrade <- subset(comtrade, select = -c(country))
 		comtrade <- aggregate(comtrade$comtrade_weight, by = list(comtrade$commodity), FUN = sum, na.rm = TRUE)
 		names(comtrade) <- c('commodity', 'comtrade_weight')
