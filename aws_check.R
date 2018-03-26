@@ -10,7 +10,6 @@ library(dplyr)
 
 
 
-		   
 BOL_content <- get_bucket_df(bucket = 'trase-storage', prefix = 'data/1-TRADE/BoL/')
 
 argentina_content <- get_bucket_df(bucket = 'trase-storage', prefix = 'data/1-TRADE/CD/EXPORT/ARGENTINA/')
@@ -244,9 +243,9 @@ for (f in as.vector(CD$file)){
 	
 	if (grepl("data/1-TRADE/CD/EXPORT/PARAGUAY/SICEX/", f)){
 	
-		CD$hs_column[CD$file == f] <- hs_column <- 'Harmonized CodeProduct English'
-		CD$price_column[CD$file == f] <- price_column <- 'TOTAL FOB Value US'
-		CD$weight_column[CD$file == f] <- weight_column <- 'TOTAL Net Weight Kg'
+		CD$hs_column[CD$file == f] <- hs_column <- 'Harmonized.CodeProduct.English'
+		CD$price_column[CD$file == f] <- price_column <- 'TOTAL.FOB.Value.US'
+		CD$weight_column[CD$file == f] <- weight_column <- 'TOTAL.Net.Weight.Kg'
 		
 		release <- c()
 		comtrade_countries <- c('Paraguay')
@@ -256,14 +255,15 @@ for (f in as.vector(CD$file)){
 	if (grepl("data/1-TRADE/CD/EXPORT/PARAGUAY/MINTRADE/", f)){
 	
 		CD$hs_column[CD$file == f] <- hs_column <- 'hs8'
-		CD$price_column[CD$file == f] <- price_column <- 'Valor Fob Dolar'
-		CD$weight_column[CD$file == f] <- weight_column <- 'Kilo Neto'
+		CD$price_column[CD$file == f] <- price_column <- 'Valor.Fob.Dolar'
+		CD$weight_column[CD$file == f] <- weight_column <- 'Kilo.Neto'
 		
 		release <- c('BEEF', 'CORN', 'LEATHER (CATTLE)', 
 					'NATURAL TIMBER', 'SOY', 'SUGARCANE')
 		comtrade_countries <- c('Paraguay')
 		
-		countries <- unique(c(countries, as.character(CD$country[CD$file == f]))) }
+		countries <- unique(c(countries, as.character(CD$country[CD$file == f]))) 
+		}
 		#mintrade 2007??
 		
 	if (CD$country[CD$file == f] == 'PERU'){
@@ -323,7 +323,7 @@ for (f in as.vector(CD$file)){
 		
 		## check codes --------------------------------------------------------------------------------------------------------------------
 	
-		if (grepl("data/1-TRADE/CD/EXPORT/PARAGUAY/MINTRADE/", CD$file)){
+		if (grepl("data/1-TRADE/CD/EXPORT/PARAGUAY/MINTRADE/", f)){
 			data$hs8 <- as.integer(substr(gsub('\\.', '', data$NCM, perl=TRUE), 0, 8))
 		}
 	
