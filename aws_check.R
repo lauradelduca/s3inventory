@@ -10,6 +10,7 @@ library(dplyr)
 
 
 
+		   
 BOL_content <- get_bucket_df(bucket = 'trase-storage', prefix = 'data/1-TRADE/BoL/')
 
 argentina_content <- get_bucket_df(bucket = 'trase-storage', prefix = 'data/1-TRADE/CD/EXPORT/ARGENTINA/')
@@ -116,31 +117,31 @@ for (f in as.vector(CD$file)){
 	
 	###########################  dictionary: HS, price and weight columns  ################################################################
 	
-	# if (CD$country[CD$file == f] == 'ARGENTINA'){
+	if (CD$country[CD$file == f] == 'ARGENTINA'){
 	
-		# CD$hs_column[CD$file == f] <- hs_column <- 'HARMONIZED_CODE_PRODUCT_ENGLISH'
-		# CD$price_column[CD$file == f] <- price_column <- 'TOTAL_FOB_VALUE_US'
-		# CD$weight_column[CD$file == f] <- weight_column <- 'TOTAL_NET_WEIGHT_KG'
+		CD$hs_column[CD$file == f] <- hs_column <- 'HARMONIZED_CODE_PRODUCT_ENGLISH'
+		CD$price_column[CD$file == f] <- price_column <- 'TOTAL_FOB_VALUE_US'
+		CD$weight_column[CD$file == f] <- weight_column <- 'TOTAL_NET_WEIGHT_KG'
 		
-		# release <- c('BEEF', 'CHICKEN', 'CORN', 'COTTON', 'LEATHER (CATTLE)', 
-					# 'NATURAL TIMBER', 'PAPER AND PULP', 'SHRIMPS', 'SOY', 'SUGARCANE')
-		# comtrade_countries <- c('Argentina')
+		release <- c('BEEF', 'CHICKEN', 'CORN', 'COTTON', 'LEATHER (CATTLE)', 
+					'NATURAL TIMBER', 'PAPER AND PULP', 'SHRIMPS', 'SOY', 'SUGARCANE')
+		comtrade_countries <- c('Argentina')
 		
-		# countries <- unique(c(countries, as.character(CD$country[CD$file == f]))) 
-		# }
+		countries <- unique(c(countries, as.character(CD$country[CD$file == f]))) 
+		}
 	
-	# if (CD$country[CD$file == f] == 'BOLIVIA'){
+	if (CD$country[CD$file == f] == 'BOLIVIA'){
 	
-		# CD$hs_column[CD$file == f] <- hs_column <- 'COD_ARMONIZADOPRODUCTO_INGLES'
-		# CD$price_column[CD$file == f] <- price_column <- 'TOTAL_VALOR_FOB_US'
-		# CD$weight_column[CD$file == f] <- weight_column <- 'TOTAL_PESO_NETO_KG'
+		CD$hs_column[CD$file == f] <- hs_column <- 'COD_ARMONIZADOPRODUCTO_INGLES'
+		CD$price_column[CD$file == f] <- price_column <- 'TOTAL_VALOR_FOB_US'
+		CD$weight_column[CD$file == f] <- weight_column <- 'TOTAL_PESO_NETO_KG'
 		
-		# release <- c('CHICKEN', 'COFFEE', 'CORN', 'LEATHER (CATTLE)', 
-					# 'NATURAL TIMBER', 'SOY')
-		# comtrade_countries <- c('Bolivia (Plurinational State of)')
+		release <- c('CHICKEN', 'COFFEE', 'CORN', 'LEATHER (CATTLE)', 
+					'NATURAL TIMBER', 'SOY')
+		comtrade_countries <- c('Bolivia (Plurinational State of)')
 		
-		# countries <- unique(c(countries, as.character(CD$country[CD$file == f]))) 
-		# }
+		countries <- unique(c(countries, as.character(CD$country[CD$file == f]))) 
+		}
 		
 	if (grepl("data/1-TRADE/CD/EXPORT/BRAZIL/DATAMYNE/DASHBOARD/", f)){
 	
@@ -152,7 +153,7 @@ for (f in as.vector(CD$file)){
 					'NATURAL TIMBER', 'OIL PALM', 'PAPER AND PULP', 'SOY', 'SUGARCANE')
 		comtrade_countries <- c('Brazil')
 		
-		#countries <- unique(c(countries, as.character(CD$country[CD$file == f]))) 
+		countries <- unique(c(countries, as.character(CD$country[CD$file == f]))) 
 		}
 		
 	if (grepl("data/1-TRADE/CD/EXPORT/BRAZIL/DATAMYNE/THIRD_PARTY/", f)){
@@ -165,21 +166,21 @@ for (f in as.vector(CD$file)){
 					'NATURAL TIMBER', 'OIL PALM', 'PAPER AND PULP', 'SOY', 'SUGARCANE')
 		comtrade_countries <- c('Brazil')
 		
-		#countries <- unique(c(countries, as.character(CD$country[CD$file == f]))) 
+		countries <- unique(c(countries, as.character(CD$country[CD$file == f]))) 
 		}
 		
-	# if (CD$country[CD$file == f] == 'CHILE'){
+	if (CD$country[CD$file == f] == 'CHILE'){
 	
-		# CD$hs_column[CD$file == f] <- hs_column <- 'HARMONIZED_CODEPRODUCT_ENGLISH'
-		# CD$price_column[CD$file == f] <- price_column <- 'TOTAL_FOB_VALUE_US'
-		# CD$weight_column[CD$file == f] <- weight_column <- 'TOTAL_NET_WEIGHT_KG'
+		CD$hs_column[CD$file == f] <- hs_column <- 'HARMONIZED_CODEPRODUCT_ENGLISH'
+		CD$price_column[CD$file == f] <- price_column <- 'TOTAL_FOB_VALUE_US'
+		CD$weight_column[CD$file == f] <- weight_column <- 'TOTAL_NET_WEIGHT_KG'
 		
-		# release <- c()
-		# comtrade_countries <- c('Chile')
+		release <- c()
+		comtrade_countries <- c('Chile')
 		
-		# ###countries <- unique(c(countries, as.character(CD$country[CD$file == f]))) 
-		# #chile 2012
-		# }
+		###countries <- unique(c(countries, as.character(CD$country[CD$file == f]))) 
+		#chile 2012
+		}
 		
 	if (CD$country[CD$file == f] == 'COLOMBIA'){
 	
@@ -193,78 +194,79 @@ for (f in as.vector(CD$file)){
 		
 		countries <- unique(c(countries, as.character(CD$country[CD$file == f]))) }
 		
-	# if (CD$country[CD$file == f] == 'COSTARICA'){
+	if (CD$country[CD$file == f] == 'COSTARICA'){
 	
-		# CD$hs_column[CD$file == f] <- hs_column <- 'HARMONIZED_CODE_PRODUCT_ENGLISH'
-		# CD$price_column[CD$file == f] <- price_column <- 'TOTAL_CIF_VALUE_US'
-		# CD$weight_column[CD$file == f] <- weight_column <- 'TOTAL_NET_WEIGHT_KG'
+		CD$hs_column[CD$file == f] <- hs_column <- 'HARMONIZED_CODE_PRODUCT_ENGLISH'
+		CD$price_column[CD$file == f] <- price_column <- 'TOTAL_CIF_VALUE_US'
+		CD$weight_column[CD$file == f] <- weight_column <- 'TOTAL_NET_WEIGHT_KG'
 		
-		# release <- c('BEEF', 'COFFEE', 'LEATHER (CATTLE)', 
-					# 'NATURAL TIMBER', 'OIL PALM', 'SHRIMPS', 'SOY', 'SUGARCANE')
-		# comtrade_countries <- c('Costa Rica')
+		release <- c('BEEF', 'COFFEE', 'LEATHER (CATTLE)', 
+					'NATURAL TIMBER', 'OIL PALM', 'SHRIMPS', 'SOY', 'SUGARCANE')
+		comtrade_countries <- c('Costa Rica')
 		
-		# countries <- unique(c(countries, as.character(CD$country[CD$file == f]))) }	
+		countries <- unique(c(countries, as.character(CD$country[CD$file == f]))) }	
 		
-	# if (CD$country[CD$file == f] == 'ECUADOR'){
+	if (CD$country[CD$file == f] == 'ECUADOR'){
 	
-		# CD$hs_column[CD$file == f] <- hs_column <- 'HARMONIZED_CODEPRODUCT_SPANISH'
-		# CD$price_column[CD$file == f] <- price_column <- 'TOTAL_FOB_VALUE_US'
-		# CD$weight_column[CD$file == f] <- weight_column <- 'TOTAL_NET_WEIGHT_KG'
+		CD$hs_column[CD$file == f] <- hs_column <- 'HARMONIZED_CODEPRODUCT_SPANISH'
+		CD$price_column[CD$file == f] <- price_column <- 'TOTAL_FOB_VALUE_US'
+		CD$weight_column[CD$file == f] <- weight_column <- 'TOTAL_NET_WEIGHT_KG'
 		
-		# release <- c('COCOA', 'COFFEE', 'LEATHER (CATTLE)', 
-					# 'OIL PALM', 'PAPER AND PULP', 'SHRIMPS')
-		# comtrade_countries <- c('Ecuador')
-		
-		# countries <- unique(c(countries, as.character(CD$country[CD$file == f]))) }
-		
-	# if (CD$country[CD$file == f] == 'MEXICO'){
-	
-		# CD$hs_column[CD$file == f] <- hs_column <- 'HARMONIZED_CODE_PRODUCT_ENGLISH'
-		# CD$price_column[CD$file == f] <- price_column <- 'TOTAL_FOB_VALUE_US'
-		# CD$weight_column[CD$file == f] <- weight_column <- 'TOTAL_QUANTITY_1'
-		
-		# release <- c('BEEF', 'CHICKEN', 'COCOA', 'COFFEE', 'CORN', 'COTTON', 'LEATHER (CATTLE)', 
-					# 'NATURAL TIMBER', 'PAPER AND PULP', 'SHRIMPS', 'SOY', 'SUGARCANE')
-		# comtrade_countries <- c('Mexico')
-		
-		# countries <- unique(c(countries, as.character(CD$country[CD$file == f]))) }		
-
-	# if (CD$country[CD$file == f] == 'PANAMA'){
-	
-		# CD$hs_column[CD$file == f] <- hs_column <- 'HARMONIZED_CODE_PRODUCT_ENGLISH'
-		# CD$price_column[CD$file == f] <- price_column <- 'TOTAL_FOB_VALUE_US'
-		# CD$weight_column[CD$file == f] <- weight_column <- 'TOTAL_NET_WEIGHT_KG'
-		
-		# release <- c('COFFEE', 'LEATHER (CATTLE)', 
-					# 'NATURAL TIMBER', 'OIL PALM', 'SHRIMPS', 'SUGARCANE')	
-		# comtrade_countries <- c('Panama')
-		
-		# countries <- unique(c(countries, as.character(CD$country[CD$file == f]))) }
-	
-	if (grepl("data/1-TRADE/CD/EXPORT/PARAGUAY/SICEX/", f)){
-	
-		CD$hs_column[CD$file == f] <- hs_column <- 'Harmonized.CodeProduct.English'
-		CD$price_column[CD$file == f] <- price_column <- 'TOTAL.FOB.Value.US'
-		CD$weight_column[CD$file == f] <- weight_column <- 'TOTAL.Net.Weight.Kg'
-		
-		release <- c()
-		comtrade_countries <- c('Paraguay')
+		release <- c('COCOA', 'COFFEE', 'LEATHER (CATTLE)', 
+					'OIL PALM', 'PAPER AND PULP', 'SHRIMPS')
+		comtrade_countries <- c('Ecuador')
 		
 		countries <- unique(c(countries, as.character(CD$country[CD$file == f]))) }
 		
-	if (grepl("data/1-TRADE/CD/EXPORT/PARAGUAY/MINTRADE/", f)){
+	if (CD$country[CD$file == f] == 'MEXICO'){
 	
-		CD$hs_column[CD$file == f] <- hs_column <- 'hs8'
-		CD$price_column[CD$file == f] <- price_column <- 'Valor.Fob.Dolar'
-		CD$weight_column[CD$file == f] <- weight_column <- 'Kilo.Neto'
+		CD$hs_column[CD$file == f] <- hs_column <- 'HARMONIZED_CODE_PRODUCT_ENGLISH'
+		CD$price_column[CD$file == f] <- price_column <- 'TOTAL_FOB_VALUE_US'
+		CD$weight_column[CD$file == f] <- weight_column <- 'TOTAL_QUANTITY_1'
 		
-		release <- c('BEEF', 'CORN', 'LEATHER (CATTLE)', 
-					'NATURAL TIMBER', 'SOY', 'SUGARCANE')
-		comtrade_countries <- c('Paraguay')
+		release <- c('BEEF', 'CHICKEN', 'COCOA', 'COFFEE', 'CORN', 'COTTON', 'LEATHER (CATTLE)', 
+					'NATURAL TIMBER', 'PAPER AND PULP', 'SHRIMPS', 'SOY', 'SUGARCANE')
+		comtrade_countries <- c('Mexico')
 		
-		countries <- unique(c(countries, as.character(CD$country[CD$file == f]))) 
-		}
-		#mintrade 2007??
+		countries <- unique(c(countries, as.character(CD$country[CD$file == f]))) }		
+
+	if (CD$country[CD$file == f] == 'PANAMA'){
+	
+		CD$hs_column[CD$file == f] <- hs_column <- 'HARMONIZED_CODE_PRODUCT_ENGLISH'
+		CD$price_column[CD$file == f] <- price_column <- 'TOTAL_FOB_VALUE_US'
+		CD$weight_column[CD$file == f] <- weight_column <- 'TOTAL_NET_WEIGHT_KG'
+		
+		release <- c('COFFEE', 'LEATHER (CATTLE)', 
+					'NATURAL TIMBER', 'OIL PALM', 'SHRIMPS', 'SUGARCANE')	
+		comtrade_countries <- c('Panama')
+		
+		countries <- unique(c(countries, as.character(CD$country[CD$file == f]))) }
+	
+	# if (grepl("data/1-TRADE/CD/EXPORT/PARAGUAY/SICEX/", f)){
+	
+		# CD$hs_column[CD$file == f] <- hs_column <- 'Harmonized.CodeProduct.English'
+		# CD$price_column[CD$file == f] <- price_column <- 'TOTAL.FOB.Value.US'
+		# CD$weight_column[CD$file == f] <- weight_column <- 'TOTAL.Net.Weight.Kg'
+		
+		# release <- c()
+		# comtrade_countries <- c('Paraguay')
+		
+		# #countries <- unique(c(countries, as.character(CD$country[CD$file == f]))) 
+		# }
+		
+	# if (grepl("data/1-TRADE/CD/EXPORT/PARAGUAY/MINTRADE/", f)){
+	
+		# CD$hs_column[CD$file == f] <- hs_column <- 'hs8'
+		# CD$price_column[CD$file == f] <- price_column <- 'Valor.Fob.Dolar'
+		# CD$weight_column[CD$file == f] <- weight_column <- 'Kilo.Neto'
+		
+		# release <- c('BEEF', 'CORN', 'LEATHER (CATTLE)', 
+					# 'NATURAL TIMBER', 'SOY', 'SUGARCANE')
+		# comtrade_countries <- c('Paraguay')
+		
+		# #countries <- unique(c(countries, as.character(CD$country[CD$file == f]))) 
+		# #mintrade 2016 had over 1400 incorrect rows, ';' in the Producto column
+		# }
 		
 	if (CD$country[CD$file == f] == 'PERU'){
 	
@@ -315,7 +317,7 @@ for (f in as.vector(CD$file)){
 
 	if (CD$country[CD$file == f] %in% countries){
 	
-		data <- read.csv(text = rawToChar(obj), sep = ';', quote = '')
+		data <- read.csv(text = rawToChar(obj), sep = ';', quote = '', row.names = NULL)
 		
 		## commodities for release --------------------------------------------------------------------------------------------------------
 		
@@ -420,5 +422,5 @@ for (f in as.vector(CD$file)){
 
 # write file
 write.csv2(BOL, 'BOL_check.csv', quote = FALSE, row.names = FALSE)
-write.csv2(CD, 'CD_check_2.csv', quote = FALSE, row.names = FALSE)
+write.csv2(CD, 'CD_check_paru.csv', quote = FALSE, row.names = FALSE)
 
