@@ -9,6 +9,8 @@ library(dplyr)
 
 
 
+
+
 argentina_content <- get_bucket_df(bucket = 'trase-storage', prefix = 'data/1-TRADE/CD/EXPORT/ARGENTINA/')
 argentina_content <- subset(argentina_content, grepl(".*/CD_[A-Z]+_[1-9][0-9]{3}.csv$", Key) )
 
@@ -357,6 +359,7 @@ write.csv2(CD, 'CD_AWS.csv', quote = FALSE, row.names = FALSE)
 
 
 
+countries <- unique(as.vector(CD$country))
 
 for (cc in countries){
 	
