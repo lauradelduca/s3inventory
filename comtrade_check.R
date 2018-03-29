@@ -9,6 +9,7 @@ library(dplyr)
 
 
 
+
 argentina_content <- get_bucket_df(bucket = 'trase-storage', prefix = 'data/1-TRADE/CD/EXPORT/ARGENTINA/')
 argentina_content <- subset(argentina_content, grepl(".*/CD_[A-Z]+_[1-9][0-9]{3}.csv$", Key) )
 
@@ -361,8 +362,11 @@ for (f in as.vector(CD$file)){
 	CD$release[CD$file == f] <- paste(release, collapse=", ")
 	
 }
-		
-	#######
+
+write.csv2(CD, 'CD_AWS.csv', quote = FALSE, row.names = FALSE)
+
+
+
 
 for (cc in countries){
 	
@@ -381,22 +385,22 @@ for (cc in countries){
 		if (grepl("data/1-TRADE/CD/EXPORT/PARAGUAY/MINTRADE/", f)){ data$hs8 <- as.integer(substr(gsub('\\.', '', data$NCM, perl=TRUE), 0, 8)) }
 			
 		# select comtrade file
-		if (CD$year[CD$file == f] == 2005){ comtrade <- comtrade05 }
-		if (CD$year[CD$file == f] == 2006){ comtrade <- comtrade06 }
-		if (CD$year[CD$file == f] == 2007){ comtrade <- comtrade07 }
-		if (CD$year[CD$file == f] == 2008){ comtrade <- comtrade08 }
-		if (CD$year[CD$file == f] == 2009){ comtrade <- comtrade09 }
-		if (CD$year[CD$file == f] == 2010){ comtrade <- comtrade10 }
-		if (CD$year[CD$file == f] == 2011){ comtrade <- comtrade11 }
-		if (CD$year[CD$file == f] == 2012){ comtrade <- comtrade12 }
-		if (CD$year[CD$file == f] == 2013){ comtrade <- comtrade13 }
-		if (CD$year[CD$file == f] == 2014){ comtrade <- comtrade14 }
-		if (CD$year[CD$file == f] == 2015){ comtrade <- comtrade15 }
-		if (CD$year[CD$file == f] == 2016){ comtrade <- comtrade16 }
-		if (CD$year[CD$file == f] == 2017){ comtrade <- comtrade16 }
-		if (CD$year[CD$file == f] == 2018){ comtrade <- comtrade16 }
+		if (CD$year[CD$file == f] == 2005){ comtrade <- comtrade05; year <- 2005 }
+		if (CD$year[CD$file == f] == 2006){ comtrade <- comtrade06; year <- 2006 }
+		if (CD$year[CD$file == f] == 2007){ comtrade <- comtrade07; year <- 2007 }
+		if (CD$year[CD$file == f] == 2008){ comtrade <- comtrade08; year <- 2008 }
+		if (CD$year[CD$file == f] == 2009){ comtrade <- comtrade09; year <- 2009 }
+		if (CD$year[CD$file == f] == 2010){ comtrade <- comtrade10; year <- 2010 }
+		if (CD$year[CD$file == f] == 2011){ comtrade <- comtrade11; year <- 2011 }
+		if (CD$year[CD$file == f] == 2012){ comtrade <- comtrade12; year <- 2012 }
+		if (CD$year[CD$file == f] == 2013){ comtrade <- comtrade13; year <- 2013 }
+		if (CD$year[CD$file == f] == 2014){ comtrade <- comtrade14; year <- 2014 }
+		if (CD$year[CD$file == f] == 2015){ comtrade <- comtrade15; year <- 2015 }
+		if (CD$year[CD$file == f] == 2016){ comtrade <- comtrade16; year <- 2016 }
+		if (CD$year[CD$file == f] == 2017){ comtrade <- comtrade16; year <- 2016 }
+		if (CD$year[CD$file == f] == 2018){ comtrade <- comtrade16; year <- 2016 }
 		
-		for (i in nrow(weights_table)){
+		for (i in 1:nrow(weights_table)){
 			
 			hs6_commodity <- as.vector(as.numeric(hs$code_value[ (hs$code_type == 'HS_6') & (hs$prod_name == weights_table$commodity[i]) ]))
 
@@ -411,10 +415,10 @@ for (cc in countries){
 		}
 			
 		names(weights_table)[names(weights_table) == 'new_column'] <- paste0( strsplit(f, paste0('/', cc))[[1]][2] , ' total weight')
-			
+		names(weights_table)[names(weights_table) == 'comtrade'] <- paste0('comtrade_', year)
 	}
+	
+	write.csv2(weights_table, paste0('CD_weights_', cc, '.csv'), quote = FALSE, row.names = FALSE)
 
-}	
-
-write.csv2(CD, 'CD_comtrade.csv', quote = FALSE, row.names = FALSE)
+}
 
