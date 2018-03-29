@@ -296,10 +296,20 @@ for (f in as.vector(CD$file)){
 	}
 		
 	if (CD$country[CD$file == f] == 'PERU'){
-	
-		CD$hs_column[CD$file == f] <- hs_column <- 'X.Harmonized.CodeProduct.English.'
-		CD$price_column[CD$file == f] <- price_column <- 'X.TOTAL.FOB.Value.US.'
-		CD$weight_column[CD$file == f] <- weight_column <- 'X.TOTAL.Net.Weight.Kg.'
+		
+		if (grepl("PERU/2016/CD_PERU_2016.csv", f) | grepl("PERU/2017/CD_PERU_2017.csv", f)){
+		
+			CD$hs_column[CD$file == f] <- hs_column <- 'COD..ARMONIZADOPRODUCTO.INGLES'
+			CD$price_column[CD$file == f] <- price_column <- 'TOTAL.VALOR.FOB.US'
+			CD$weight_column[CD$file == f] <- weight_column <- 'TOTAL.PESO.NETO.KG'
+		
+		} else{
+		
+			CD$hs_column[CD$file == f] <- hs_column <- 'X.Harmonized.CodeProduct.English.'
+			CD$price_column[CD$file == f] <- price_column <- 'X.TOTAL.FOB.Value.US.'
+			CD$weight_column[CD$file == f] <- weight_column <- 'X.TOTAL.Net.Weight.Kg.'
+			
+		}
 		
 		release <- c('CHICKEN', 'COCOA', 'COFFEE', 'CORN', 'LEATHER (CATTLE)', 
 					'NATURAL TIMBER', 'OIL PALM', 'SHRIMPS', 'SUGARCANE')
@@ -380,7 +390,7 @@ for (cc in countries){
 
 			data_commodity <- data[ as.numeric( substr(data[, CD$hs_column[CD$file == f] ] , 1, 6)) %in% hs6_commodity, ]
 				
-			weights_table$new_column[i] <- sum( as.numeric(data_commodity[, CD$weight_column[CD$file == f] ]) )
+			weights_table$new_column[i] <- sum( as.numeric(data_commodity[, CD$weight_column[CD$file == f] ]) ) / 1000
 						
 			if (CD$year[CD$file == f] == 2005){ comtrade <- comtrade05 }
 			if (CD$year[CD$file == f] == 2006){ comtrade <- comtrade06 }
@@ -399,7 +409,7 @@ for (cc in countries){
 				
 			comtrade <- comtrade[ (comtrade$country == CD$comtrade_country[CD$file == f]) & (comtrade$commodity %in% hs6_commodity) , ]
 				
-			weights_table$comtrade[i] <- sum(as.numeric( comtrade$comtrade_weight ))
+			weights_table$comtrade[i] <- sum(as.numeric( comtrade$comtrade_weight )) / 1000
 				
 		}
 		
@@ -418,8 +428,8 @@ for (cc in countries){
 		if (CD$year[CD$file == f] == 2017){ year <- 2016 }
 		if (CD$year[CD$file == f] == 2018){ year <- 2016 }
 			
-		names(weights_table)[names(weights_table) == 'new_column'] <- paste0( strsplit(f, paste0('/', cc))[[1]][2] , ' total weight')
-		names(weights_table)[names(weights_table) == 'comtrade'] <- paste0('comtrade_', year)
+		names(weights_table)[names(weights_table) == 'new_column'] <- paste0( strsplit(f, paste0('/', cc))[[1]][2] , ' tons')
+		names(weights_table)[names(weights_table) == 'comtrade'] <- paste0('comtrade_tons_', year)
 	}
 	
 	write.csv2(weights_table, paste0('CD_weights_', cc, '.csv'), quote = FALSE, row.names = FALSE)
