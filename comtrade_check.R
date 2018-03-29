@@ -9,7 +9,6 @@ library(dplyr)
 
 
 
-
 argentina_content <- get_bucket_df(bucket = 'trase-storage', prefix = 'data/1-TRADE/CD/EXPORT/ARGENTINA/')
 argentina_content <- subset(argentina_content, grepl(".*/CD_[A-Z]+_[1-9][0-9]{3}.csv$", Key) )
 
@@ -83,8 +82,7 @@ hs <- read.csv(text = rawToChar(obj), sep = ';', quote = '',
 hs6 <- as.vector(as.numeric(hs$code_value[hs$code_type == 'HS_6']))
 
 
-## load all relevant comtrade files
-		
+
 obj <- get_object(object = 'data/1-TRADE/STATISTICAL_DATA/GLOBAL/COMTRADE/COMTRADE_ZOOM_0328/COMTRADE_2005_zoom.csv', bucket = 'trase-storage')
 comtrade05 <- read.csv(text = rawToChar(obj), quote = '', sep = ';')
 obj <- get_object(object = 'data/1-TRADE/STATISTICAL_DATA/GLOBAL/COMTRADE/COMTRADE_ZOOM_0328/COMTRADE_2006_zoom.csv', bucket = 'trase-storage')
@@ -111,10 +109,6 @@ obj <- get_object(object = 'data/1-TRADE/STATISTICAL_DATA/GLOBAL/COMTRADE/COMTRA
 comtrade16 <- read.csv(text = rawToChar(obj), quote = '', sep = ';')
 
 
-## add columns, commodities, comtrade country ----------------------------------------------------------------------------------------------
-
-#countries <- c()
-
 
 for (f in as.vector(CD$file)){
 	
@@ -138,20 +132,28 @@ for (f in as.vector(CD$file)){
 					'NATURAL TIMBER', 'PAPER AND PULP', 'SHRIMPS', 'SOY', 'SUGARCANE')
 		CD$comtrade_country[CD$file == f] <- 'Argentina'
 		
-		#countries <- unique(c(countries, as.character(CD$country[CD$file == f]))) 
 	}
 	
 	if (CD$country[CD$file == f] == 'BOLIVIA'){
 	
-		CD$hs_column[CD$file == f] <- hs_column <- 'COD_ARMONIZADOPRODUCTO_INGLES'
-		CD$price_column[CD$file == f] <- price_column <- 'TOTAL_VALOR_FOB_US'
-		CD$weight_column[CD$file == f] <- weight_column <- 'TOTAL_PESO_NETO_KG'
+		if (grepl("SICEX25", f)){
+	
+			CD$hs_column[CD$file == f] <- hs_column <- 'Harmonized.Code.Product.English'
+			CD$price_column[CD$file == f] <- price_column <- 'TOTAL.FOB.Value..US..'
+			CD$weight_column[CD$file == f] <- weight_column <- 'TOTAL.Net.Weight..Kg.'
+			
+		} else{
+	
+			CD$hs_column[CD$file == f] <- hs_column <- 'COD_ARMONIZADOPRODUCTO_INGLES'
+			CD$price_column[CD$file == f] <- price_column <- 'TOTAL_VALOR_FOB_US'
+			CD$weight_column[CD$file == f] <- weight_column <- 'TOTAL_PESO_NETO_KG'
 		
+		}
+			
 		release <- c('CHICKEN', 'COFFEE', 'CORN', 'LEATHER (CATTLE)', 
 					'NATURAL TIMBER', 'SOY')
 		CD$comtrade_country[CD$file == f] <- 'Bolivia (Plurinational State of)'
 		
-		#countries <- unique(c(countries, as.character(CD$country[CD$file == f]))) 
 	}
 		
 	if (grepl("data/1-TRADE/CD/EXPORT/BRAZIL/DATAMYNE/DASHBOARD/", f)){
@@ -164,7 +166,6 @@ for (f in as.vector(CD$file)){
 					'NATURAL TIMBER', 'OIL PALM', 'PAPER AND PULP', 'SOY', 'SUGARCANE')
 		CD$comtrade_country[CD$file == f] <- 'Brazil'
 		
-		#countries <- unique(c(countries, as.character(CD$country[CD$file == f]))) 
 	}
 		
 	if (grepl("data/1-TRADE/CD/EXPORT/BRAZIL/DATAMYNE/THIRD_PARTY/", f)){
@@ -177,16 +178,15 @@ for (f in as.vector(CD$file)){
 					'NATURAL TIMBER', 'OIL PALM', 'PAPER AND PULP', 'SOY', 'SUGARCANE')
 		CD$comtrade_country[CD$file == f] <- 'Brazil'
 		
-		#countries <- unique(c(countries, as.character(CD$country[CD$file == f]))) 
 	}
 		
 	if (CD$country[CD$file == f] == 'COLOMBIA'){
 	
 		if (grepl("SICEX25", f)){
 	
-			CD$hs_column[CD$file == f] <- hs_column <- 'Harmonized Code/Product English'
-			CD$price_column[CD$file == f] <- price_column <- 'TOTAL FOB Value (US$)'
-			CD$weight_column[CD$file == f] <- weight_column <- 'TOTAL Net Weight (Kg)'
+			CD$hs_column[CD$file == f] <- hs_column <- 'Harmonized.Code.Product.English'
+			CD$price_column[CD$file == f] <- price_column <- 'TOTAL.FOB.Value..US..'
+			CD$weight_column[CD$file == f] <- weight_column <- 'TOTAL.Net.Weight..Kg.'
 			
 		} else{
 			
@@ -200,7 +200,6 @@ for (f in as.vector(CD$file)){
 					'NATURAL TIMBER', 'OIL PALM', 'PAPER AND PULP', 'SHRIMPS', 'SUGARCANE')
 		CD$comtrade_country[CD$file == f] <- c('Colombia')
 		
-		#countries <- unique(c(countries, as.character(CD$country[CD$file == f]))) 
 	}
 		
 	if (CD$country[CD$file == f] == 'COSTARICA'){
@@ -213,7 +212,6 @@ for (f in as.vector(CD$file)){
 					'NATURAL TIMBER', 'OIL PALM', 'SHRIMPS', 'SOY', 'SUGARCANE')
 		CD$comtrade_country[CD$file == f] <- c('Costa Rica')
 		
-		#countries <- unique(c(countries, as.character(CD$country[CD$file == f]))) 
 	}	
 		
 	if (CD$country[CD$file == f] == 'ECUADOR'){
@@ -226,16 +224,15 @@ for (f in as.vector(CD$file)){
 					'OIL PALM', 'PAPER AND PULP', 'SHRIMPS')
 		CD$comtrade_country[CD$file == f] <- c('Ecuador')
 		
-		#countries <- unique(c(countries, as.character(CD$country[CD$file == f]))) 
 	}
 		
 	if (CD$country[CD$file == f] == 'MEXICO'){
 		
 		if (grepl("SICEX25", f)){
 	
-			CD$hs_column[CD$file == f] <- hs_column <- 'Harmonized Code/Product English'
-			CD$price_column[CD$file == f] <- price_column <- 'TOTAL FOB Value (US$)'
-			CD$weight_column[CD$file == f] <- weight_column <- 'TOTAL Quantity 1'
+			CD$hs_column[CD$file == f] <- hs_column <- 'Harmonized.Code.Product.English'
+			CD$price_column[CD$file == f] <- price_column <- 'TOTAL.FOB.Value..US..'
+			CD$weight_column[CD$file == f] <- weight_column <- 'TOTAL.Quantity.1'
 			
 		} else{
 		
@@ -249,16 +246,15 @@ for (f in as.vector(CD$file)){
 					'NATURAL TIMBER', 'PAPER AND PULP', 'SHRIMPS', 'SOY', 'SUGARCANE')
 		CD$comtrade_country[CD$file == f] <- c('Mexico')
 		
-		#countries <- unique(c(countries, as.character(CD$country[CD$file == f]))) 
 	}		
 
 	if (CD$country[CD$file == f] == 'PANAMA'){
 		
 		if (grepl("SICEX25", f)){
 	
-			CD$hs_column[CD$file == f] <- hs_column <- 'Harmonized Code/Product English'
-			CD$price_column[CD$file == f] <- price_column <- 'TOTAL FOB Value (US$)'
-			CD$weight_column[CD$file == f] <- weight_column <- 'TOTAL Net Weight (Kg)'
+			CD$hs_column[CD$file == f] <- hs_column <- 'Harmonized.Code.Product.English'
+			CD$price_column[CD$file == f] <- price_column <- 'TOTAL.FOB.Value..US..'
+			CD$weight_column[CD$file == f] <- weight_column <- 'TOTAL.Net.Weight..Kg.'
 			
 		} else{
 		
@@ -272,7 +268,6 @@ for (f in as.vector(CD$file)){
 					'NATURAL TIMBER', 'OIL PALM', 'SHRIMPS', 'SUGARCANE')	
 		CD$comtrade_country[CD$file == f] <- c('Panama')
 		
-		#countries <- unique(c(countries, as.character(CD$country[CD$file == f]))) 
 	}
 	
 	if (grepl("data/1-TRADE/CD/EXPORT/PARAGUAY/SICEX/", f)){
@@ -284,7 +279,6 @@ for (f in as.vector(CD$file)){
 		release <- c()
 		CD$comtrade_country[CD$file == f] <- c('Paraguay')
 		
-		#countries <- unique(c(countries, as.character(CD$country[CD$file == f]))) 
 	}
 		
 	if (grepl("data/1-TRADE/CD/EXPORT/PARAGUAY/MINTRADE/", f)){
@@ -297,7 +291,6 @@ for (f in as.vector(CD$file)){
 					'NATURAL TIMBER', 'SOY', 'SUGARCANE')
 		CD$comtrade_country[CD$file == f] <- c('Paraguay')
 		
-		#countries <- unique(c(countries, as.character(CD$country[CD$file == f]))) 
 	}
 		
 	if (CD$country[CD$file == f] == 'PERU'){
@@ -310,16 +303,15 @@ for (f in as.vector(CD$file)){
 					'NATURAL TIMBER', 'OIL PALM', 'SHRIMPS', 'SUGARCANE')
 		CD$comtrade_country[CD$file == f] <- c('Peru')
 		
-		#countries <- unique(c(countries, as.character(CD$country[CD$file == f]))) 
 	}
 	
 	if (CD$country[CD$file == f] == 'URUGUAY'){
 		
 		if (grepl("SICEX25", f)){
 	
-			CD$hs_column[CD$file == f] <- hs_column <- 'Harmonized Code/Product English'
-			CD$price_column[CD$file == f] <- price_column <- 'TOTAL FOB Value (US$)'
-			CD$weight_column[CD$file == f] <- weight_column <- 'TOTAL Net Weight (Kg)'
+			CD$hs_column[CD$file == f] <- hs_column <- 'Harmonized.Code.Product.English'
+			CD$price_column[CD$file == f] <- price_column <- 'TOTAL.FOB.Value..US..'
+			CD$weight_column[CD$file == f] <- weight_column <- 'TOTAL.Net.Weight..Kg.'
 		
 		} else{
 		
@@ -333,16 +325,15 @@ for (f in as.vector(CD$file)){
 					'PAPER AND PULP', 'SOY')
 		CD$comtrade_country[CD$file == f] <- c('Uruguay')
 		
-		#countries <- unique(c(countries, as.character(CD$country[CD$file == f]))) 
 	}
 	
 	if (CD$country[CD$file == f] == 'VENEZUELA'){
 		
 		if (grepl("SICEX25", f)){
 	
-			CD$hs_column[CD$file == f] <- hs_column <- 'Harmonized Code/Product English'
-			CD$price_column[CD$file == f] <- price_column <- 'TOTAL FOB Value (US$)'
-			CD$weight_column[CD$file == f] <- weight_column <- 'TOTAL Net Weight (Kg)'
+			CD$hs_column[CD$file == f] <- hs_column <- 'Harmonized.Code.Product.Spanish'
+			CD$price_column[CD$file == f] <- price_column <- 'TOTAL.FOB.Value..US..'
+			CD$weight_column[CD$file == f] <- weight_column <- 'TOTAL.Net.Weight..Kg.'
 		
 		} else{
 		
@@ -356,7 +347,6 @@ for (f in as.vector(CD$file)){
 					'PAPER AND PULP', 'SHRIMPS')
 		CD$comtrade_country[CD$file == f] <- c('Venezuela')
 		
-		#countries <- unique(c(countries, as.character(CD$country[CD$file == f]))) 
 	}
 		
 	CD$release[CD$file == f] <- paste(release, collapse=", ")
@@ -370,12 +360,9 @@ write.csv2(CD, 'CD_AWS.csv', quote = FALSE, row.names = FALSE)
 
 for (cc in countries){
 	
-	# create table, add commodities as first column
-	weights_table <- data.frame(commodity = as.vector( strsplit(CD$release[CD$country == cc][1], ', ') ))
+	weights_table <- data.frame(commodity = as.vector( strsplit(as.character(CD$release[CD$country == cc][1]), ', ') ))
 	names(weights_table) = c('commodity')
 	
-	# for each file with this country add a weight column title weight and shorter key
-	# calculate from the correct comtrade file in a new column total weight
 	
 	for (f in CD$file[CD$country == cc]){
 	
@@ -384,22 +371,6 @@ for (cc in countries){
 			
 		if (grepl("data/1-TRADE/CD/EXPORT/PARAGUAY/MINTRADE/", f)){ data$hs8 <- as.integer(substr(gsub('\\.', '', data$NCM, perl=TRUE), 0, 8)) }
 			
-		# select comtrade file
-		if (CD$year[CD$file == f] == 2005){ comtrade <- comtrade05; year <- 2005 }
-		if (CD$year[CD$file == f] == 2006){ comtrade <- comtrade06; year <- 2006 }
-		if (CD$year[CD$file == f] == 2007){ comtrade <- comtrade07; year <- 2007 }
-		if (CD$year[CD$file == f] == 2008){ comtrade <- comtrade08; year <- 2008 }
-		if (CD$year[CD$file == f] == 2009){ comtrade <- comtrade09; year <- 2009 }
-		if (CD$year[CD$file == f] == 2010){ comtrade <- comtrade10; year <- 2010 }
-		if (CD$year[CD$file == f] == 2011){ comtrade <- comtrade11; year <- 2011 }
-		if (CD$year[CD$file == f] == 2012){ comtrade <- comtrade12; year <- 2012 }
-		if (CD$year[CD$file == f] == 2013){ comtrade <- comtrade13; year <- 2013 }
-		if (CD$year[CD$file == f] == 2014){ comtrade <- comtrade14; year <- 2014 }
-		if (CD$year[CD$file == f] == 2015){ comtrade <- comtrade15; year <- 2015 }
-		if (CD$year[CD$file == f] == 2016){ comtrade <- comtrade16; year <- 2016 }
-		if (CD$year[CD$file == f] == 2017){ comtrade <- comtrade16; year <- 2016 }
-		if (CD$year[CD$file == f] == 2018){ comtrade <- comtrade16; year <- 2016 }
-		
 		for (i in 1:nrow(weights_table)){
 			
 			hs6_commodity <- as.vector(as.numeric(hs$code_value[ (hs$code_type == 'HS_6') & (hs$prod_name == weights_table$commodity[i]) ]))
@@ -407,12 +378,42 @@ for (cc in countries){
 			data_commodity <- data[ as.numeric( substr(data[, CD$hs_column[CD$file == f] ] , 1, 6)) %in% hs6_commodity, ]
 				
 			weights_table$new_column[i] <- sum( as.numeric(data_commodity[, CD$weight_column[CD$file == f] ]) )
-												
+						
+			if (CD$year[CD$file == f] == 2005){ comtrade <- comtrade05 }
+			if (CD$year[CD$file == f] == 2006){ comtrade <- comtrade06 }
+			if (CD$year[CD$file == f] == 2007){ comtrade <- comtrade07 }
+			if (CD$year[CD$file == f] == 2008){ comtrade <- comtrade08 }
+			if (CD$year[CD$file == f] == 2009){ comtrade <- comtrade09 }
+			if (CD$year[CD$file == f] == 2010){ comtrade <- comtrade10 }
+			if (CD$year[CD$file == f] == 2011){ comtrade <- comtrade11 }
+			if (CD$year[CD$file == f] == 2012){ comtrade <- comtrade12 }
+			if (CD$year[CD$file == f] == 2013){ comtrade <- comtrade13 }
+			if (CD$year[CD$file == f] == 2014){ comtrade <- comtrade14 }
+			if (CD$year[CD$file == f] == 2015){ comtrade <- comtrade15 }
+			if (CD$year[CD$file == f] == 2016){ comtrade <- comtrade16 }
+			if (CD$year[CD$file == f] == 2017){ comtrade <- comtrade16 }
+			if (CD$year[CD$file == f] == 2018){ comtrade <- comtrade16 }
+				
 			comtrade <- comtrade[ (comtrade$country == CD$comtrade_country[CD$file == f]) & (comtrade$commodity %in% hs6_commodity) , ]
 				
 			weights_table$comtrade[i] <- sum(as.numeric( comtrade$comtrade_weight ))
 				
 		}
+		
+		if (CD$year[CD$file == f] == 2005){ year <- 2005 }
+		if (CD$year[CD$file == f] == 2006){ year <- 2006 }
+		if (CD$year[CD$file == f] == 2007){ year <- 2007 }
+		if (CD$year[CD$file == f] == 2008){ year <- 2008 }
+		if (CD$year[CD$file == f] == 2009){ year <- 2009 }
+		if (CD$year[CD$file == f] == 2010){ year <- 2010 }
+		if (CD$year[CD$file == f] == 2011){ year <- 2011 }
+		if (CD$year[CD$file == f] == 2012){ year <- 2012 }
+		if (CD$year[CD$file == f] == 2013){ year <- 2013 }
+		if (CD$year[CD$file == f] == 2014){ year <- 2014 }
+		if (CD$year[CD$file == f] == 2015){ year <- 2015 }
+		if (CD$year[CD$file == f] == 2016){ year <- 2016 }
+		if (CD$year[CD$file == f] == 2017){ year <- 2016 }
+		if (CD$year[CD$file == f] == 2018){ year <- 2016 }
 			
 		names(weights_table)[names(weights_table) == 'new_column'] <- paste0( strsplit(f, paste0('/', cc))[[1]][2] , ' total weight')
 		names(weights_table)[names(weights_table) == 'comtrade'] <- paste0('comtrade_', year)
