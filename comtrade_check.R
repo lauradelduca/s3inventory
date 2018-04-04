@@ -8,7 +8,7 @@ library(dplyr)
 #options(scipen=999999999999999999999999999999999999999999)
 
 
-
+		   
 
 
 argentina_content <- get_bucket_df(bucket = 'trase-storage', prefix = 'data/1-TRADE/CD/EXPORT/ARGENTINA/')
@@ -85,29 +85,29 @@ hs6 <- as.vector(as.numeric(hs$code_value[hs$code_type == 'HS_6']))
 
 
 
-obj <- get_object(object = 'data/1-TRADE/STATISTICAL_DATA/GLOBAL/COMTRADE/COMTRADE_ZOOM_0328/COMTRADE_2005_zoom.csv', bucket = 'trase-storage')
+obj <- get_object(object = 'data/1-TRADE/STATISTICAL_DATA/GLOBAL/COMTRADE/COMTRADE_ZOOM/COMTRADE_2005_zoom.csv', bucket = 'trase-storage')
 comtrade05 <- read.csv(text = rawToChar(obj), quote = '', sep = ';')
-obj <- get_object(object = 'data/1-TRADE/STATISTICAL_DATA/GLOBAL/COMTRADE/COMTRADE_ZOOM_0328/COMTRADE_2006_zoom.csv', bucket = 'trase-storage')
+obj <- get_object(object = 'data/1-TRADE/STATISTICAL_DATA/GLOBAL/COMTRADE/COMTRADE_ZOOM/COMTRADE_2006_zoom.csv', bucket = 'trase-storage')
 comtrade06 <- read.csv(text = rawToChar(obj), quote = '', sep = ';')
-obj <- get_object(object = 'data/1-TRADE/STATISTICAL_DATA/GLOBAL/COMTRADE/COMTRADE_ZOOM_0328/COMTRADE_2007_zoom.csv', bucket = 'trase-storage')
+obj <- get_object(object = 'data/1-TRADE/STATISTICAL_DATA/GLOBAL/COMTRADE/COMTRADE_ZOOM/COMTRADE_2007_zoom.csv', bucket = 'trase-storage')
 comtrade07 <- read.csv(text = rawToChar(obj), quote = '', sep = ';')
-obj <- get_object(object = 'data/1-TRADE/STATISTICAL_DATA/GLOBAL/COMTRADE/COMTRADE_ZOOM_0328/COMTRADE_2008_zoom.csv', bucket = 'trase-storage')
+obj <- get_object(object = 'data/1-TRADE/STATISTICAL_DATA/GLOBAL/COMTRADE/COMTRADE_ZOOM/COMTRADE_2008_zoom.csv', bucket = 'trase-storage')
 comtrade08 <- read.csv(text = rawToChar(obj), quote = '', sep = ';')
-obj <- get_object(object = 'data/1-TRADE/STATISTICAL_DATA/GLOBAL/COMTRADE/COMTRADE_ZOOM_0328/COMTRADE_2009_zoom.csv', bucket = 'trase-storage')
+obj <- get_object(object = 'data/1-TRADE/STATISTICAL_DATA/GLOBAL/COMTRADE/COMTRADE_ZOOM/COMTRADE_2009_zoom.csv', bucket = 'trase-storage')
 comtrade09 <- read.csv(text = rawToChar(obj), quote = '', sep = ';')
-obj <- get_object(object = 'data/1-TRADE/STATISTICAL_DATA/GLOBAL/COMTRADE/COMTRADE_ZOOM_0328/COMTRADE_2010_zoom.csv', bucket = 'trase-storage')
+obj <- get_object(object = 'data/1-TRADE/STATISTICAL_DATA/GLOBAL/COMTRADE/COMTRADE_ZOOM/COMTRADE_2010_zoom.csv', bucket = 'trase-storage')
 comtrade10 <- read.csv(text = rawToChar(obj), quote = '', sep = ';')
-obj <- get_object(object = 'data/1-TRADE/STATISTICAL_DATA/GLOBAL/COMTRADE/COMTRADE_ZOOM_0328/COMTRADE_2011_zoom.csv', bucket = 'trase-storage')
+obj <- get_object(object = 'data/1-TRADE/STATISTICAL_DATA/GLOBAL/COMTRADE/COMTRADE_ZOOM/COMTRADE_2011_zoom.csv', bucket = 'trase-storage')
 comtrade11 <- read.csv(text = rawToChar(obj), quote = '', sep = ';')
-obj <- get_object(object = 'data/1-TRADE/STATISTICAL_DATA/GLOBAL/COMTRADE/COMTRADE_ZOOM_0328/COMTRADE_2012_zoom.csv', bucket = 'trase-storage')
+obj <- get_object(object = 'data/1-TRADE/STATISTICAL_DATA/GLOBAL/COMTRADE/COMTRADE_ZOOM/COMTRADE_2012_zoom.csv', bucket = 'trase-storage')
 comtrade12 <- read.csv(text = rawToChar(obj), quote = '', sep = ';')
-obj <- get_object(object = 'data/1-TRADE/STATISTICAL_DATA/GLOBAL/COMTRADE/COMTRADE_ZOOM_0328/COMTRADE_2013_zoom.csv', bucket = 'trase-storage')
+obj <- get_object(object = 'data/1-TRADE/STATISTICAL_DATA/GLOBAL/COMTRADE/COMTRADE_ZOOM/COMTRADE_2013_zoom.csv', bucket = 'trase-storage')
 comtrade13 <- read.csv(text = rawToChar(obj), quote = '', sep = ';')
-obj <- get_object(object = 'data/1-TRADE/STATISTICAL_DATA/GLOBAL/COMTRADE/COMTRADE_ZOOM_0328/COMTRADE_2014_zoom.csv', bucket = 'trase-storage')
+obj <- get_object(object = 'data/1-TRADE/STATISTICAL_DATA/GLOBAL/COMTRADE/COMTRADE_ZOOM/COMTRADE_2014_zoom.csv', bucket = 'trase-storage')
 comtrade14 <- read.csv(text = rawToChar(obj), quote = '', sep = ';')
-obj <- get_object(object = 'data/1-TRADE/STATISTICAL_DATA/GLOBAL/COMTRADE/COMTRADE_ZOOM_0328/COMTRADE_2015_zoom.csv', bucket = 'trase-storage')
+obj <- get_object(object = 'data/1-TRADE/STATISTICAL_DATA/GLOBAL/COMTRADE/COMTRADE_ZOOM/COMTRADE_2015_zoom.csv', bucket = 'trase-storage')
 comtrade15 <- read.csv(text = rawToChar(obj), quote = '', sep = ';')
-obj <- get_object(object = 'data/1-TRADE/STATISTICAL_DATA/GLOBAL/COMTRADE/COMTRADE_ZOOM_0328/COMTRADE_2016_zoom.csv', bucket = 'trase-storage')
+obj <- get_object(object = 'data/1-TRADE/STATISTICAL_DATA/GLOBAL/COMTRADE/COMTRADE_ZOOM/COMTRADE_2016_zoom.csv', bucket = 'trase-storage')
 comtrade16 <- read.csv(text = rawToChar(obj), quote = '', sep = ';')
 
 
@@ -127,11 +127,12 @@ for (f in as.vector(CD$file)){
 			CD$hs_column[CD$file == f] <- hs_column <- 'HARMONIZED_CODE_PRODUCT_ENGLISH'
 			CD$price_column[CD$file == f] <- price_column <- 'TOTAL_FOB_VALUE_US'
 			CD$weight_column[CD$file == f] <- weight_column <- 'TOTAL_NET_WEIGHT_KG'
+			CD$units_column[CD$file == f] <- units_column <- 'MEASURE_UNIT_1_QUANTITY_1'
 		
 		}
 		
-		release <- c('BEEF', 'CHICKEN', 'CORN', 'COTTON', 'LEATHER (CATTLE)', 
-					'NATURAL TIMBER', 'PAPER AND PULP', 'SHRIMPS', 'SOY', 'SUGARCANE')
+		release <- c('BEEF', 'CHICKEN', 'CORN', 'COTTON', 'LEATHER', 
+					'TIMBER', 'WOOD PULP', 'SHRIMPS', 'SOYBEANS', 'SUGAR CANE')
 		CD$comtrade_country[CD$file == f] <- 'Argentina'
 		
 	}
@@ -152,8 +153,8 @@ for (f in as.vector(CD$file)){
 		
 		}
 			
-		release <- c('CHICKEN', 'COFFEE', 'CORN', 'LEATHER (CATTLE)', 
-					'NATURAL TIMBER', 'SOY')
+		release <- c('CHICKEN', 'COFFEE', 'CORN', 'LEATHER', 
+					'TIMBER', 'SOYBEANS')
 		CD$comtrade_country[CD$file == f] <- 'Bolivia (Plurinational State of)'
 		
 	}
@@ -164,8 +165,8 @@ for (f in as.vector(CD$file)){
 		CD$price_column[CD$file == f] <- price_column <- 'FOB_VALUE_USD'
 		CD$weight_column[CD$file == f] <- weight_column <- 'NET_WEIGHT'
 		
-		release <- c('BEEF', 'CHICKEN', 'COCOA', 'COFFEE', 'CORN', 'COTTON', 'LEATHER (CATTLE)', 
-					'NATURAL TIMBER', 'OIL PALM', 'PAPER AND PULP', 'SOY', 'SUGARCANE')
+		release <- c('BEEF', 'CHICKEN', 'COCOA', 'COFFEE', 'CORN', 'COTTON', 'LEATHER', 
+					'TIMBER', 'PALM OIL', 'WOOD PULP', 'SOYBEANS', 'SUGAR CANE')
 		CD$comtrade_country[CD$file == f] <- 'Brazil'
 		
 	}
@@ -176,8 +177,8 @@ for (f in as.vector(CD$file)){
 		CD$price_column[CD$file == f] <- price_column <- 'VMLE_DOLAR_BAL_EXP'
 		CD$weight_column[CD$file == f] <- weight_column <- 'PESO_LIQ_MERC_BAL_EXP'
 		
-		release <- c('BEEF', 'CHICKEN', 'COCOA', 'COFFEE', 'CORN', 'COTTON', 'LEATHER (CATTLE)', 
-					'NATURAL TIMBER', 'OIL PALM', 'PAPER AND PULP', 'SOY', 'SUGARCANE')
+		release <- c('BEEF', 'CHICKEN', 'COCOA', 'COFFEE', 'CORN', 'COTTON', 'LEATHER', 
+					'TIMBER', 'PALM OIL', 'WOOD PULP', 'SOYBEANS', 'SUGAR CANE')
 		CD$comtrade_country[CD$file == f] <- 'Brazil'
 		
 	}
@@ -198,8 +199,8 @@ for (f in as.vector(CD$file)){
 		
 		}
 
-		release <- c('BEEF', 'CHICKEN', 'COCOA', 'COFFEE', 'CORN', 'LEATHER (CATTLE)', 
-					'NATURAL TIMBER', 'OIL PALM', 'PAPER AND PULP', 'SHRIMPS', 'SUGARCANE')
+		release <- c('BEEF', 'CHICKEN', 'COCOA', 'COFFEE', 'CORN', 'LEATHER', 
+					'TIMBER', 'PALM OIL', 'WOOD PULP', 'SHRIMPS', 'SUGAR CANE')
 		CD$comtrade_country[CD$file == f] <- c('Colombia')
 		
 	}
@@ -210,8 +211,8 @@ for (f in as.vector(CD$file)){
 		CD$price_column[CD$file == f] <- price_column <- 'TOTAL_CIF_VALUE_US'
 		CD$weight_column[CD$file == f] <- weight_column <- 'TOTAL_NET_WEIGHT_KG'
 		
-		release <- c('BEEF', 'COFFEE', 'LEATHER (CATTLE)', 
-					'NATURAL TIMBER', 'OIL PALM', 'SHRIMPS', 'SOY', 'SUGARCANE')
+		release <- c('BEEF', 'COFFEE', 'LEATHER', 
+					'TIMBER', 'PALM OIL', 'SHRIMPS', 'SOYBEANS', 'SUGAR CANE')
 		CD$comtrade_country[CD$file == f] <- c('Costa Rica')
 		
 	}	
@@ -222,8 +223,8 @@ for (f in as.vector(CD$file)){
 		CD$price_column[CD$file == f] <- price_column <- 'TOTAL_FOB_VALUE_US'
 		CD$weight_column[CD$file == f] <- weight_column <- 'TOTAL_NET_WEIGHT_KG'
 		
-		release <- c('COCOA', 'COFFEE', 'LEATHER (CATTLE)', 
-					'OIL PALM', 'PAPER AND PULP', 'SHRIMPS')
+		release <- c('COCOA', 'COFFEE', 'LEATHER', 
+					'PALM OIL', 'WOOD PULP', 'SHRIMPS')
 		CD$comtrade_country[CD$file == f] <- c('Ecuador')
 		
 	}
@@ -244,8 +245,8 @@ for (f in as.vector(CD$file)){
 		
 		}
 	
-		release <- c('BEEF', 'CHICKEN', 'COCOA', 'COFFEE', 'CORN', 'COTTON', 'LEATHER (CATTLE)', 
-					'NATURAL TIMBER', 'PAPER AND PULP', 'SHRIMPS', 'SOY', 'SUGARCANE')
+		release <- c('BEEF', 'CHICKEN', 'COCOA', 'COFFEE', 'CORN', 'COTTON', 'LEATHER', 
+					'TIMBER', 'WOOD PULP', 'SHRIMPS', 'SOYBEANS', 'SUGAR CANE')
 		CD$comtrade_country[CD$file == f] <- c('Mexico')
 		
 	}		
@@ -266,8 +267,8 @@ for (f in as.vector(CD$file)){
 		
 		}
 		
-		release <- c('COFFEE', 'LEATHER (CATTLE)', 
-					'NATURAL TIMBER', 'OIL PALM', 'SHRIMPS', 'SUGARCANE')	
+		release <- c('COFFEE', 'LEATHER', 
+					'TIMBER', 'PALM OIL', 'SHRIMPS', 'SUGAR CANE')	
 		CD$comtrade_country[CD$file == f] <- c('Panama')
 		
 	}
@@ -289,8 +290,8 @@ for (f in as.vector(CD$file)){
 		CD$price_column[CD$file == f] <- price_column <- 'Valor.Fob.Dolar'
 		CD$weight_column[CD$file == f] <- weight_column <- 'Kilo.Neto'
 		
-		release <- c('BEEF', 'CORN', 'LEATHER (CATTLE)', 
-					'NATURAL TIMBER', 'SOY', 'SUGARCANE')
+		release <- c('BEEF', 'CORN', 'LEATHER', 
+					'TIMBER', 'SOYBEANS', 'SUGAR CANE')
 		CD$comtrade_country[CD$file == f] <- c('Paraguay')
 		
 	}
@@ -311,8 +312,8 @@ for (f in as.vector(CD$file)){
 			
 		}
 		
-		release <- c('CHICKEN', 'COCOA', 'COFFEE', 'CORN', 'LEATHER (CATTLE)', 
-					'NATURAL TIMBER', 'OIL PALM', 'SHRIMPS', 'SUGARCANE')
+		release <- c('CHICKEN', 'COCOA', 'COFFEE', 'CORN', 'LEATHER', 
+					'TIMBER', 'PALM OIL', 'SHRIMPS', 'SUGAR CANE')
 		CD$comtrade_country[CD$file == f] <- c('Peru')
 		
 	}
@@ -333,8 +334,8 @@ for (f in as.vector(CD$file)){
 		
 		}
 		
-		release <- c('BEEF', 'CHICKEN', 'COCOA', 'CORN', 'LEATHER (CATTLE)', 
-					'PAPER AND PULP', 'SOY')
+		release <- c('BEEF', 'CHICKEN', 'COCOA', 'CORN', 'LEATHER', 
+					'WOOD PULP', 'SOYBEANS')
 		CD$comtrade_country[CD$file == f] <- c('Uruguay')
 		
 	}
@@ -355,8 +356,8 @@ for (f in as.vector(CD$file)){
 		
 		}
 		
-		release <- c('COCOA', 'LEATHER (CATTLE)', 
-					'PAPER AND PULP', 'SHRIMPS')
+		release <- c('COCOA', 'LEATHER', 
+					'WOOD PULP', 'SHRIMPS')
 		CD$comtrade_country[CD$file == f] <- c('Venezuela')
 		
 	}
@@ -386,9 +387,27 @@ for (cc in countries){
 			
 		for (i in 1:nrow(weights_table)){
 			
-			hs6_commodity <- as.vector(as.numeric(hs$code_value[ (hs$code_type == 'HS_6') & (hs$prod_name == weights_table$commodity[i]) ]))
+			hs6_commodity <- as.vector(as.numeric(hs$code_value[ (hs$code_type == 'HS_6') & (hs$com_name == weights_table$commodity[i]) ]))
 
 			data_commodity <- data[ as.numeric( substr(data[, CD$hs_column[CD$file == f] ] , 1, 6)) %in% hs6_commodity, ]
+			
+			# get weight whenever there is more than unit kg
+			
+			# countries: argentina 2010 and all others, ecuador
+			
+			# unit_column: UNIDAD_ESTADISTICA argentina
+			
+			# levels: 
+			
+			# conversions:  1 head of live animal is 475 kg
+			#				1 liter of soy oil is 0.92 kilograms of soy
+			
+			# total weight for a year/countries: sum of all weight_column(where unit_column	== x and hs_column %in% soy_codes) * factor 
+			#									+ sum of all weight_column(where unit_column == y and hs_column == b) * factor
+			#									...
+			
+			# include column with, if column exists, levels of unit_column, with ': number of rows in this commodity, '
+			
 				
 			weights_table$new_column[i] <- sum( as.numeric(data_commodity[, CD$weight_column[CD$file == f] ]) ) / 1000
 						
@@ -407,9 +426,11 @@ for (cc in countries){
 			if (CD$year[CD$file == f] == 2017){ comtrade <- comtrade16 }
 			if (CD$year[CD$file == f] == 2018){ comtrade <- comtrade16 }
 				
-			comtrade <- comtrade[ (comtrade$country == CD$comtrade_country[CD$file == f]) & (comtrade$commodity %in% hs6_commodity) , ]
+			comtrade <- comtrade[(comtrade$country == CD$comtrade_country[CD$file == f]) & (comtrade$commodity %in% hs6_commodity),  ]
 				
 			weights_table$comtrade[i] <- sum(as.numeric( comtrade$comtrade_weight )) / 1000
+			
+			weights_table$deviation[i] <- weights_table$new_column[i] / weights_table$comtrade[i]
 				
 		}
 		
@@ -428,11 +449,76 @@ for (cc in countries){
 		if (CD$year[CD$file == f] == 2017){ year <- 2016 }
 		if (CD$year[CD$file == f] == 2018){ year <- 2016 }
 			
+		
+		if (cc == 'COSTARICA'){names(weights_table)[names(weights_table) == 'new_column'] <- paste0( f , ' tons')}
 		names(weights_table)[names(weights_table) == 'new_column'] <- paste0( strsplit(f, paste0('/', cc))[[1]][2] , ' tons')
 		names(weights_table)[names(weights_table) == 'comtrade'] <- paste0('comtrade_tons_', year)
+		names(weights_table)[names(weights_table) == 'deviation'] <- paste0('trase_per_comtrade')
 	}
 	
 	write.csv2(weights_table, paste0('CD_weights_', cc, '.csv'), quote = FALSE, row.names = FALSE)
 
 }
 
+
+for (cc in countries){
+	
+	units_table <- data.frame(commodity = as.vector( strsplit(as.character(CD$release[CD$country == cc][1]), ', ') ))
+	names(units_table) = c('commodity')
+	
+	
+	for (f in CD$file[CD$country == cc]){
+	
+		if (!is.na(units_column)){
+	
+			obj <- get_object(object = f, bucket = 'trase-storage')
+			data <- read.csv(text = rawToChar(obj), sep = ';', quote = '', row.names = NULL)
+				
+			if (grepl("data/1-TRADE/CD/EXPORT/PARAGUAY/MINTRADE/", f)){ data$hs8 <- as.integer(substr(gsub('\\.', '', data$NCM, perl=TRUE), 0, 8)) }
+				
+			for (i in 1:nrow(units_table)){
+				
+				hs6_commodity <- as.vector(as.numeric(hs$code_value[ (hs$code_type == 'HS_6') & (hs$com_name == units_table$commodity[i]) ]))
+
+				data_commodity <- data[ as.numeric( substr(data[, CD$hs_column[CD$file == f] ] , 1, 6)) %in% hs6_commodity, ]
+				
+				# for each commodity, state which levels and how many of each
+				
+				levels_found <- as.vector(sort(unique(data_commodity[, units_column])))
+				
+				levels <- ''
+				if (length(levels_found) != 0){
+					for (k in 1:length(levels_found)){
+						levels <- paste0(levels, levels_found[k], ': ', nrow(data_commodity[data_commodity[, units_column] == levels_found[k],]), ', ')					
+					}
+				}
+				units_table$units[i] <- levels
+				
+			}
+			
+			if (cc == 'COSTARICA'){names(units_table)[names(units_table) == 'units'] <- paste0( f , ' units')}
+			names(units_table)[names(units_table) == 'units'] <- paste0( strsplit(f, paste0('/', cc))[[1]][2] , ' units')
+			
+		}
+	}
+	
+	write.csv2(weights_table, paste0('CD_units_', cc, '.csv'), quote = FALSE, row.names = FALSE)
+
+}
+
+
+
+for (cc in countries){	
+	
+	for (f in CD$file[CD$country == cc]){
+
+		obj <- get_object(object = f, bucket = 'trase-storage')
+		data <- read.csv(text = rawToChar(obj), sep = ';', quote = '', row.names = NULL)
+		
+		print(f)
+		print(names(data))
+		print(data[1:3,])
+
+	}
+
+}
