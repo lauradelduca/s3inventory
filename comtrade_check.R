@@ -8,9 +8,6 @@ library(dplyr)
 #options(scipen=999999999999999999999999999999999999999999)
 
 
-		   
-
-
 argentina_content <- get_bucket_df(bucket = 'trase-storage', prefix = 'data/1-TRADE/CD/EXPORT/ARGENTINA/')
 argentina_content <- subset(argentina_content, grepl(".*/CD_[A-Z]+_[1-9][0-9]{3}.csv$", Key) )
 
