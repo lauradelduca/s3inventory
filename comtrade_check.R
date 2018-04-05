@@ -112,25 +112,27 @@ comtrade16 <- read.csv(text = rawToChar(obj), quote = '', sep = ';')
 for (f in as.vector(CD$file)){
 	
 	if (CD$country[CD$file == f] == 'ARGENTINA'){
+	
+		CD$hs_column[CD$file == f] <- hs_column <- 'HARMONIZED_CODE_PRODUCT_ENGLISH'
+		CD$price_column[CD$file == f] <- price_column <- 'TOTAL_FOB_VALUE_US'
+		CD$weight_column[CD$file == f] <- weight_column <- 'TOTAL_NET_WEIGHT_KG'
+		CD$units_column[CD$file == f] <- units_column <- 'UNIDAD_ESTADSTICA'
 			
 		if (grepl("SICEX25", f)){
 	
 			CD$hs_column[CD$file == f] <- hs_column <- 'Harmonized.Code.Product.English'
 			CD$price_column[CD$file == f] <- price_column <- 'TOTAL.FOB.Value..US..'
 			CD$weight_column[CD$file == f] <- weight_column <- 'TOTAL.Quantity.1'
+			CD$units_column[CD$file == f] <- units_column <- 'Unidad.Estadística'
 			
-		} else if (grepl('SOURCE/CD_ARGENTINA_2010.csv', f)){
+		}
+		
+		if (grepl('SOURCE/CD_ARGENTINA_2010.csv', f)){
 		
 			CD$hs_column[CD$file == f] <- hs_column <- 'Harmonized.CodeProduct.English'
 			CD$price_column[CD$file == f] <- price_column <- 'TOTAL.FOB.Value.US'
-			CD$weight_column[CD$file == f] <- weight_column <- 'Cantidad.Estadstica'		#?
-		
-		} else{
-	
-			CD$hs_column[CD$file == f] <- hs_column <- 'HARMONIZED_CODE_PRODUCT_ENGLISH'
-			CD$price_column[CD$file == f] <- price_column <- 'TOTAL_FOB_VALUE_US'
-			CD$weight_column[CD$file == f] <- weight_column <- 'TOTAL_NET_WEIGHT_KG'
-			CD$units_column[CD$file == f] <- units_column <- 'MEASURE_UNIT_1_QUANTITY_1'
+			CD$weight_column[CD$file == f] <- weight_column <- 'Cantidad.Estadstica'
+			CD$units_column[CD$file == f] <- units_column <- 'Unidad.Estadstica'
 		
 		}
 		
@@ -373,7 +375,7 @@ write.csv2(CD, 'CD_AWS.csv', quote = FALSE, row.names = FALSE)
 
 
 
-countries <- unique(as.vector(CD$country))
+
 
 for (cc in countries){
 	
@@ -487,12 +489,12 @@ for (cc in countries){
 				
 				# for each commodity, state which levels and how many of each
 				
-				levels_found <- as.vector(sort(unique(data_commodity[, units_column])))
+				levels_found <- as.vector(sort(unique(data_commodity[, CD$units_column[CD$file == f] ])))
 				
 				levels <- ''
 				if (length(levels_found) != 0){
 					for (k in 1:length(levels_found)){
-						levels <- paste0(levels, levels_found[k], ': ', nrow(data_commodity[data_commodity[, units_column] == levels_found[k],]), ', ')					
+						levels <- paste0(levels, levels_found[k], ': ', nrow(data_commodity[data_commodity[, CD$units_column[CD$file == f] ] == levels_found[k],]), ', ')					
 					}
 				}
 				units_table$units[i] <- levels
@@ -505,7 +507,7 @@ for (cc in countries){
 		}
 	}
 	
-	write.csv2(weights_table, paste0('CD_units_', cc, '.csv'), quote = FALSE, row.names = FALSE)
+	write.csv2(units_table, paste0('CD_units_', cc, '.csv'), quote = FALSE, row.names = FALSE)
 
 }
 
