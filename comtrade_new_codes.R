@@ -5,7 +5,7 @@ library(data.table)
 library(dplyr)
 
 
-options(scipen=9999999999999999999999999999999999999999999999)
+options(scipen=99999999999999999999999999999999999999999999)
  
 
 # set location of files and get all file paths
