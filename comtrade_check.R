@@ -150,6 +150,12 @@ for (f in as.vector(CD$file)){
 			CD$price_column[CD$file == f] <- price_column <- 'TOTAL.FOB.Value..US..'
 			CD$weight_column[CD$file == f] <- weight_column <- 'TOTAL.Net.Weight..Kg.'
 			
+		} else if (grepl("CD_BOLIVIA_2010", f)){
+			
+			CD$hs_column[CD$file == f] <- hs_column <- 'COD_ARMONIZADOPRODUCTO_INGLES'
+			CD$price_column[CD$file == f] <- price_column <- 'TOTAL_VALOR_FOB_US'
+			CD$weight_column[CD$file == f] <- weight_column <- 'TOTAL_QUANTITY_1'
+		
 		} else{
 	
 			CD$hs_column[CD$file == f] <- hs_column <- 'COD_ARMONIZADOPRODUCTO_INGLES'
@@ -371,10 +377,10 @@ for (f in as.vector(CD$file)){
 	
 }
 
-write.csv2(CD, 'CD_AWS.csv', quote = FALSE, row.names = FALSE)
+write.table(CD, 'CD_AWS.csv', quote = FALSE, row.names = FALSE, dec = '.', sep = ';')
 
 
-
+countries <- unique(as.vector(CD$country))
 
 
 for (cc in countries){
@@ -461,7 +467,7 @@ for (cc in countries){
 		names(weights_table)[names(weights_table) == 'deviation'] <- paste0('trase_per_comtrade')
 	}
 	
-	write.csv2(weights_table, paste0('CD_weights_', cc, '.csv'), quote = FALSE, row.names = FALSE)
+	write.table(weights_table, paste0('CD_weights_', cc, '.csv'), quote = FALSE, row.names = FALSE, dec = '.', sep = ';')
 
 }
 
@@ -507,7 +513,7 @@ for (cc in countries){
 		}
 	}
 	
-	write.csv2(units_table, paste0('CD_units_', cc, '.csv'), quote = FALSE, row.names = FALSE)
+	write.table(units_table, paste0('CD_units_', cc, '.csv'), quote = FALSE, row.names = FALSE, dec = '.', sep = ';')
 
 }
 
@@ -521,8 +527,12 @@ for (cc in countries){
 		data <- read.csv(text = rawToChar(obj), sep = ';', quote = '', row.names = NULL)
 		
 		print(f)
-		print(names(data))
+		print('')
 		print(data[1:3,])
+		print('')
+		print('')
+		print('')
+		print('')
 
 	}
 
