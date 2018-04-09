@@ -382,10 +382,11 @@ write.table(CD, 'CD_AWS.csv', quote = FALSE, row.names = FALSE, dec = '.', sep =
 
 countries <- unique(as.vector(CD$country))
 
-parked <- c('VENEZUELA', 'COLOMBIA', 'PANAMA', 'BOLIVIA', 'MEXICO')
+parked <- c('VENEZUELA', 'COLOMBIA', 'PANAMA', 'BOLIVIA', 'MEXICO', 'ARGENTINA', 'BRAZIL')
 
 countries <- countries[!countries %in% parked]
 
+#countries <- c('PARAGUAY')
 
 for (cc in countries){
 	
@@ -438,7 +439,7 @@ for (cc in countries){
 			# if clean then do nothing
 			# clean means max one non-digit that's a dot
 			
-			if (grepl('[0-9]*[\\.][0-9]*' , data_release[, CD$weight_column[CD$file == f] ][i])){
+			if (grepl('^[0-9]*[\\.]?[0-9]$*' , data_release[, CD$weight_column[CD$file == f] ][i])){
 			
 			# if there is more than one dot in the string, remove all dots
 			
@@ -484,22 +485,24 @@ for (cc in countries){
 		}
 		
 				
-		if (dim(weight_format_problems) == dim(data_release)){
-		
-			for(i in 1:nrow(data_release)){
+		# # if every value is either without non-digits or with a comma in the fourth position:
+		# # remove all commas
+		# if (all( (grepl('^[0-9]*$' , data_release[, CD$weight_column[CD$file == f] ])) |
+		# (grepl('.*[,][0-9]{3}$' , data_release[, CD$weight_column[CD$file == f] ])))){
 				
-				# if every value is either without non-digits or with a comma in the fourth position:
-				# remove all commas
-				if ( (grepl('^[0-9]*$' , data_release[, CD$weight_column[CD$file == f] ][i])) |
-				(grepl('.*[,][0-9]{3}$' , data_release[, CD$weight_column[CD$file == f] ][i]))){
+			# data_release[, CD$weight_column[CD$file == f] ][i] <- gsub(',', '', data_release[, CD$weight_column[CD$file == f] ][i])
+		
+		
+		#for(i in 1:nrow(data_release)){
+		
+		#	data_release[, CD$weight_column[CD$file == f] ][i] <- gsub(',', '', data_release[, CD$weight_column[CD$file == f] ][i])
+		
+		#}
+		
 				
-					data_release[, CD$weight_column[CD$file == f] ][i] <- gsub(',', '', data_release[, CD$weight_column[CD$file == f] ][i])
-		
-			}
-		}
-		
 		# write weight_format_problems table to csv
-		write.table(weight_format_problems, paste0('weight_format_problems_', f), quote = FALSE, row.names = FALSE, dec = '.', sep = ';')
+		f2 <- gsub('/', '_', f)
+		write.table(weight_format_problems, paste0('weight_format_problems_', f2), quote = FALSE, row.names = FALSE, dec = '.', sep = ';')
 
 		
 		# convert weight_column to type numeric
