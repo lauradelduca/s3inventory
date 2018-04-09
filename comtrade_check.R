@@ -552,18 +552,8 @@ for (cc in countries){
 				
 		}
 		
-		if (CD$year[CD$file == f] == 2005){ year <- 2005 }
-		if (CD$year[CD$file == f] == 2006){ year <- 2006 }
-		if (CD$year[CD$file == f] == 2007){ year <- 2007 }
-		if (CD$year[CD$file == f] == 2008){ year <- 2008 }
-		if (CD$year[CD$file == f] == 2009){ year <- 2009 }
-		if (CD$year[CD$file == f] == 2010){ year <- 2010 }
-		if (CD$year[CD$file == f] == 2011){ year <- 2011 }
-		if (CD$year[CD$file == f] == 2012){ year <- 2012 }
-		if (CD$year[CD$file == f] == 2013){ year <- 2013 }
-		if (CD$year[CD$file == f] == 2014){ year <- 2014 }
-		if (CD$year[CD$file == f] == 2015){ year <- 2015 }
-		if (CD$year[CD$file == f] == 2016){ year <- 2016 }
+		
+		year <- CD$year[CD$file == f]
 		if (CD$year[CD$file == f] == 2017){ year <- 2016 }
 		if (CD$year[CD$file == f] == 2018){ year <- 2016 }
 			
