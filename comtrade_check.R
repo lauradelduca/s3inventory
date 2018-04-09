@@ -330,8 +330,22 @@ for (f in as.vector(CD$file)){
 	}
 	
 	if (CD$country[CD$file == f] == 'URUGUAY'){
+		
+		# for sicex20 2015, 2016, 2017
+		CD$hs_column[CD$file == f] <- hs_column <- 'HARMONIZED_CODEPRODUCT_ENGLISH'
+		CD$price_column[CD$file == f] <- price_column <- 'TOTAL_FOB_VALUE_US'
+		CD$weight_column[CD$file == f] <- weight_column <- 'TOTAL_NET_WEIGHT_KG'
+
 	
-	### URUGUAY might not be the correct column, at least for 2014
+		if ((grepl('/URUGUAY/2012/CD_URUGUAY_2012.csv', f)) |
+			(grepl('URUGUAY/2013/SICEX20/CD_URUGUAY_2013.csv', f)) |
+			(grepl('URUGUAY/2014/SICEX20/CD_URUGUAY_2014.csv', f))){
+		
+			CD$hs_column[CD$file == f] <- hs_column <- 'TOTAL_NET_WEIGHT_KG'
+			CD$price_column[CD$file == f] <- price_column <- 'HARMONIZED_CODEPRODUCT_ENGLISH'
+			CD$weight_column[CD$file == f] <- weight_column <- 'MEASURE_UNIT_1_QUANTITY_1'
+			
+		}
 		
 		if (grepl("SICEX25", f)){
 	
@@ -339,13 +353,7 @@ for (f in as.vector(CD$file)){
 			CD$price_column[CD$file == f] <- price_column <- 'TOTAL.FOB.Value..US..'
 			CD$weight_column[CD$file == f] <- weight_column <- 'TOTAL.Net.Weight..Kg.'
 		
-		} else{
-		
-			CD$hs_column[CD$file == f] <- hs_column <- 'HARMONIZED_CODEPRODUCT_ENGLISH'
-			CD$price_column[CD$file == f] <- price_column <- 'TOTAL_FOB_VALUE_US'
-			CD$weight_column[CD$file == f] <- weight_column <- 'TOTAL_NET_WEIGHT_KG'
-		
-		}
+		} 
 		
 		release <- c('BEEF', 'CHICKEN', 'COCOA', 'CORN', 'LEATHER', 
 					'WOOD PULP', 'SOYBEANS')
@@ -388,7 +396,7 @@ parked <- c('VENEZUELA', 'COLOMBIA', 'PANAMA', 'BOLIVIA', 'MEXICO', 'ARGENTINA',
 
 countries <- countries[!countries %in% parked]
 
-#countries <- c('PARAGUAY')
+#countries <- c('URUGUAY')
 
 for (cc in countries){
 	
@@ -630,7 +638,7 @@ for (cc in countries){
 		
 		print(f)
 		print('')
-		print(data[1:3,])
+		print(data[1:5,])
 		print('')
 		print('')
 		print('')
