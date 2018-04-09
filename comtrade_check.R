@@ -330,6 +330,8 @@ for (f in as.vector(CD$file)){
 	}
 	
 	if (CD$country[CD$file == f] == 'URUGUAY'){
+	
+	### URUGUAY might not be the correct column, at least for 2014
 		
 		if (grepl("SICEX25", f)){
 	
