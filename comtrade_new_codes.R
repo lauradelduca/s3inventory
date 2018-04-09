@@ -9,7 +9,7 @@ options(scipen=999999999999999999999999999999999999999999)
  
 
 # set location of files and get all file paths
-din <- 'C:/Users/laura.delduca/Desktop/0404'
+din <- 'C:/Users/laura.delduca/Desktop/code/0409/comtrade'
 
 setwd(din)
 
@@ -17,12 +17,12 @@ ff <- list.files(din)
 
 # filter for our HS codes
 
-hs <- fread('C:/Users/laura.delduca/Desktop/commodity_equivalents_final_0404.csv')
+hs <- fread('C:/Users/laura.delduca/Downloads/commodity_equivalents_final_reformat_2018_04_09.csv')
 
-ncm8 <- as.vector(as.numeric(hs$code_value[hs$code_type == 'NCM_8']))
-hs6 <- as.vector(as.numeric(hs$code_value[hs$code_type == 'HS_6']))
-hs4 <- as.vector(as.numeric(hs$code_value[hs$code_type == 'HS_4']))
-hs <- c(ncm8, hs6, hs4)
+hs <- as.vector(as.numeric(hs$code_value))
+#hs6 <- as.vector(as.numeric(hs$code_value[hs$code_type == 'HS_6']))
+#hs4 <- as.vector(as.numeric(hs$code_value[hs$code_type == 'HS_4']))
+#hs <- c(ncm8, hs6, hs4)
 
 for (f in ff){
 

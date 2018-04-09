@@ -78,7 +78,7 @@ hs <- read.csv(text = rawToChar(obj), sep = ';', quote = '',
 				"character", "character", "character", "numeric", 
 				"numeric"))
 
-hs6 <- as.vector(as.numeric(hs$code_value[hs$code_type == 'HS_6']))
+hs6 <- as.vector(as.numeric(hs$code_value))
 
 
 
@@ -297,7 +297,7 @@ for (f in as.vector(CD$file)){
 		
 	if (grepl("data/1-TRADE/CD/EXPORT/PARAGUAY/MINTRADE/", f)){
 	
-		CD$hs_column[CD$file == f] <- hs_column <- 'hs8'
+		CD$hs_column[CD$file == f] <- hs_column <- 'hs6'
 		CD$price_column[CD$file == f] <- price_column <- 'Valor.Fob.Dolar'
 		CD$weight_column[CD$file == f] <- weight_column <- 'Kilo.Neto'
 		
@@ -398,8 +398,115 @@ for (cc in countries){
 		obj <- get_object(object = f, bucket = 'trase-storage')
 		data <- read.csv(text = rawToChar(obj), sep = ';', quote = '', row.names = NULL)
 			
-		if (grepl("data/1-TRADE/CD/EXPORT/PARAGUAY/MINTRADE/", f)){ data$hs8 <- as.integer(substr(gsub('\\.', '', data$NCM, perl=TRUE), 0, 8)) }
+		if (grepl("data/1-TRADE/CD/EXPORT/PARAGUAY/MINTRADE/", f)){ data$hs6 <- as.integer(substr(gsub('\\.', '', data$NCM, perl=TRUE), 0, 6)) }
+		
+		
+		
+		
+		##### correct weight_column format #############
 			
+		# goal: correct any formatting errors in data_commodity[, CD$weight_column[CD$file == f] ]
+		# data_release is used to correct formatting problems, data_commodity is used for the rest
+		
+		
+		# create empty data frame for remaining formatting problems
+		weight_format_problems <- data.frame(matrix(ncol = ncol(data), nrow = 0))
+		colnames(weight_format_problems) <- names(data)
+		
+		# select only rows where hs code is relevant for this release
+		# only relevant commodities
+		commodities_vector <- as.vector( strsplit(as.character(CD$release[CD$country == cc][1]), ', ') )
+		hs_release <- hs[hs$com_name %in% commodities_vector[[1]],]
+		# only HS_6 codesas vector (don't include code_value, missing sometimes)
+		hs6_release <- as.vector(as.numeric(hs$code_value))
+						
+
+		#data_release <- data[ as.numeric( substr(data[, CD$hs_column[CD$file == f] ] , 1, 6)) %in% hs6_release, ]
+		data_release <- data[ as.numeric( data[, CD$hs_column[CD$file == f] ]) %in% hs6_release, ]
+		
+		# weight as character
+		data_release[, CD$weight_column[CD$file == f] ] <- as.character(data_release[, CD$weight_column[CD$file == f] ])
+		
+		# to correct, for each value:
+		
+		for(i in 1:nrow(data_release)){
+			
+			# remove all spaces
+			
+			data_release[, CD$weight_column[CD$file == f] ][i] <- gsub(' ', '', data_release[, CD$weight_column[CD$file == f] ][i])
+			
+			# if clean then do nothing
+			# clean means max one non-digit that's a dot
+			
+			if (grepl('[0-9]*[\\.][0-9]*' , data_release[, CD$weight_column[CD$file == f] ][i])){
+			
+			# if there is more than one dot in the string, remove all dots
+			
+			} else if (grepl('.*[\\.][0-9]*[\\.].*' , data_release[, CD$weight_column[CD$file == f] ][i])){
+				data_release[, CD$weight_column[CD$file == f] ][i] <- gsub('.', '', data_release[, CD$weight_column[CD$file == f] ][i])
+			
+			# if there is more than one comma in the string, remove all commas
+		
+			} else if (grepl('.*[,][0-9]*[,].*' , data_release[, CD$weight_column[CD$file == f] ][i])){
+				data_release[, CD$weight_column[CD$file == f] ][i] <- gsub(',', '', data_release[, CD$weight_column[CD$file == f] ][i])
+		
+			# if there's a comma in the second or third position, convert to dot
+			# remove any other non-digit in the string
+			
+			# second position
+			} else if (grepl('.*[,][0-9]$' , data_release[, CD$weight_column[CD$file == f] ][i])){
+				data_release[, CD$weight_column[CD$file == f] ][i] <- gsub(',', '.', data_release[, CD$weight_column[CD$file == f] ][i])
+				data_release[, CD$weight_column[CD$file == f] ][i] <- gsub('[^0-9]', '', data_release[, CD$weight_column[CD$file == f] ][i])
+				
+			# third position
+			} else if (grepl('.*[,][0-9]{2}$' , data_release[, CD$weight_column[CD$file == f] ][i])){
+				data_release[, CD$weight_column[CD$file == f] ][i] <- gsub(',', '.', data_release[, CD$weight_column[CD$file == f] ][i])
+				data_release[, CD$weight_column[CD$file == f] ][i] <- gsub('[^0-9]', '', data_release[, CD$weight_column[CD$file == f] ][i])
+		
+			# if there's a comma in any position left of a dot,
+			# remove the comma
+			
+			} else if (grepl('.*[,].*[\\.]{1}.*' , data_release[, CD$weight_column[CD$file == f] ][i])){
+				data_release[, CD$weight_column[CD$file == f] ][i] <- gsub(',', '', data_release[, CD$weight_column[CD$file == f] ][i])
+		
+			# wait to write: if there's a comma in the fourth position and no comma in any
+			# second or third, then remove all commas from the string
+	
+			#else: add row to dataframe 
+			# output dataframe as 'weight_format_problems_f.csv'
+			
+			} else {
+			
+				weight_format_problems <- rbind(weight_format_problems, data_release[i,])
+			
+			}
+
+		}
+		
+				
+		if (dim(weight_format_problems) == dim(data_release)){
+		
+			for(i in 1:nrow(data_release)){
+				
+				# if every value is either without non-digits or with a comma in the fourth position:
+				# remove all commas
+				if ( (grepl('^[0-9]*$' , data_release[, CD$weight_column[CD$file == f] ][i])) |
+				(grepl('.*[,][0-9]{3}$' , data_release[, CD$weight_column[CD$file == f] ][i]))){
+				
+					data_release[, CD$weight_column[CD$file == f] ][i] <- gsub(',', '', data_release[, CD$weight_column[CD$file == f] ][i])
+		
+			}
+		}
+		
+		# write weight_format_problems table to csv
+		write.table(weight_format_problems, paste0('weight_format_problems_', f), quote = FALSE, row.names = FALSE, dec = '.', sep = ';')
+
+		
+		# convert weight_column to type numeric
+		data_release[, CD$weight_column[CD$file == f] ] <- as.numeric(data_release[, CD$weight_column[CD$file == f] ])
+		
+		
+		
 		for (i in 1:nrow(weights_table)){
 			
 			hs6_commodity <- as.vector(as.numeric(hs$code_value[ (hs$code_type == 'HS_6') & (hs$com_name == weights_table$commodity[i]) ]))
@@ -417,65 +524,7 @@ for (cc in countries){
 			#									...
 			# include column with, if column exists, levels of unit_column, with ': number of rows in this commodity, '
 			
-			
-			
-			##### correct weight_column format #############
-			
-			# goal: correct any formatting errors in data_commodity[, CD$weight_column[CD$file == f] ]
-			
-			data_commodity[, CD$weight_column[CD$file == f] ] <- as.character(data_commodity[, CD$weight_column[CD$file == f] ])
-			
-			# to correct, for each value, as character:
-			
-			for(i in 1:length(data_commodity[, CD$weight_column[CD$file == f] ])){
-			
-				# if clean then do nothing
-				# clean means max one non-digit that's a dot
-				
-				if (grepl('[0-9]*[\\.]?[0-9]*' , data_commodity[, CD$weight_column[CD$file == f] ][i]){ }
-				
-				# if there is more than one dot in the string, remove all dots
-				
-				if (grepl('.*[\\.]?[0-9]*[\\.]?.*' , data_commodity[, CD$weight_column[CD$file == f] ][i]){
-					data_commodity[, CD$weight_column[CD$file == f] ][i] <- gsub('.', '', data_commodity[, CD$weight_column[CD$file == f] ][i])
-				}
-				
-				# if there is more than one comma in the string, remove all commas
-			
-				if (grepl('.*[,]?[0-9]*[,]?.*' , data_commodity[, CD$weight_column[CD$file == f] ][i]){
-					data_commodity[, CD$weight_column[CD$file == f] ][i] <- gsub(',', '', data_commodity[, CD$weight_column[CD$file == f] ][i])
-				}
-			
-				# if there's a comma in the second or third position, convert to dot
-				# remove any other non-digit in the string
-				
-				# second position
-				if (grepl('.*[,][0-9]' , data_commodity[, CD$weight_column[CD$file == f] ][i]){
-					data_commodity[, CD$weight_column[CD$file == f] ][i] <- gsub(',', '.', data_commodity[, CD$weight_column[CD$file == f] ][i])
-					data_commodity[, CD$weight_column[CD$file == f] ][i] <- gsub('[^0-9]', '', data_commodity[, CD$weight_column[CD$file == f] ][i])
-				}
-				# third position
-				if (grepl('.*[,][0-9]{2}' , data_commodity[, CD$weight_column[CD$file == f] ][i]){
-					data_commodity[, CD$weight_column[CD$file == f] ][i] <- gsub(',', '.', data_commodity[, CD$weight_column[CD$file == f] ][i])
-					data_commodity[, CD$weight_column[CD$file == f] ][i] <- gsub('[^0-9]', '', data_commodity[, CD$weight_column[CD$file == f] ][i])
-				}
-			
-				# if there's a comma in any position left of a dot,
-				# remove the comma
-			
-				# wait to write: if there's a comma in the fourth position and no comma in any
-				# second or third, then remove all commas from the string
-		
-				#else: add row to dataframe 
-				# output dataframe as 'f_WEIGHT_FORMAT.csv'
-				
-			
-				dat$y[i] <- dat$x[i]^2
-			}
-			
-			
-			
-			
+						
 			
 				
 			weights_table$new_column[i] <- sum( as.numeric(data_commodity[, CD$weight_column[CD$file == f] ]) ) / 1000
@@ -543,7 +592,7 @@ for (cc in countries){
 			obj <- get_object(object = f, bucket = 'trase-storage')
 			data <- read.csv(text = rawToChar(obj), sep = ';', quote = '', row.names = NULL)
 				
-			if (grepl("data/1-TRADE/CD/EXPORT/PARAGUAY/MINTRADE/", f)){ data$hs8 <- as.integer(substr(gsub('\\.', '', data$NCM, perl=TRUE), 0, 8)) }
+			if (grepl("data/1-TRADE/CD/EXPORT/PARAGUAY/MINTRADE/", f)){ data$hs6 <- as.integer(substr(gsub('\\.', '', data$NCM, perl=TRUE), 0, 8)) }
 				
 			for (i in 1:nrow(units_table)){
 				
