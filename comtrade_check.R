@@ -8,6 +8,11 @@ library(dplyr)
 #options(scipen=999999999999999999999999999999999999999999)
 
 
+
+
+
+## get content of AWS -----------------------------
+
 argentina_content <- get_bucket_df(bucket = 'trase-storage', prefix = 'data/1-TRADE/CD/EXPORT/ARGENTINA/')
 argentina_content <- subset(argentina_content, grepl(".*/CD_[A-Z]+_[1-9][0-9]{3}.csv$", Key) )
 
@@ -69,7 +74,10 @@ CD <- CD[CD$year != 2018,]
 CD <- CD[order(CD$country, CD$year),]	
 
 
-## load codes ----------------------------------------------------------------------------------------------------------------------------
+
+
+
+## get relevant hs codes from commodity dictionary ----------------------------
 
 obj <- get_object(object = 'data/1-TRADE/commodity_equivalents_final.csv', bucket = 'trase-storage')
 
@@ -81,6 +89,10 @@ hs <- read.csv(text = rawToChar(obj), sep = ';', quote = '',
 hs6 <- as.vector(as.numeric(hs$code_value))
 
 
+
+
+
+## load preprocessed comtrade files -----------------------------
 
 obj <- get_object(object = 'data/1-TRADE/STATISTICAL_DATA/GLOBAL/COMTRADE/COMTRADE_ZOOM/COMTRADE_2005_zoom.csv', bucket = 'trase-storage')
 comtrade05 <- read.csv(text = rawToChar(obj), quote = '', sep = ';')
@@ -108,6 +120,11 @@ obj <- get_object(object = 'data/1-TRADE/STATISTICAL_DATA/GLOBAL/COMTRADE/COMTRA
 comtrade16 <- read.csv(text = rawToChar(obj), quote = '', sep = ';')
 
 
+
+
+
+
+## select columns for each country/dataset --------------------------------
 
 for (f in as.vector(CD$file)){
 	
@@ -332,11 +349,16 @@ for (f in as.vector(CD$file)){
 	if (CD$country[CD$file == f] == 'URUGUAY'){
 		
 		# for sicex20 2015, 2016, 2017
+		# 2015 not good enough
+		# 2016 great !!
+		# 2017 is with comtrade 16 and looks good enough
 		CD$hs_column[CD$file == f] <- hs_column <- 'HARMONIZED_CODEPRODUCT_ENGLISH'
 		CD$price_column[CD$file == f] <- price_column <- 'TOTAL_FOB_VALUE_US'
 		CD$weight_column[CD$file == f] <- weight_column <- 'TOTAL_NET_WEIGHT_KG'
 
-	
+		# 2012 no, some way too small, always except for beef
+		#2013 no, some way too small
+		#2014 no, some way too small
 		if ((grepl('/URUGUAY/2012/CD_URUGUAY_2012.csv', f)) |
 			(grepl('URUGUAY/2013/SICEX20/CD_URUGUAY_2013.csv', f)) |
 			(grepl('URUGUAY/2014/SICEX20/CD_URUGUAY_2014.csv', f))){
@@ -347,6 +369,11 @@ for (f in as.vector(CD$file)){
 			
 		}
 		
+		# 2013 too small and too big
+		# 2014 too small
+		# 2015 way too small
+		# 2016 way too small
+		# 2017 is with comtrade 16, looks too small
 		if (grepl("SICEX25", f)){
 	
 			CD$hs_column[CD$file == f] <- hs_column <- 'Harmonized.Code.Product.English'
@@ -390,13 +417,26 @@ for (f in as.vector(CD$file)){
 write.table(CD, 'CD_AWS.csv', quote = FALSE, row.names = FALSE, dec = '.', sep = ';')
 
 
+
+
+
+
+## chose which countries to run -----------------------
+
 countries <- unique(as.vector(CD$country))
 
 parked <- c('VENEZUELA', 'COLOMBIA', 'PANAMA', 'BOLIVIA', 'MEXICO', 'ARGENTINA', 'BRAZIL')
 
 countries <- countries[!countries %in% parked]
 
-#countries <- c('URUGUAY')
+#countries <- c('ECUADOR')
+
+
+
+
+
+## Trase - COMTRADE weights comparison ------------------------
+
 
 for (cc in countries){
 	
@@ -410,6 +450,7 @@ for (cc in countries){
 		data <- read.csv(text = rawToChar(obj), sep = ';', quote = '', row.names = NULL)
 			
 		if (grepl("data/1-TRADE/CD/EXPORT/PARAGUAY/MINTRADE/", f)){ data$hs6 <- as.integer(substr(gsub('\\.', '', data$NCM, perl=TRUE), 0, 6)) }
+		
 		
 		
 		
@@ -518,6 +559,10 @@ for (cc in countries){
 		# convert weight_column to type numeric
 		data_release[, CD$weight_column[CD$file == f] ] <- as.numeric(data_release[, CD$weight_column[CD$file == f] ])
 		
+		############################################
+		
+		
+		
 		
 		
 		for (i in 1:nrow(weights_table)){
@@ -526,6 +571,7 @@ for (cc in countries){
 
 			data_commodity <- data[ as.numeric( substr(data[, CD$hs_column[CD$file == f] ] , 1, 6)) %in% hs6_commodity, ]
 			
+			# notes on argentina 
 			# get weight whenever there is more than unit kg
 			# countries: argentina 2010 and all others, ecuador
 			# unit_column: UNIDAD_ESTADISTICA argentina
@@ -582,6 +628,11 @@ for (cc in countries){
 }
 
 
+
+
+
+## units test ---------------------------
+
 for (cc in countries){
 	
 	units_table <- data.frame(commodity = as.vector( strsplit(as.character(CD$release[CD$country == cc][1]), ', ') ))
@@ -628,6 +679,10 @@ for (cc in countries){
 }
 
 
+
+
+
+## helper: print header and first lines of all files of country in countries --------------------------
 
 for (cc in countries){	
 	
