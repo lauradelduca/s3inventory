@@ -437,20 +437,27 @@ for (cc in countries){
 				# if there is more than one dot in the string, remove all dots
 				
 				if (grepl('.*[\\.]?[0-9]*[\\.]?.*' , data_commodity[, CD$weight_column[CD$file == f] ][i]){
-					gsub('.', '', data_commodity[, CD$weight_column[CD$file == f] ][i])
+					data_commodity[, CD$weight_column[CD$file == f] ][i] <- gsub('.', '', data_commodity[, CD$weight_column[CD$file == f] ][i])
 				}
 				
 				# if there is more than one comma in the string, remove all commas
 			
 				if (grepl('.*[,]?[0-9]*[,]?.*' , data_commodity[, CD$weight_column[CD$file == f] ][i]){
-					gsub(',', '', data_commodity[, CD$weight_column[CD$file == f] ][i])
+					data_commodity[, CD$weight_column[CD$file == f] ][i] <- gsub(',', '', data_commodity[, CD$weight_column[CD$file == f] ][i])
 				}
 			
 				# if there's a comma in the second or third position, convert to dot
 				# remove any other non-digit in the string
 				
-				if (grepl('.*[,]?[0-9]*[,]?.*' , data_commodity[, CD$weight_column[CD$file == f] ][i]){
-					gsub(',', '', data_commodity[, CD$weight_column[CD$file == f] ][i])
+				# second position
+				if (grepl('.*[,][0-9]' , data_commodity[, CD$weight_column[CD$file == f] ][i]){
+					data_commodity[, CD$weight_column[CD$file == f] ][i] <- gsub(',', '.', data_commodity[, CD$weight_column[CD$file == f] ][i])
+					data_commodity[, CD$weight_column[CD$file == f] ][i] <- gsub('[^0-9]', '', data_commodity[, CD$weight_column[CD$file == f] ][i])
+				}
+				# third position
+				if (grepl('.*[,][0-9]{2}' , data_commodity[, CD$weight_column[CD$file == f] ][i]){
+					data_commodity[, CD$weight_column[CD$file == f] ][i] <- gsub(',', '.', data_commodity[, CD$weight_column[CD$file == f] ][i])
+					data_commodity[, CD$weight_column[CD$file == f] ][i] <- gsub('[^0-9]', '', data_commodity[, CD$weight_column[CD$file == f] ][i])
 				}
 			
 				# if there's a comma in any position left of a dot,
