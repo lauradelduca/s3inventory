@@ -382,6 +382,10 @@ write.table(CD, 'CD_AWS.csv', quote = FALSE, row.names = FALSE, dec = '.', sep =
 
 countries <- unique(as.vector(CD$country))
 
+parked <- c('VENEZUELA', 'COLOMBIA', 'PANAMA', 'BOLIVIA', 'MEXICO')
+
+countries <- countries[!countries %in% parked]
+
 
 for (cc in countries){
 	
@@ -403,21 +407,68 @@ for (cc in countries){
 			data_commodity <- data[ as.numeric( substr(data[, CD$hs_column[CD$file == f] ] , 1, 6)) %in% hs6_commodity, ]
 			
 			# get weight whenever there is more than unit kg
-			
 			# countries: argentina 2010 and all others, ecuador
-			
 			# unit_column: UNIDAD_ESTADISTICA argentina
-			
 			# levels: 
-			
 			# conversions:  1 head of live animal is 475 kg
 			#				1 liter of soy oil is 0.92 kilograms of soy
-			
 			# total weight for a year/countries: sum of all weight_column(where unit_column	== x and hs_column %in% soy_codes) * factor 
 			#									+ sum of all weight_column(where unit_column == y and hs_column == b) * factor
 			#									...
-			
 			# include column with, if column exists, levels of unit_column, with ': number of rows in this commodity, '
+			
+			
+			
+			##### correct weight_column format #############
+			
+			# goal: correct any formatting errors in data_commodity[, CD$weight_column[CD$file == f] ]
+			
+			data_commodity[, CD$weight_column[CD$file == f] ] <- as.character(data_commodity[, CD$weight_column[CD$file == f] ])
+			
+			# to correct, for each value, as character:
+			
+			for(i in 1:length(data_commodity[, CD$weight_column[CD$file == f] ])){
+			
+				# if clean then do nothing
+				# clean means max one non-digit that's a dot
+				
+				if (grepl('[0-9]*[\\.]?[0-9]*' , data_commodity[, CD$weight_column[CD$file == f] ][i]){ }
+				
+				# if there is more than one dot in the string, remove all dots
+				
+				if (grepl('.*[\\.]?[0-9]*[\\.]?.*' , data_commodity[, CD$weight_column[CD$file == f] ][i]){
+					gsub('.', '', data_commodity[, CD$weight_column[CD$file == f] ][i])
+				}
+				
+				# if there is more than one comma in the string, remove all commas
+			
+				if (grepl('.*[,]?[0-9]*[,]?.*' , data_commodity[, CD$weight_column[CD$file == f] ][i]){
+					gsub(',', '', data_commodity[, CD$weight_column[CD$file == f] ][i])
+				}
+			
+				# if there's a comma in the second or third position, convert to dot
+				# remove any other non-digit in the string
+				
+				if (grepl('.*[,]?[0-9]*[,]?.*' , data_commodity[, CD$weight_column[CD$file == f] ][i]){
+					gsub(',', '', data_commodity[, CD$weight_column[CD$file == f] ][i])
+				}
+			
+				# if there's a comma in any position left of a dot,
+				# remove the comma
+			
+				# wait to write: if there's a comma in the fourth position and no comma in any
+				# second or third, then remove all commas from the string
+		
+				#else: add row to dataframe 
+				# output dataframe as 'f_WEIGHT_FORMAT.csv'
+				
+			
+				dat$y[i] <- dat$x[i]^2
+			}
+			
+			
+			
+			
 			
 				
 			weights_table$new_column[i] <- sum( as.numeric(data_commodity[, CD$weight_column[CD$file == f] ]) ) / 1000
