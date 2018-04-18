@@ -429,7 +429,7 @@ parked <- c('VENEZUELA', 'COLOMBIA', 'PANAMA', 'BOLIVIA', 'MEXICO', 'ARGENTINA',
 
 countries <- countries[!countries %in% parked]
 
-#countries <- c('COSTARICA')
+#countries <- c('ECUADOR')
 
 
 
