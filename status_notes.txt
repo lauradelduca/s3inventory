@@ -1,0 +1,73 @@
+# notes 2018-04-09
+
+prioritizing clean-up of 
+Argentina
+Brazil
+Paraguay
+
+with 
+Ecuador
+Peru
+Costa Rica
+Uruguay
+
+
+--- PARAGUAY ---
+
+has commas in string weight, so remove that, convert, sum: still far from good
+
+> weights_table
+   commodity new_column    comtrade   deviation
+1       BEEF 111064.420  324564.631 0.342195080
+2       CORN   9495.125 2415691.077 0.003930604
+3    LEATHER  12790.783   52250.467 0.244797487
+4     TIMBER    819.849    2913.357 0.281410414
+5   SOYBEANS  22100.496 7826987.224 0.002823627
+6 SUGAR CANE   5577.019  130272.133 0.042810530
+
+
+--- COSTA RICA ----
+
+looks great, except for one/two values in 2016 and 2017
+(2016, 2017 are seemingly mostly in numbers/separators problems table, although numbers look perfect!
+open in R and check type etc
+don't focus on this)
+
+2016 shrimps (0.77 ratio):
+three units: caja, carton, bultos, but all have net weight
+all are caja, except for one carton and one bultos
+the bultos one stands out with a very small weight
+bultos means bulge, undetermined volume
+bultos is also the only shipment by air, not sea, so maybe weight is valid
+both 2016 shrimps and the comtrade16 records are only one hs code, and just don't sum up
+
+2016 sugar cane (0.89 ratio):
+multiple units, types of transport, but all have net kg
+> unique(data_sugarcane$MEASURE_UNIT_1_QUANTITY_1)
+[1] CAJA           BULTOS         BOLSA          ROLLO          GRANEL         GRANEL LIQUIDO SACO 
+weights are varying a lot, all separators seem good
+two records with weight == 0, value == 0 but number of items 1 and 4
+
+not looking further into 2017 for now as comtrade is for 2016
+
+
+--- ECUADOR --- 
+
+great except for two commodities
+2013 same re problem table as costa rica
+
+
+--- PERU ---
+
+needs correct column, not picked up
+but it should be correct, otherwise error message,
+so maybe type character and solved?
+
+
+--- URUGUAY ---
+
+some files don't have correct column names
+see comtrade_check.R part where variables are selected for each country/file for notes
+2012 is not available to download anymore
+redownload 2012 not ready, just cut it
+
