@@ -65,7 +65,7 @@ but it should be correct, otherwise error message,
 so maybe type character and solved?
 
 
---- URUGUAY
+--- URUGUAY ---
 
 some files had incorrect column names so re-downloaded 2013-2017
 we drop 2012 as too problematic and not available for download
