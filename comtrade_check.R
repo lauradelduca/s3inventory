@@ -347,21 +347,9 @@ for (f in as.vector(CD$file)){
 	}
 	
 	if (CD$country[CD$file == f] == 'URUGUAY'){
-		
-		# for sicex20 2015, 2016, 2017
-		# 2015 not good enough
-		# 2016 great !!
-		# 2017 is with comtrade 16 and looks good enough
-		CD$hs_column[CD$file == f] <- hs_column <- 'HARMONIZED_CODEPRODUCT_ENGLISH'
-		CD$price_column[CD$file == f] <- price_column <- 'TOTAL_FOB_VALUE_US'
-		CD$weight_column[CD$file == f] <- weight_column <- 'TOTAL_NET_WEIGHT_KG'
 
 		# 2012 no, some way too small, always except for beef
-		#2013 no, some way too small
-		#2014 no, some way too small
-		if ((grepl('/URUGUAY/2012/CD_URUGUAY_2012.csv', f)) |
-			(grepl('URUGUAY/2013/SICEX20/CD_URUGUAY_2013.csv', f)) |
-			(grepl('URUGUAY/2014/SICEX20/CD_URUGUAY_2014.csv', f))){
+		if ((grepl('/URUGUAY/2012/CD_URUGUAY_2012.csv', f)) ){
 		
 			CD$hs_column[CD$file == f] <- hs_column <- 'TOTAL_NET_WEIGHT_KG'
 			CD$price_column[CD$file == f] <- price_column <- 'HARMONIZED_CODEPRODUCT_ENGLISH'
@@ -429,7 +417,7 @@ parked <- c('VENEZUELA', 'COLOMBIA', 'PANAMA', 'BOLIVIA', 'MEXICO', 'ARGENTINA',
 
 countries <- countries[!countries %in% parked]
 
-#countries <- c('ECUADOR')
+#countries <- c('URUGUAY')
 
 
 
@@ -455,111 +443,111 @@ for (cc in countries){
 		
 		
 		
-		# ##### correct weight_column format #############
+		##### correct weight_column format #############
 			
-		# # goal: correct any formatting errors in data_commodity[, CD$weight_column[CD$file == f] ]
-		# # data_release is used to correct formatting problems, data_commodity is used for the rest
+		# goal: correct any formatting errors in data_commodity[, CD$weight_column[CD$file == f] ]
+		# data_release is used to correct formatting problems, data_commodity is used for the rest
 		
 		
-		# # create empty data frame for remaining formatting problems
-		# weight_format_problems <- data.frame(matrix(ncol = ncol(data), nrow = 0))
-		# colnames(weight_format_problems) <- names(data)
+		# create empty data frame for remaining formatting problems
+		weight_format_problems <- data.frame(matrix(ncol = ncol(data), nrow = 0))
+		colnames(weight_format_problems) <- names(data)
 		
-		# # select only rows where hs code is relevant for this release
-		# # only relevant commodities
-		# commodities_vector <- as.vector( strsplit(as.character(CD$release[CD$country == cc][1]), ', ') )
-		# hs_release <- hs[hs$com_name %in% commodities_vector[[1]],]
-		# # only HS_6 codesas vector (don't include code_value, missing sometimes)
-		# hs6_release <- as.vector(as.numeric(hs$code_value))
+		# select only rows where hs code is relevant for this release
+		# only relevant commodities
+		commodities_vector <- as.vector( strsplit(as.character(CD$release[CD$country == cc][1]), ', ') )
+		hs_release <- hs[hs$com_name %in% commodities_vector[[1]],]
+		# only HS_6 codesas vector (don't include code_value, missing sometimes)
+		hs6_release <- as.vector(as.numeric(hs$code_value))
 						
 
-		# #data_release <- data[ as.numeric( substr(data[, CD$hs_column[CD$file == f] ] , 1, 6)) %in% hs6_release, ]
-		# data_release <- data[ as.numeric( data[, CD$hs_column[CD$file == f] ]) %in% hs6_release, ]
+		#data_release <- data[ as.numeric( substr(data[, CD$hs_column[CD$file == f] ] , 1, 6)) %in% hs6_release, ]
+		data_release <- data[ as.numeric( data[, CD$hs_column[CD$file == f] ]) %in% hs6_release, ]
 		
-		# # weight as character
-		# data_release[, CD$weight_column[CD$file == f] ] <- as.character(data_release[, CD$weight_column[CD$file == f] ])
+		# weight as character
+		data_release[, CD$weight_column[CD$file == f] ] <- as.character(data_release[, CD$weight_column[CD$file == f] ])
 		
-		# # to correct, for each value:
+		# to correct, for each value:
 		
-		# for(i in 1:nrow(data_release)){
+		for(i in 1:nrow(data_release)){
 			
-			# # remove all spaces
+			# remove all spaces
 			
-			# data_release[, CD$weight_column[CD$file == f] ][i] <- gsub(' ', '', data_release[, CD$weight_column[CD$file == f] ][i])
+			data_release[, CD$weight_column[CD$file == f] ][i] <- gsub(' ', '', data_release[, CD$weight_column[CD$file == f] ][i])
 			
-			# # if clean then do nothing
-			# # clean means max one non-digit that's a dot
+			# if clean then do nothing
+			# clean means max one non-digit that's a dot
 			
-			# if (grepl('^[0-9]*[\\.]?[0-9]$*' , data_release[, CD$weight_column[CD$file == f] ][i])){
+			if (grepl('^[0-9]*[\\.]?[0-9]$*' , data_release[, CD$weight_column[CD$file == f] ][i])){
 			
-			# # if there is more than one dot in the string, remove all dots
+			# if there is more than one dot in the string, remove all dots
 			
-			# } else if (grepl('.*[\\.][0-9]*[\\.].*' , data_release[, CD$weight_column[CD$file == f] ][i])){
-				# data_release[, CD$weight_column[CD$file == f] ][i] <- gsub('.', '', data_release[, CD$weight_column[CD$file == f] ][i])
+			} else if (grepl('.*[\\.][0-9]*[\\.].*' , data_release[, CD$weight_column[CD$file == f] ][i])){
+				data_release[, CD$weight_column[CD$file == f] ][i] <- gsub('.', '', data_release[, CD$weight_column[CD$file == f] ][i])
 			
-			# # if there is more than one comma in the string, remove all commas
+			# if there is more than one comma in the string, remove all commas
 		
-			# } else if (grepl('.*[,][0-9]*[,].*' , data_release[, CD$weight_column[CD$file == f] ][i])){
-				# data_release[, CD$weight_column[CD$file == f] ][i] <- gsub(',', '', data_release[, CD$weight_column[CD$file == f] ][i])
+			} else if (grepl('.*[,][0-9]*[,].*' , data_release[, CD$weight_column[CD$file == f] ][i])){
+				data_release[, CD$weight_column[CD$file == f] ][i] <- gsub(',', '', data_release[, CD$weight_column[CD$file == f] ][i])
 		
-			# # if there's a comma in the second or third position, convert to dot
-			# # remove any other non-digit in the string
+			# if there's a comma in the second or third position, convert to dot
+			# remove any other non-digit in the string
 			
-			# # second position
-			# } else if (grepl('.*[,][0-9]$' , data_release[, CD$weight_column[CD$file == f] ][i])){
-				# data_release[, CD$weight_column[CD$file == f] ][i] <- gsub(',', '.', data_release[, CD$weight_column[CD$file == f] ][i])
-				# data_release[, CD$weight_column[CD$file == f] ][i] <- gsub('[^0-9]', '', data_release[, CD$weight_column[CD$file == f] ][i])
+			# second position
+			} else if (grepl('.*[,][0-9]$' , data_release[, CD$weight_column[CD$file == f] ][i])){
+				data_release[, CD$weight_column[CD$file == f] ][i] <- gsub(',', '.', data_release[, CD$weight_column[CD$file == f] ][i])
+				data_release[, CD$weight_column[CD$file == f] ][i] <- gsub('[^0-9]', '', data_release[, CD$weight_column[CD$file == f] ][i])
 				
-			# # third position
-			# } else if (grepl('.*[,][0-9]{2}$' , data_release[, CD$weight_column[CD$file == f] ][i])){
-				# data_release[, CD$weight_column[CD$file == f] ][i] <- gsub(',', '.', data_release[, CD$weight_column[CD$file == f] ][i])
-				# data_release[, CD$weight_column[CD$file == f] ][i] <- gsub('[^0-9]', '', data_release[, CD$weight_column[CD$file == f] ][i])
+			# third position
+			} else if (grepl('.*[,][0-9]{2}$' , data_release[, CD$weight_column[CD$file == f] ][i])){
+				data_release[, CD$weight_column[CD$file == f] ][i] <- gsub(',', '.', data_release[, CD$weight_column[CD$file == f] ][i])
+				data_release[, CD$weight_column[CD$file == f] ][i] <- gsub('[^0-9]', '', data_release[, CD$weight_column[CD$file == f] ][i])
 		
-			# # if there's a comma in any position left of a dot,
-			# # remove the comma
+			# if there's a comma in any position left of a dot,
+			# remove the comma
 			
-			# } else if (grepl('.*[,].*[\\.]{1}.*' , data_release[, CD$weight_column[CD$file == f] ][i])){
-				# data_release[, CD$weight_column[CD$file == f] ][i] <- gsub(',', '', data_release[, CD$weight_column[CD$file == f] ][i])
+			} else if (grepl('.*[,].*[\\.]{1}.*' , data_release[, CD$weight_column[CD$file == f] ][i])){
+				data_release[, CD$weight_column[CD$file == f] ][i] <- gsub(',', '', data_release[, CD$weight_column[CD$file == f] ][i])
 		
-			# # wait to write: if there's a comma in the fourth position and no comma in any
-			# # second or third, then remove all commas from the string
+			# wait to write: if there's a comma in the fourth position and no comma in any
+			# second or third, then remove all commas from the string
 	
-			# #else: add row to dataframe 
-			# # output dataframe as 'weight_format_problems_f.csv'
+			#else: add row to dataframe 
+			# output dataframe as 'weight_format_problems_f.csv'
 			
-			# } else {
+			} else {
 			
-				# weight_format_problems <- rbind(weight_format_problems, data_release[i,])
+				weight_format_problems <- rbind(weight_format_problems, data_release[i,])
 			
-			# }
+			}
 
-		# }
+		}
 		
 				
-		# # # if every value is either without non-digits or with a comma in the fourth position:
-		# # # remove all commas
-		# # if (all( (grepl('^[0-9]*$' , data_release[, CD$weight_column[CD$file == f] ])) |
-		# # (grepl('.*[,][0-9]{3}$' , data_release[, CD$weight_column[CD$file == f] ])))){
+		# # if every value is either without non-digits or with a comma in the fourth position:
+		# # remove all commas
+		# if (all( (grepl('^[0-9]*$' , data_release[, CD$weight_column[CD$file == f] ])) |
+		# (grepl('.*[,][0-9]{3}$' , data_release[, CD$weight_column[CD$file == f] ])))){
 				
-			# # data_release[, CD$weight_column[CD$file == f] ][i] <- gsub(',', '', data_release[, CD$weight_column[CD$file == f] ][i])
+			# data_release[, CD$weight_column[CD$file == f] ][i] <- gsub(',', '', data_release[, CD$weight_column[CD$file == f] ][i])
 		
 		
-		# #for(i in 1:nrow(data_release)){
+		#for(i in 1:nrow(data_release)){
 		
-		# #	data_release[, CD$weight_column[CD$file == f] ][i] <- gsub(',', '', data_release[, CD$weight_column[CD$file == f] ][i])
+		#	data_release[, CD$weight_column[CD$file == f] ][i] <- gsub(',', '', data_release[, CD$weight_column[CD$file == f] ][i])
 		
-		# #}
+		#}
 		
 				
-		# # write weight_format_problems table to csv
-		# f2 <- gsub('/', '_', f)
-		# write.table(weight_format_problems, paste0('weight_format_problems_', f2), quote = FALSE, row.names = FALSE, dec = '.', sep = ';')
+		# write weight_format_problems table to csv
+		f2 <- gsub('/', '_', f)
+		write.table(weight_format_problems, paste0('weight_format_problems_', f2), quote = FALSE, row.names = FALSE, dec = '.', sep = ';')
 
 		
-		# # convert weight_column to type numeric
-		# data_release[, CD$weight_column[CD$file == f] ] <- as.numeric(data_release[, CD$weight_column[CD$file == f] ])
+		# convert weight_column to type numeric
+		data_release[, CD$weight_column[CD$file == f] ] <- as.numeric(data_release[, CD$weight_column[CD$file == f] ])
 		
-		# ############################################
+		############################################
 		
 		
 		
