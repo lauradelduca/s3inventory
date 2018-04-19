@@ -12,7 +12,7 @@ Costa Rica
 Uruguay
 
 
---- PARAGUAY ---
+--- PARAGUAY
 
 has commas in string weight, so remove that, convert, sum: still far from good
 
@@ -58,14 +58,14 @@ seems ok except for two commodities: palm oil too high, and wood pulp precise on
 need to look into both 
 
 
---- PERU ---
+--- PERU
 
 needs correct column, not picked up
 but it should be correct, otherwise error message,
 so maybe type character and solved?
 
 
---- URUGUAY ---
+--- URUGUAY
 
 some files don't have correct column names
 see comtrade_check.R part where variables are selected for each country/file for notes
