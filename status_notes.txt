@@ -1,4 +1,4 @@
-# notes 2018-04-09
+# notes 2018-04-20
 
 prioritizing clean-up of 
 Argentina
@@ -64,6 +64,9 @@ needs correct column, not picked up
 but it should be correct, otherwise error message,
 so maybe type character and solved?
 
+test reduced run same script 
+one 
+
 
 --- URUGUAY ---
 
@@ -78,4 +81,9 @@ wood pulp 0.81 for 2013
 soy beans 1.12 for 2014
 soy beans 1.24 for 2016
 2017 a bit more variance as comtrade data is for 2016, but looks good enough
+
+
+data technology channnel invite jon and give update there
+
+
 

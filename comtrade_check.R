@@ -325,6 +325,20 @@ for (f in as.vector(CD$file)){
 	}
 		
 	if (CD$country[CD$file == f] == 'PERU'){
+	
+		#2012
+		CD$hs_column[CD$file == f] <- hs_column <- 'X.Harmonized.CodeProduct.English.'
+		CD$price_column[CD$file == f] <- price_column <- 'X.TOTAL.FOB.Value.US.'
+		CD$weight_column[CD$file == f] <- weight_column <- 'X.TOTAL.Net.Weight.Kg.'
+		
+		if (grepl("SICEX25", f)){
+		
+			CD$hs_column[CD$file == f] <- hs_column <- 'Harmonized.Code.Description.English'
+			CD$price_column[CD$file == f] <- price_column <- 'FOB.per.Unit..Quantity1. ' # not sure see below
+			CD$weight_column[CD$file == f] <- weight_column <- 'TOTAL.Gross.Weight..Kg.'  
+			# column names are incorrect in download, weight column seems to be net weight, not gross
+			
+		}
 		
 		if (grepl("PERU/2016/CD_PERU_2016.csv", f) | grepl("PERU/2017/CD_PERU_2017.csv", f)){
 		
@@ -332,13 +346,8 @@ for (f in as.vector(CD$file)){
 			CD$price_column[CD$file == f] <- price_column <- 'TOTAL.VALOR.FOB.US'
 			CD$weight_column[CD$file == f] <- weight_column <- 'TOTAL.PESO.NETO.KG'
 		
-		} else{
+		} 
 		
-			CD$hs_column[CD$file == f] <- hs_column <- 'X.Harmonized.CodeProduct.English.'
-			CD$price_column[CD$file == f] <- price_column <- 'X.TOTAL.FOB.Value.US.'
-			CD$weight_column[CD$file == f] <- weight_column <- 'X.TOTAL.Net.Weight.Kg.'
-			
-		}
 		
 		release <- c('CHICKEN', 'COCOA', 'COFFEE', 'CORN', 'LEATHER', 
 					'TIMBER', 'PALM OIL', 'SHRIMPS', 'SUGAR CANE')
@@ -357,11 +366,6 @@ for (f in as.vector(CD$file)){
 			
 		}
 		
-		# 2013 too small and too big
-		# 2014 too small
-		# 2015 way too small
-		# 2016 way too small
-		# 2017 is with comtrade 16, looks too small
 		if (grepl("SICEX25", f)){
 	
 			CD$hs_column[CD$file == f] <- hs_column <- 'Harmonized.Code.Product.English'
@@ -417,7 +421,7 @@ parked <- c('VENEZUELA', 'COLOMBIA', 'PANAMA', 'BOLIVIA', 'MEXICO', 'ARGENTINA',
 
 countries <- countries[!countries %in% parked]
 
-#countries <- c('URUGUAY')
+#countries <- c('PERU')
 
 
 
@@ -551,9 +555,11 @@ for (cc in countries){
 		
 		
 		
-		# quick fix for uruguay: remove all commas from weight_column
+		# quick fix for uruguay and peru: remove all commas from weight_column
 		
-		if (cc == 'URUGUAY'){
+		## not working for peru
+		
+		if ((cc == 'URUGUAY') | (cc == 'PERU') | (cc == 'PARAGUAY')){
 			data[, CD$weight_column[CD$file == f] ] <- as.character(data[, CD$weight_column[CD$file == f] ])
 		
 			for (i in 1:nrow(data)){
