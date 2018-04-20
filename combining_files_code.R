@@ -11,7 +11,7 @@ options(scipen=99999999)
  
 
 # set location of files and get all file paths
-din <- 'C:/Users/laura.delduca/Desktop/AWScountries/brazil/2016'
+din <- 'C:/Users/laura.delduca/Desktop/code/0420/peru'
 
 setwd(din)
 
@@ -294,7 +294,12 @@ D <- data.frame(lapply(D, function(x) {gsub(";", ",", x)}))
 #unique(D$DATE_YYYY_MM)
 
 # write file
+
+### outdated, don't use write.csv2
 write.csv2(D, 'CD_BRAZIL_2016.csv', quote = FALSE, row.names = FALSE)
+
+write.table(janjul13, 'CD_PERU_2013.csv', quote = FALSE, row.names = FALSE, dec = '.', sep = ';')
+
 
 
 ## to clear the R environment
