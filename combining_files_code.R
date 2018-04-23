@@ -11,11 +11,11 @@ options(scipen=99999999)
  
 
 # set location of files and get all file paths
-din <- 'C:/Users/laura.delduca/Desktop/code/0420/peru_reduced'
+din <- 'C:/Users/laura.delduca/Desktop/code/0423/mintrade'
 
 setwd(din)
 
-ff <- list.files(din, pattern = '\\.csv$', full = TRUE)
+ff <- list.files(din, pattern = 'unquoted', full = TRUE)
 
 
 for (f in ff){
@@ -29,6 +29,8 @@ for (f in ff){
 J <- list()
 
 i = 1
+
+yy <- 2007
 # for each file...
 for (f in ff){
 	# read the file
@@ -41,7 +43,9 @@ for (f in ff){
 	#				"text", "text", "text", "text", "text",
 	#				"text", "text"))
 	
-	j <- fread(f)
+	#j <- fread(f)
+	
+	j <- read.csv(f, sep = ';')
 	
 	#j <- read_excel(f)
 	
@@ -58,7 +62,7 @@ for (f in ff){
 	
 	## remove first 13 and last 0 rows if first file
 	##j <- slice(j, 16:(nrow(j)-6))
-	j <- slice(j, 3:nrow(j))
+	#j <- slice(j, 3:nrow(j))
 	# get index of all rows that have NAs across all columns
 	k <- which( apply(j, 1, function(x) all(is.na(x))) )
 	# remove those rows with all NAs
@@ -255,18 +259,27 @@ for (f in ff){
 	#					"CALCULATED_TAX", "IMP_SEL_CONSUM", "ICDDP", "IMP_IMPORT", "IMP_TOTAL_PAYMENT") 
 
 	# brazil third party
-	colnames(j) <- c("NUM_RE", "NUM_DDE", "DIA_REGIS", "DIA_DESEMB", "DIA_EMBQ", "COD_IMPDR_EXPDR",
-						"NOME_IMPDR_EXPDR", "UA_LOCAL_DESBQ_EMBQ", "UF_DESBQ_EMBQ", "VIA_TRANSPORTE",             
-						"PAIS_ORIGEM_DESTINO", "COD_SUBITEM_NCM", "SUBITEM_NCM", 
-						"NOME_IMPORTADOR_ESTRANGEIRO", "DESCRICAO_PROD_EXP", "UNID_MEDIDA_EST",
-						"UNID_COMERC_PROD_EXP", "METRICA", "QTDE_PROD_BAL_EXP", "VMLE_DOLAR_UNID_BAL_EXP",    
-						"QTDE_EST_MERC_BAL_EXP", "VMLE_DOLAR_BAL_EXP", "PESO_LIQ_MERC_BAL_EXP")   
+	# colnames(j) <- c("NUM_RE", "NUM_DDE", "DIA_REGIS", "DIA_DESEMB", "DIA_EMBQ", "COD_IMPDR_EXPDR",
+						# "NOME_IMPDR_EXPDR", "UA_LOCAL_DESBQ_EMBQ", "UF_DESBQ_EMBQ", "VIA_TRANSPORTE",             
+						# "PAIS_ORIGEM_DESTINO", "COD_SUBITEM_NCM", "SUBITEM_NCM", 
+						# "NOME_IMPORTADOR_ESTRANGEIRO", "DESCRICAO_PROD_EXP", "UNID_MEDIDA_EST",
+						# "UNID_COMERC_PROD_EXP", "METRICA", "QTDE_PROD_BAL_EXP", "VMLE_DOLAR_UNID_BAL_EXP",    
+						# "QTDE_EST_MERC_BAL_EXP", "VMLE_DOLAR_BAL_EXP", "PESO_LIQ_MERC_BAL_EXP")   
 	
 						
-	# add the data to the list
-	J[[i]] <- j
-	i <- i + 1
+	# # add the data to the list
+	# J[[i]] <- j
+	# i <- i + 1
+	
+	
+	j <- data.frame(lapply(j, function(x) {gsub(";", ",", x)}))
+	
+	write.table(j, paste0(yy, '_new.csv'), quote = FALSE, row.names = FALSE, dec = '.', sep = ';')
+	
+	yy <- yy +1
 }
+
+
 
 # append all data, earlier stored in a list of dataframes in J
 D <- do.call(rbind, J)
