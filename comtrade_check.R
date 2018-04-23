@@ -420,7 +420,7 @@ parked <- c('VENEZUELA', 'COLOMBIA', 'PANAMA', 'BOLIVIA', 'MEXICO', 'ARGENTINA',
 
 countries <- countries[!countries %in% parked]
 
-countries <- c('PARAGUAY')
+countries <- c('BRAZIL')
 
 
 
@@ -437,7 +437,7 @@ for (cc in countries){
 	
 	for (f in CD$file[CD$country == cc]){
 	
-		if (grepl('MINTRADE', f)){
+		#if (grepl('MINTRADE', f)){
 		
 			obj <- get_object(object = f, bucket = 'trase-storage')
 			data <- read.csv(text = rawToChar(obj), sep = ';', quote = '', row.names = NULL)
@@ -628,7 +628,7 @@ for (cc in countries){
 			names(weights_table)[names(weights_table) == 'new_column'] <- paste0( strsplit(f, paste0('/', cc))[[1]][2] , ' tons')
 			names(weights_table)[names(weights_table) == 'comtrade'] <- paste0('comtrade_tons_', year)
 			names(weights_table)[names(weights_table) == 'deviation'] <- paste0('trase_per_comtrade')
-		}
+		#}
 	
 	}
 	
