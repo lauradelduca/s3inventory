@@ -333,14 +333,13 @@ for (f in as.vector(CD$file)){
 		
 		if (grepl("SICEX25", f)){
 		
-			CD$hs_column[CD$file == f] <- hs_column <- 'Harmonized.Code.Description.English'
-			CD$price_column[CD$file == f] <- price_column <- 'FOB.per.Unit..Quantity1. ' # not sure see below
-			CD$weight_column[CD$file == f] <- weight_column <- 'TOTAL.Gross.Weight..Kg.'  
-			# column names are incorrect in download, weight column seems to be net weight, not gross
+			CD$hs_column[CD$file == f] <- hs_column <- 'Harmonized.Code.Product.English'
+			CD$price_column[CD$file == f] <- price_column <- 'TOTAL.FOB.Value..US..'
+			CD$weight_column[CD$file == f] <- weight_column <- 'TOTAL.Net.Weight..Kg.'  
 			
 		}
 		
-		if (grepl("PERU/2016/CD_PERU_2016.csv", f) | grepl("PERU/2017/CD_PERU_2017.csv", f)){
+		if (grepl("CD_PERU_2016.csv", f) | grepl("CD_PERU_2017.csv", f)){
 		
 			CD$hs_column[CD$file == f] <- hs_column <- 'COD..ARMONIZADOPRODUCTO.INGLES'
 			CD$price_column[CD$file == f] <- price_column <- 'TOTAL.VALOR.FOB.US'
