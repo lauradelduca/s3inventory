@@ -33,16 +33,12 @@ remove commas in weight
 2012 timber 0.78
 2013 beef 0.74, corn 0.86, leather 0.73, 
 timber 0.52, soybeans 0.57, sugar cane 0.51 !!
-2014 beef na, corn na, leather na, 
-timber 0.85, soybeans !!
+2014 timber 0.85
 
 
 --- COSTA RICA ---
 
 looks great, except for one/two values in 2016 and 2017
-(2016, 2017 are seemingly mostly in numbers/separators problems table, although numbers look perfect!
-open in R and check type etc
-don't focus on this)
 
 2016 shrimps (0.77 ratio):
 three units: caja, carton, bultos, but all have net weight
@@ -59,8 +55,6 @@ multiple units, types of transport, but all have net kg
 weights are varying a lot, all separators seem good
 two records with weight == 0, value == 0 but number of items 1 and 4
 
-not looking further into 2017 for now as comtrade is for 2016
-
 
 --- ECUADOR --- 
 
@@ -76,8 +70,6 @@ years 2013-2015 redownloaded reduced number of columns, only what's needed to up
 
 removed comma in weight_column
 
-flags:
-
 2012 no leather, timber
 2013 chicken 1.22 ratio, palm oil 1.17 ratio
 2014 chicken 0.73
@@ -92,12 +84,7 @@ we drop 2012 as too problematic and not available for download
 after replacing ',' with '' in weight_column (removing thousands separator ,):
 results for 2013-2017 are great
 
-flags:
 wood pulp 0.81 for 2013
 soy beans 1.12 for 2014
 soy beans 1.24 for 2016
 2017 a bit more variance as comtrade data is for 2016, but looks good enough
-
-
-
-
