@@ -710,6 +710,13 @@ for (cc in countries){
 }
 
 
+for (f in ff){
+	data <- fread(f)
+	print(f)
+	print(data[1:3,])
+}
+
+
 ## codes for release
 
 todownload <- data.frame(file = CD$file, release = '')

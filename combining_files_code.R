@@ -11,11 +11,18 @@ options(scipen=99999999)
  
 
 # set location of files and get all file paths
-din <- 'C:/Users/laura.delduca/Desktop/code/0420/peru'
+din <- 'C:/Users/laura.delduca/Desktop/code/0420/peru_reduced'
 
 setwd(din)
 
 ff <- list.files(din, pattern = '\\.csv$', full = TRUE)
+
+
+for (f in ff){
+	data <- fread(f)
+	print(f)
+	print(data[1:3,])
+}
 
 
 # create an empty list to store the data of each file
