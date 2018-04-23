@@ -66,7 +66,7 @@ seems ok except for two commodities: palm oil too high, and wood pulp precise on
 need to look into both 
 
 
---- PERU
+--- PERU ---
 
 years 2016-2017 great
 years 2013-2015 redownloaded reduced number of columns, only what's needed to upload
@@ -75,9 +75,10 @@ removed comma in weight_column
 
 flags:
 
-
-
-
+2012 no leather, timber
+2013 chicken 1.22 ratio, palm oil 1.17 ratio
+2014 chicken 0.73
+2016 palm oil 1.12
 
 
 --- URUGUAY ---
