@@ -560,7 +560,7 @@ for (cc in countries){
 			
 			## not working for peru
 			
-			if ((cc == 'URUGUAY') | (cc == 'PERU') | (cc == 'PARAGUAY')){
+			if ((cc == 'URUGUAY') | (cc == 'PERU') | (cc == 'PARAGUAY') | (cc == 'BRAZIL')){
 				data[, CD$weight_column[CD$file == f] ] <- as.character(data[, CD$weight_column[CD$file == f] ])
 			
 				for (i in 1:nrow(data)){
