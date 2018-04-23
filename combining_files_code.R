@@ -305,7 +305,7 @@ D <- data.frame(lapply(D, function(x) {gsub(";", ",", x)}))
 ### outdated, don't use write.csv2
 write.csv2(D, 'CD_BRAZIL_2016.csv', quote = FALSE, row.names = FALSE)
 
-write.table(janjul13, 'CD_PERU_2013.csv', quote = FALSE, row.names = FALSE, dec = '.', sep = ';')
+write.table(data, 'CD_PERU_2012.csv', quote = FALSE, row.names = FALSE, dec = '.', sep = ';')
 
 
 

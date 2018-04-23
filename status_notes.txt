@@ -1,15 +1,21 @@
-# notes 2018-04-20
+# notes 2018-04-23
 
-prioritizing clean-up of 
+priority countries:
 Argentina
 Brazil
 Paraguay
 
-with 
+others:
+Costa Rica
 Ecuador
 Peru
-Costa Rica
 Uruguay
+
+
+--- ARGENTINA 
+
+
+--- BRAZIL
 
 
 --- PARAGUAY
@@ -24,6 +30,8 @@ has commas in string weight, so remove that, convert, sum: still far from good
 4     TIMBER    819.849    2913.357 0.281410414
 5   SOYBEANS  22100.496 7826987.224 0.002823627
 6 SUGAR CANE   5577.019  130272.133 0.042810530
+
+
 
 
 --- COSTA RICA ---
@@ -60,12 +68,16 @@ need to look into both
 
 --- PERU
 
-needs correct column, not picked up
-but it should be correct, otherwise error message,
-so maybe type character and solved?
+years 2016-2017 great
+years 2013-2015 redownloaded reduced number of columns, only what's needed to upload
 
-test reduced run same script 
-one 
+removed comma in weight_column
+
+flags:
+
+
+
+
 
 
 --- URUGUAY ---
@@ -82,8 +94,6 @@ soy beans 1.12 for 2014
 soy beans 1.24 for 2016
 2017 a bit more variance as comtrade data is for 2016, but looks good enough
 
-
-data technology channnel invite jon and give update there
 
 
 

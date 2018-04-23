@@ -327,9 +327,9 @@ for (f in as.vector(CD$file)){
 	if (CD$country[CD$file == f] == 'PERU'){
 	
 		#2012
-		CD$hs_column[CD$file == f] <- hs_column <- 'X.Harmonized.CodeProduct.English.'
-		CD$price_column[CD$file == f] <- price_column <- 'X.TOTAL.FOB.Value.US.'
-		CD$weight_column[CD$file == f] <- weight_column <- 'X.TOTAL.Net.Weight.Kg.'
+		CD$hs_column[CD$file == f] <- hs_column <- 'Harmonized.CodeProduct.English'
+		CD$price_column[CD$file == f] <- price_column <- 'TOTAL.FOB.Value.US'
+		CD$weight_column[CD$file == f] <- weight_column <- 'TOTAL.Net.Weight.Kg'
 		
 		if (grepl("SICEX25", f)){
 		
