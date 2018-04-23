@@ -420,7 +420,7 @@ parked <- c('VENEZUELA', 'COLOMBIA', 'PANAMA', 'BOLIVIA', 'MEXICO', 'ARGENTINA',
 
 countries <- countries[!countries %in% parked]
 
-countries <- c('BRAZIL')
+countries <- c('ARGENTINA')
 
 
 
@@ -560,7 +560,7 @@ for (cc in countries){
 			
 			## not working for peru
 			
-			if ((cc == 'URUGUAY') | (cc == 'PERU') | (cc == 'PARAGUAY') | (cc == 'BRAZIL')){
+			if ((cc == 'URUGUAY') | (cc == 'PERU') | (cc == 'PARAGUAY') | (cc == 'BRAZIL') | (cc == 'ARGENTINA')){
 				data[, CD$weight_column[CD$file == f] ] <- as.character(data[, CD$weight_column[CD$file == f] ])
 			
 				for (i in 1:nrow(data)){
