@@ -29,21 +29,16 @@ remove commas in weight
 2012 only soybeans and beef, beef 0.87
 2013 only soybeans and beef, beef 0.88
 2014 only soybeans and beef, beef 0.87
-2015 dashboard beef NA, coffee 0.88, cotton 0.1, soybeans 0.88, sugar cane 0.87
-these cotton codes seem to not be in the dashboard data: 140420 520100 520210 520291 520299 520300
+2015 dashboard coffee 0.88, cotton 0.1, soybeans 0.88, sugar cane 0.87	
 2015 third party only soybeans and beef, beef 0.88
 2016 dashboard cotton 0.12
-cotton codes not in dashboard 2016: 140420 151221 520100 520210 520291 520299 520300
 2016 third party only soybeans and beef, beef 0.89
 2017 dashboard comparison with comtrade 2016, timber 10.78
+need to figure out timber, as number seems much higher (10x) than other years
+redownloaded and processed timber, seems all ok but sums to 10x
 
-look into dashboard 2015 2016 cotton 0.1
-
-cotton codes: 120721 120729 140420 151221 151229 230610 470610 520100 520210 520291 520299 520300
-
-> timber
- [1] 440311 440312 440321 440322 440325 440326 440341 440349 440410 440420 440711 440721 440722 440725 440726 440727 440728 440729
-
+cotton: 120721 120729 140420 151221 151229 230610 470610 520100 520210 520291 520299 520300
+timber: 440311 440312 440321 440322 440325 440326 440341 440349 440410 440420 440711 440721 440722 440725 440726 440727 440728 440729
 
 
 --- PARAGUAY (MINTRADE)

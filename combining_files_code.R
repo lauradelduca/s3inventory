@@ -11,7 +11,7 @@ options(scipen=99999999)
  
 
 # set location of files and get all file paths
-din <- 'C:/Users/laura.delduca/Desktop/code/0423/dashboard/2015'
+din <- 'C:/Users/laura.delduca/Desktop/code/0423/dashboard/2017'
 
 setwd(din)
 
@@ -320,7 +320,7 @@ D <- data.frame(lapply(D, function(x) {gsub(";", ",", x)}))
 ### outdated, don't use write.csv2
 #write.csv2(D, 'CD_BRAZIL_2016.csv', quote = FALSE, row.names = FALSE)
 
-write.table(data, 'CD_BRAZIL_2015_COTTON.csv', quote = FALSE, row.names = FALSE, dec = '.', sep = ';')
+write.table(D, 'CD_BRAZIL_2016_COTTON.csv', quote = FALSE, row.names = FALSE, dec = '.', sep = ';')
 
 
 
@@ -340,13 +340,27 @@ write.table(data, 'CD_BRAZIL_2015_COTTON.csv', quote = FALSE, row.names = FALSE,
 ## replacing codes with new download
 
 data <- fread(ff[1])
-timber <- fread(ff[2])
-timber <- timber[, 1:12]
+cotton <- fread(ff[2])
+cotton <- cotton[, 1:12]
 
 data$PRODUCT_HS <- formatC(data$PRODUCT_HS, width = 8, format = "d", flag = "0") 
 
-data <- data[!(  (substr(data$PRODUCT_HS, 1, 4) == 4403) | (substr(data$PRODUCT_HS, 1, 4) == 4404) | (substr(data$PRODUCT_HS, 1, 4) == 4407) )]
 
-test <- rbind(data, timber)
+data <- data[!(  (substr(data$PRODUCT_HS, 1, 6) == 120720) | 
+				(substr(data$PRODUCT_HS, 1, 6) == 120721) | 
+				(substr(data$PRODUCT_HS, 1, 4) == 5203) |
+				(substr(data$PRODUCT_HS, 1, 6) == 120729) |
+				(substr(data$PRODUCT_HS, 1, 6) == 140420) |
+				(substr(data$PRODUCT_HS, 1, 6) == 151210) |
+				(substr(data$PRODUCT_HS, 1, 6) == 151220) |
+				(substr(data$PRODUCT_HS, 1, 6) == 151221) |
+				(substr(data$PRODUCT_HS, 1, 6) == 151229) |
+				(substr(data$PRODUCT_HS, 1, 6) == 230610) |
+				(substr(data$PRODUCT_HS, 1, 6) == 470610) |
+				(substr(data$PRODUCT_HS, 1, 2) == 52)  )]
 
-write.table(test, 'CD_BRAZIL_2017_NEW_TIMBER.csv', quote = FALSE, row.names = FALSE, dec = '.', sep = ';')
+names(cotton) <- names(data)
+
+test <- rbind(data, cotton)
+
+write.table(test, 'CD_BRAZIL_2016_NEW_COTTON.csv', quote = FALSE, row.names = FALSE, dec = '.', sep = ';')
