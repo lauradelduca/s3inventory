@@ -29,9 +29,8 @@ remove commas in weight
 2012 only soybeans and beef, beef 0.87
 2013 only soybeans and beef, beef 0.88
 2014 only soybeans and beef, beef 0.87
-2015 dashboard coffee 0.88, cotton 0.1, soybeans 0.88, sugar cane 0.87	
+2015 dashboard coffee 0.88, soybeans 0.88, sugar cane 0.87	
 2015 third party only soybeans and beef, beef 0.88
-2016 dashboard cotton 0.12
 2016 third party only soybeans and beef, beef 0.89
 2017 dashboard comparison with comtrade 2016, timber 10.78
 need to figure out timber, as number seems much higher (10x) than other years
