@@ -420,7 +420,7 @@ parked <- c('VENEZUELA', 'COLOMBIA', 'PANAMA', 'BOLIVIA', 'MEXICO', 'ARGENTINA',
 
 countries <- countries[!countries %in% parked]
 
-countries <- c('BRAZIL')
+countries <- c('ARGENTINA')
 
 
 
@@ -698,7 +698,7 @@ for (cc in countries){
 	
 	for (f in CD$file[CD$country == cc]){
 	
-		if (grepl('MINTRADE', f)){
+	#	if (grepl('MINTRADE', f)){
 
 			obj <- get_object(object = f, bucket = 'trase-storage')
 			data <- read.csv(text = rawToChar(obj), sep = ';', quote = '', row.names = NULL)
@@ -711,7 +711,7 @@ for (cc in countries){
 			print('')
 			print('')
 			
-		}
+	#	}
 
 	}
 
