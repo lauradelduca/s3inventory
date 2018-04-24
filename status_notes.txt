@@ -24,16 +24,16 @@ variance, as comparison is with comtrade 2016
 remove commas in weight
 
 2005-2009 only soybeans
-2010 only soybeans and beef, beef 0.08
-2011 only soybeans and beef, beef 0.08
-2012 only soybeans and beef, beef 0.07
-2013 only soybeans and beef, beef 0.05
-2014 only soybeans and beef, beef 0.05
-2015 dashboard no coffee, beef 0.06, chicken 0.04, cotton 0.1
-2015 third party only soybeans and beef, beef 0.07
-2016 dashboard no coffee, beef 0.07, chicken 0.04, cotton 0.12
-2016 third party only soybeans and beef, beef 0.07
-2017 dashboard no chicken, comparison with comtrade 2016
+2010 only soybeans and beef
+2011 only soybeans and beef, beef 0.88
+2012 only soybeans and beef, beef 0.87
+2013 only soybeans and beef, beef 0.88
+2014 only soybeans and beef, beef 0.87
+2015 dashboard beef NA, coffee 0.88, cotton 0.1, soybeans 0.88, sugar cane 0.87
+2015 third party only soybeans and beef, beef 0.88
+2016 dashboard cotton 0.12
+2016 third party only soybeans and beef, beef 0.89
+2017 dashboard comparison with comtrade 2016, timber 10.78
 
 
 --- PARAGUAY (MINTRADE)

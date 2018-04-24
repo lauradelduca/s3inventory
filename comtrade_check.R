@@ -444,7 +444,7 @@ for (cc in countries){
 				
 			if (grepl("data/1-TRADE/CD/EXPORT/PARAGUAY/MINTRADE/", f)){ data$hs6 <- as.integer(substr(gsub('\\.', '', data$NCM, perl=TRUE), 0, 6)) }
 			
-			if (grepl('BRAZIL/DATAMYNE/THIRD_PARTY/2010/CD_BRAZIL_2010.csv', f)){ 
+			if (grepl('BRAZIL', f)){ 
 				data[, CD$hs_column[CD$file == f] ] <- formatC(data[, CD$hs_column[CD$file == f] ], width = 8, format = "d", flag = "0") 
 				data[, CD$hs_column[CD$file == f] ] <- as.integer(substr(data[, CD$hs_column[CD$file == f] ], 0, 6))
 			}
