@@ -420,7 +420,7 @@ parked <- c('VENEZUELA', 'COLOMBIA', 'PANAMA', 'BOLIVIA', 'MEXICO', 'ARGENTINA',
 
 countries <- countries[!countries %in% parked]
 
-countries <- c('ARGENTINA')
+countries <- c('BRAZIL')
 
 
 
@@ -444,7 +444,10 @@ for (cc in countries){
 				
 			if (grepl("data/1-TRADE/CD/EXPORT/PARAGUAY/MINTRADE/", f)){ data$hs6 <- as.integer(substr(gsub('\\.', '', data$NCM, perl=TRUE), 0, 6)) }
 			
-			
+			if (grepl('BRAZIL/DATAMYNE/THIRD_PARTY/2010/CD_BRAZIL_2010.csv', f)){ 
+				data[, CD$hs_column[CD$file == f] ] <- formatC(data[, CD$hs_column[CD$file == f] ], width = 8, format = "d", flag = "0") 
+				data[, CD$hs_column[CD$file == f] ] <- as.integer(substr(data[, CD$hs_column[CD$file == f] ], 0, 6))
+			}
 			
 			
 			
@@ -556,9 +559,7 @@ for (cc in countries){
 			
 			
 			
-			# quick fix for uruguay and peru: remove all commas from weight_column
-			
-			## not working for peru
+			# quick fix: remove all commas from weight_column
 			
 			if ((cc == 'URUGUAY') | (cc == 'PERU') | (cc == 'PARAGUAY') | (cc == 'BRAZIL') | (cc == 'ARGENTINA')){
 				data[, CD$weight_column[CD$file == f] ] <- as.character(data[, CD$weight_column[CD$file == f] ])
@@ -659,7 +660,7 @@ for (cc in countries){
 				
 			for (i in 1:nrow(units_table)){
 				
-				hs6_commodity <- as.vector(as.numeric(hs$code_value[ (hs$code_type == 'HS_6') & (hs$com_name == units_table$commodity[i]) ]))
+				hs6_commodity <- as.vector(as.numeric(hs$code_value[ hs$com_name == units_table$commodity[i] ]))
 
 				data_commodity <- data[ as.numeric( substr(data[, CD$hs_column[CD$file == f] ] , 1, 6)) %in% hs6_commodity, ]
 				
