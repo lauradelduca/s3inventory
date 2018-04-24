@@ -11,7 +11,7 @@ options(scipen=99999999)
  
 
 # set location of files and get all file paths
-din <- 'C:/Users/laura.delduca/Desktop/code/0423/dashboard/2017'
+din <- 'C:/Users/laura.delduca/Desktop/code/0423/dashboard/2015'
 
 setwd(din)
 
@@ -288,10 +288,10 @@ D <- do.call(rbind, J)
 
 
 # set correct column names datamyne brazil 2015
-#colnames(D) <- c('DATE', 'PRODUCT_HS', 'HS_DESCRIPTION', 'COUNTRY_OF_DESTINATION', 
-#				'PORT_OF_DEPARTURE', 'FOB_VALUE_USD', 'EXPORTER_NAME',
-#				'STATE_DEPARTMENT_OF_THE_EXPORTER', 'EXPORTER_MUNICIPALITY', 'TRANSPORT_METHOD',
-#				'NET_WEIGHT', 'EXPORTER_CNPJ')
+colnames(D) <- c('DATE', 'PRODUCT_HS', 'HS_DESCRIPTION', 'COUNTRY_OF_DESTINATION', 
+				'PORT_OF_DEPARTURE', 'FOB_VALUE_USD', 'EXPORTER_NAME',
+				'STATE_DEPARTMENT_OF_THE_EXPORTER', 'EXPORTER_MUNICIPALITY', 'TRANSPORT_METHOD',
+				'NET_WEIGHT', 'EXPORTER_CNPJ')
 
 				
 #colnames(D) <- c("IMPORT_DECLARATION_NUMBER", "DATE_YYYY_MM", "DATE_YYYY_MM_DD", 
@@ -339,9 +339,9 @@ write.table(data, 'CD_BRAZIL_2015_COTTON.csv', quote = FALSE, row.names = FALSE,
 
 ## replacing codes with new download
 
-data <- fread(ff[])
-timber <- fread(ff[])
-timber <- timber[, 1:10]
+data <- fread(ff[1])
+timber <- fread(ff[2])
+timber <- timber[, 1:12]
 
 data$PRODUCT_HS <- formatC(data$PRODUCT_HS, width = 8, format = "d", flag = "0") 
 
