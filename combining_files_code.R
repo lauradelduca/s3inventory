@@ -11,11 +11,11 @@ options(scipen=99999999)
  
 
 # set location of files and get all file paths
-din <- 'C:/Users/laura.delduca/Desktop/code/0423/mintrade'
+din <- 'C:/Users/laura.delduca/Desktop/code/0423/dashboard/2017'
 
 setwd(din)
 
-ff <- list.files(din, pattern = 'unquoted', full = TRUE)
+ff <- list.files(din, pattern = 'csv', full = TRUE)
 
 
 for (f in ff){
@@ -30,7 +30,7 @@ J <- list()
 
 i = 1
 
-yy <- 2007
+#yy <- 2007
 # for each file...
 for (f in ff){
 	# read the file
@@ -43,9 +43,9 @@ for (f in ff){
 	#				"text", "text", "text", "text", "text",
 	#				"text", "text"))
 	
-	#j <- fread(f)
+	j <- fread(f)
 	
-	j <- read.csv(f, sep = ';')
+	#j <- read.csv(f, sep = ';')
 	
 	#j <- read_excel(f)
 	
@@ -62,7 +62,9 @@ for (f in ff){
 	
 	## remove first 13 and last 0 rows if first file
 	##j <- slice(j, 16:(nrow(j)-6))
-	#j <- slice(j, 3:nrow(j))
+	#j <- slice(j, 11:nrow(j))
+	
+	j <- j[,1:12]
 	# get index of all rows that have NAs across all columns
 	k <- which( apply(j, 1, function(x) all(is.na(x))) )
 	# remove those rows with all NAs
@@ -268,15 +270,15 @@ for (f in ff){
 	
 						
 	# # add the data to the list
-	# J[[i]] <- j
-	# i <- i + 1
+	J[[i]] <- j
+	i <- i + 1
 	
 	
-	j <- data.frame(lapply(j, function(x) {gsub(";", ",", x)}))
+	#j <- data.frame(lapply(j, function(x) {gsub(";", ",", x)}))
 	
-	write.table(j, paste0(yy, '_new.csv'), quote = FALSE, row.names = FALSE, dec = '.', sep = ';')
+	#write.table(j, paste0(yy, '_new.csv'), quote = FALSE, row.names = FALSE, dec = '.', sep = ';')
 	
-	yy <- yy +1
+	#yy <- yy +1
 }
 
 
@@ -285,7 +287,7 @@ for (f in ff){
 D <- do.call(rbind, J)
 
 
-# set correct column names
+# set correct column names datamyne brazil 2015
 #colnames(D) <- c('DATE', 'PRODUCT_HS', 'HS_DESCRIPTION', 'COUNTRY_OF_DESTINATION', 
 #				'PORT_OF_DEPARTURE', 'FOB_VALUE_USD', 'EXPORTER_NAME',
 #				'STATE_DEPARTMENT_OF_THE_EXPORTER', 'EXPORTER_MUNICIPALITY', 'TRANSPORT_METHOD',
@@ -316,9 +318,9 @@ D <- data.frame(lapply(D, function(x) {gsub(";", ",", x)}))
 # write file
 
 ### outdated, don't use write.csv2
-write.csv2(D, 'CD_BRAZIL_2016.csv', quote = FALSE, row.names = FALSE)
+#write.csv2(D, 'CD_BRAZIL_2016.csv', quote = FALSE, row.names = FALSE)
 
-write.table(data, 'CD_PERU_2012.csv', quote = FALSE, row.names = FALSE, dec = '.', sep = ';')
+write.table(data, 'CD_BRAZIL_2015_COTTON.csv', quote = FALSE, row.names = FALSE, dec = '.', sep = ';')
 
 
 
@@ -332,3 +334,19 @@ write.table(data, 'CD_PERU_2012.csv', quote = FALSE, row.names = FALSE, dec = '.
 #'TOTAL_QUANTITY_1', 'MEASURE_UNIT_1_QUANTITY_1', 'TOTAL_FOB_VALUE_US', "FOB_PER_UNIT_QUANTITY_1", 'TOTAL_CIF_VALUE_US', 
 #'TOTAL_NET_WEIGHT_KG', 'TOTAL_GROSS_WEIGHT_KG', 'TYPE_OF_TRANSPORT', 'CUSTOM', 'FREIGHT', 'INSURANCE',
 #"TRANSPORT_COMPANY_TRANSPORT_USED", 'INCOTERM')
+
+
+
+## replacing codes with new download
+
+data <- fread(ff[])
+timber <- fread(ff[])
+timber <- timber[, 1:10]
+
+data$PRODUCT_HS <- formatC(data$PRODUCT_HS, width = 8, format = "d", flag = "0") 
+
+data <- data[!(  (substr(data$PRODUCT_HS, 1, 4) == 4403) | (substr(data$PRODUCT_HS, 1, 4) == 4404) | (substr(data$PRODUCT_HS, 1, 4) == 4407) )]
+
+test <- rbind(data, timber)
+
+write.table(test, 'CD_BRAZIL_2017_NEW_TIMBER.csv', quote = FALSE, row.names = FALSE, dec = '.', sep = ';')
