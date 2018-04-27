@@ -18,8 +18,44 @@ variance, as comparison is with comtrade 2016
 
 --- ARGENTINA 
 
+2013
 
---- BRAZIL
+    commodity /2013/SICEX25/TEST/CD_ARGENTINA_2013.csv tons comtrade_tons_2013 trase_per_comtrade
+1        BEEF                                  586524.41396         269894.987    2.1731578658777
+2     CHICKEN                                  235215.99450         367782.465    0.6395519549851
+3        CORN                                   90802.69471       20200819.739    0.0044950004942
+4      COTTON                                    4097.87847          83896.074    0.0488446988592
+5     LEATHER                                  109446.63755         112433.086    0.9734379927097
+6      TIMBER                                       1.71262             54.875    0.0312094760820
+7   WOOD PULP                                       0.05555         196532.084    0.0000002826511
+8     SHRIMPS                                   88383.29671          91288.683    0.9681736421808
+9    SOYBEANS                                   16430.04254       34121384.963    0.0004815174577
+10 SUGAR CANE                                   13050.39125         281996.329    0.0462785855982
+
+> as.numeric(sort(unique(hs$code_value[hs$com_name == 'BEEF'])))
+ [1]  10210  10221  10229  10290  20110  20120  20130  20210  20220  20230  20610  20621  20622  20629  21020  50400 160250
+> as.numeric(sort(unique(hs$code_value[hs$com_name == 'CHICKEN'])))
+[1]  10511  10591  10594  20711  20712  20713  20714  20741 160232
+> as.numeric(sort(unique(hs$code_value[hs$com_name == 'CORN'])))
+[1] 100510 100590 110220 110313 110423 110812 151521 151529 230210
+> as.numeric(sort(unique(hs$code_value[hs$com_name == 'COTTON'])))
+ [1] 120721 120729 140420 151221 151229 230610 470610 520100 520210 520291 520299 520300
+> as.numeric(sort(unique(hs$code_value[hs$com_name == 'LEATHER'])))
+ [1] 410120 410150 410190 410411 410419 410441 410449 410711 410712 410719 410791 410792 410799
+> as.numeric(sort(unique(hs$code_value[hs$com_name == 'TIMBER'])))
+ [1] 440311 440312 440321 440322 440325 440326 440341 440349 440410 440420 440711 440721 440722 440725 440726 440727 440728 440729
+> as.numeric(sort(unique(hs$code_value[hs$com_name == 'WOOD PULP'])))
+ [1] 470100 470200 470311 470319 470321 470329 470411 470419 470421 470429 470500
+> as.numeric(sort(unique(hs$code_value[hs$com_name == 'SHRIMPS'])))
+[1] 30616 30617 30635 30636 30695
+> as.numeric(sort(unique(hs$code_value[hs$com_name == 'SOYBEANS'])))
+[1] 120100 120110 120190 120810 150710 150790 210310 230400
+> as.numeric(sort(unique(hs$code_value[hs$com_name == 'SUGAR CANE'])))
+ [1] 121292 121293 170111 170113 170114 170191 170199 170310 220710 220720
+
+ 
+
+--- BRAZIL ---
 
 remove commas in weight
 
