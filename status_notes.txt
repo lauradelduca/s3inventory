@@ -34,6 +34,23 @@ ok: leather and shrimps
 9    SOYBEANS                                   16430.04254       34121384.963    0.0004815174577
 10 SUGAR CANE                                   13050.39125         281996.329    0.0462785855982
 
+> sum(as.numeric(gsub(',', '', data_chicken$TOTAL.Quantity.1[data_chicken$Unidad.Estadística == 'UNIDADES'])))/1000
+[1] 286.275
+> sum(as.numeric(gsub(',', '', data_chicken$TOTAL.Quantity.1[data_chicken$Unidad.Estadística == 'KILOGRAMOS'])))/1000
+[1] 234929.7
+
+367782.465 - 234929.7 
+= 132852.8 tons is what 286275 unidades of 010511 chicken should correspond to
+
+that's
+132852.8/286275
+=  0.4640741 tons per unidad
+
+>>>>  so one unidad of live animal is 464kg, so fine to use 475kg/unidad
+
+
+
+
 > as.numeric(sort(unique(hs$code_value[hs$com_name == 'BEEF'])))
  [1]  10210  10221  10229  10290  20110  20120  20130  20210  20220  20230  20610  20621  20622  20629  21020  50400 160250
 > as.numeric(sort(unique(hs$code_value[hs$com_name == 'CHICKEN'])))

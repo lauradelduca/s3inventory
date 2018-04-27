@@ -451,6 +451,25 @@ for (cc in countries){
 			}
 			
 			
+			if (grepl('ARGENTINA', f)){
+			
+				for (i in 1:nrow(data)){
+			
+					if (data[, CD$units_column[CD$file == f] ][i] == 'UNIDADES'){
+				
+						if (as.numeric(data[, CD$hs_column[CD$file == f]][i] == 10511)){
+					
+							# one unidad of live animal is 475kg
+							data[, CD$weight_column[CD$file == f] ][i] <- data[, CD$weight_column[CD$file == f] ][i] * 475
+					
+						}
+				
+					}
+				}
+			}
+			
+			
+			
 			
 			# ##### correct weight_column format #############
 				
@@ -749,15 +768,15 @@ write.table(todownload, 'CD_todownload.csv', quote = FALSE, row.names = FALSE, d
 
 ## helpers for argentina
 
-leather <- as.vector(as.numeric(sort(unique(hs$code_value[hs$com_name == 'LEATHER']))))
+chicken <- as.vector(as.numeric(sort(unique(hs$code_value[hs$com_name == 'CHICKEN']))))
 
 shrimps <- c( 30616, 30617, 30635, 30636, 30695)
 
-data_leather <- data[as.numeric(data$Harmonized.Code.Product.English) %in% leather,]
+data_chicken <- data[as.numeric(data$Harmonized.Code.Product.English) %in% chicken,]
 
-sum(as.numeric(gsub(',', '', data_leather$TOTAL.Quantity.1)))/1000
+sum(as.numeric(gsub(',', '', data_chicken$TOTAL.Quantity.1)))/1000
 
-sort(unique(data_leather$Unidad.Estadística))
+sort(unique(data_chicken$Unidad.Estadística))
 
 
 
