@@ -743,3 +743,13 @@ for (f in as.vector(todownload$file)){
 }
 
 write.table(todownload, 'CD_todownload.csv', quote = FALSE, row.names = FALSE, dec = '.', sep = ';')
+
+
+
+
+## helpers for argentina
+
+as.numeric(sort(unique(hs$com_value[hs$com_name == 'BEEF'])))
+
+
+
