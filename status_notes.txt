@@ -20,6 +20,8 @@ variance, as comparison is with comtrade 2016
 
 2013
 
+ok: leather and shrimps
+
     commodity /2013/SICEX25/TEST/CD_ARGENTINA_2013.csv tons comtrade_tons_2013 trase_per_comtrade
 1        BEEF                                  586524.41396         269894.987    2.1731578658777
 2     CHICKEN                                  235215.99450         367782.465    0.6395519549851
@@ -53,7 +55,8 @@ variance, as comparison is with comtrade 2016
 > as.numeric(sort(unique(hs$code_value[hs$com_name == 'SUGAR CANE'])))
  [1] 121292 121293 170111 170113 170114 170191 170199 170310 220710 220720
 
- 
+
+
  
  
  

@@ -749,7 +749,15 @@ write.table(todownload, 'CD_todownload.csv', quote = FALSE, row.names = FALSE, d
 
 ## helpers for argentina
 
-as.numeric(sort(unique(hs$com_value[hs$com_name == 'BEEF'])))
+leather <- as.vector(as.numeric(sort(unique(hs$code_value[hs$com_name == 'LEATHER']))))
+
+shrimps <- c( 30616, 30617, 30635, 30636, 30695)
+
+data_leather <- data[as.numeric(data$Harmonized.Code.Product.English) %in% leather,]
+
+sum(as.numeric(gsub(',', '', data_leather$TOTAL.Quantity.1)))/1000
+
+sort(unique(data_leather$Unidad.Estadística))
 
 
 
