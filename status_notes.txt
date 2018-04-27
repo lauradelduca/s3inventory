@@ -21,6 +21,12 @@ variance, as comparison is with comtrade 2016
 2013
 
 ok: leather and shrimps
+chicken: ok when applying 1 unidad of hs 010511 = 475kg
+
+beef: kilo, deco, unid, all non kilos are live animals, applied 475 to both so far, but will only raise total weight, so not a solution
+
+soy: 1 liter of soy oil is 0.92 kilograms of soy
+
 
     commodity /2013/SICEX25/TEST/CD_ARGENTINA_2013.csv tons comtrade_tons_2013 trase_per_comtrade
 1        BEEF                                  586524.41396         269894.987    2.1731578658777

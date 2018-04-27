@@ -140,6 +140,7 @@ for (f in as.vector(CD$file)){
 			CD$hs_column[CD$file == f] <- hs_column <- 'Harmonized.Code.Product.English'
 			CD$price_column[CD$file == f] <- price_column <- 'TOTAL.FOB.Value..US..'
 			CD$weight_column[CD$file == f] <- weight_column <- 'TOTAL.Quantity.1'
+			CD$weight_column_2[CD$file == f] <- weight_column_2 <- 'Cantidad.Estadística'
 			CD$units_column[CD$file == f] <- units_column <- 'Unidad.Estadística'
 			
 		}
@@ -451,24 +452,6 @@ for (cc in countries){
 			}
 			
 			
-			if (grepl('ARGENTINA', f)){
-			
-				for (i in 1:nrow(data)){
-			
-					if (data[, CD$units_column[CD$file == f] ][i] == 'UNIDADES'){
-				
-						if (as.numeric(data[, CD$hs_column[CD$file == f]][i] == 10511)){
-					
-							# one unidad of live animal is 475kg
-							data[, CD$weight_column[CD$file == f] ][i] <- data[, CD$weight_column[CD$file == f] ][i] * 475
-					
-						}
-				
-					}
-				}
-			}
-			
-			
 			
 			
 			# ##### correct weight_column format #############
@@ -589,6 +572,80 @@ for (cc in countries){
 				}
 			
 				data[, CD$weight_column[CD$file == f] ] <- as.numeric(data[, CD$weight_column[CD$file == f] ])
+			}
+			
+			
+			if ((cc == 'ARGENTINA')){
+				data[, CD$weight_column_2[CD$file == f] ] <- as.character(data[, CD$weight_column_2[CD$file == f] ])
+			
+				for (i in 1:nrow(data)){
+					data[, CD$weight_column_2[CD$file == f] ][i] <- gsub(',', '', data[, CD$weight_column_2[CD$file == f] ][i])
+				}
+			
+				data[, CD$weight_column_2[CD$file == f] ] <- as.numeric(data[, CD$weight_column_2[CD$file == f] ])
+			}
+			
+			
+			
+			if (grepl('ARGENTINA', f)){
+			
+				for (i in 1:nrow(data)){
+				
+					# try using another column if weight = 0 in a record, seems to work for soy
+					if (data[, CD$weight_column[CD$file == f] ][i] == 0){
+					
+						data[, CD$weight_column[CD$file == f] ][i] <- as.numeric(gsub(',', '', data[, CD$weight_column_2[CD$file == f] ][i]))
+					
+					}
+			
+					if (data[, CD$units_column[CD$file == f] ][i] == 'UNIDADES'){
+				
+						# chicken 010511
+						if (as.numeric(data[, CD$hs_column[CD$file == f]][i]) == 10511){
+					
+							# one unidad of live animal is 475kg
+							data[, CD$weight_column[CD$file == f] ][i] <- as.numeric(data[, CD$weight_column[CD$file == f] ][i]) * 475
+					
+						}
+						
+						# beef 010221
+						if (as.numeric(data[, CD$hs_column[CD$file == f]][i]) == 10221){
+						
+							# one unidad of live animal is 475kg
+							data[, CD$weight_column[CD$file == f] ][i] <- as.numeric(data[, CD$weight_column[CD$file == f] ][i]) * 475
+						
+						}
+						
+						# beef 010229
+						if (as.numeric(data[, CD$hs_column[CD$file == f]][i]) == 10229){
+						
+							# one unidad of live animal is 475kg
+							data[, CD$weight_column[CD$file == f] ][i] <- as.numeric(data[, CD$weight_column[CD$file == f] ][i]) * 475
+						
+						}
+				
+					}
+					
+					if (data[, CD$units_column[CD$file == f] ][i] == 'DESCONOCIDA'){
+					
+						# beef 010221
+						if (as.numeric(data[, CD$hs_column[CD$file == f]][i]) == 10221){
+						
+							# one unidad of live animal is 475kg
+							data[, CD$weight_column[CD$file == f] ][i] <- as.numeric(data[, CD$weight_column[CD$file == f] ][i]) * 475
+						
+						}
+						
+						# beef 010229
+						if (as.numeric(data[, CD$hs_column[CD$file == f]][i]) == 10229){
+						
+							# one unidad of live animal is 475kg
+							data[, CD$weight_column[CD$file == f] ][i] <- as.numeric(data[, CD$weight_column[CD$file == f] ][i]) * 475
+						
+						}
+					
+					}
+				}
 			}
 			
 			
@@ -768,15 +825,15 @@ write.table(todownload, 'CD_todownload.csv', quote = FALSE, row.names = FALSE, d
 
 ## helpers for argentina
 
-chicken <- as.vector(as.numeric(sort(unique(hs$code_value[hs$com_name == 'CHICKEN']))))
+soy <- as.vector(as.numeric(sort(unique(hs$code_value[hs$com_name == 'SOYBEANS']))))
 
 shrimps <- c( 30616, 30617, 30635, 30636, 30695)
 
-data_chicken <- data[as.numeric(data$Harmonized.Code.Product.English) %in% chicken,]
+data_soy <- data[as.numeric(data$Harmonized.Code.Product.English) %in% soy,]
 
-sum(as.numeric(gsub(',', '', data_chicken$TOTAL.Quantity.1)))/1000
+sum(as.numeric(gsub(',', '', data_soy$TOTAL.Quantity.1)))/1000
 
-sort(unique(data_chicken$Unidad.Estadística))
+sort(unique(data_soy$Unidad.Estadística))
 
 
 
