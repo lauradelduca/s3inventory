@@ -11,7 +11,7 @@ options(scipen=99999999)
  
 
 # set location of files and get all file paths
-din <- 'C:/Users/laura.delduca/Desktop/code/0423/dashboard/2017'
+din <- 'C:/Users/laura.delduca/Desktop/code/0423/argentina/2013'
 
 setwd(din)
 
@@ -64,7 +64,7 @@ for (f in ff){
 	##j <- slice(j, 16:(nrow(j)-6))
 	#j <- slice(j, 11:nrow(j))
 	
-	j <- j[,1:12]
+	#j <- j[,1:12]
 	# get index of all rows that have NAs across all columns
 	k <- which( apply(j, 1, function(x) all(is.na(x))) )
 	# remove those rows with all NAs
@@ -288,10 +288,10 @@ D <- do.call(rbind, J)
 
 
 # set correct column names datamyne brazil 2015
-colnames(D) <- c('DATE', 'PRODUCT_HS', 'HS_DESCRIPTION', 'COUNTRY_OF_DESTINATION', 
-				'PORT_OF_DEPARTURE', 'FOB_VALUE_USD', 'EXPORTER_NAME',
-				'STATE_DEPARTMENT_OF_THE_EXPORTER', 'EXPORTER_MUNICIPALITY', 'TRANSPORT_METHOD',
-				'NET_WEIGHT', 'EXPORTER_CNPJ')
+# colnames(D) <- c('DATE', 'PRODUCT_HS', 'HS_DESCRIPTION', 'COUNTRY_OF_DESTINATION', 
+				# 'PORT_OF_DEPARTURE', 'FOB_VALUE_USD', 'EXPORTER_NAME',
+				# 'STATE_DEPARTMENT_OF_THE_EXPORTER', 'EXPORTER_MUNICIPALITY', 'TRANSPORT_METHOD',
+				# 'NET_WEIGHT', 'EXPORTER_CNPJ')
 
 				
 #colnames(D) <- c("IMPORT_DECLARATION_NUMBER", "DATE_YYYY_MM", "DATE_YYYY_MM_DD", 
@@ -320,7 +320,7 @@ D <- data.frame(lapply(D, function(x) {gsub(";", ",", x)}))
 ### outdated, don't use write.csv2
 #write.csv2(D, 'CD_BRAZIL_2016.csv', quote = FALSE, row.names = FALSE)
 
-write.table(D, 'CD_BRAZIL_2016_COTTON.csv', quote = FALSE, row.names = FALSE, dec = '.', sep = ';')
+write.table(D, 'CD_ARGENTINA_2013.csv', quote = FALSE, row.names = FALSE, dec = '.', sep = ';')
 
 
 
