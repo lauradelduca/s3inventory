@@ -148,8 +148,8 @@ for (f in as.vector(CD$file)){
 	
 			CD$hs_column[CD$file == f] <- hs_column <- 'Harmonized.Code.Product.English'
 			CD$price_column[CD$file == f] <- price_column <- 'TOTAL.FOB.Value..US..'
-			#CD$weight_column[CD$file == f] <- weight_column <- 'TOTAL.Quantity.1'
-			CD$weight_column[CD$file == f] <- weight_column <- 'Cantidad.Estadística'
+			CD$weight_column[CD$file == f] <- weight_column <- 'TOTAL.Quantity.1'
+			#CD$weight_column[CD$file == f] <- weight_column <- 'Cantidad.Estadística'
 			
 			CD$weight_column_2[CD$file == f] <- weight_column_2 <- 'Cantidad.Estadística'
 			CD$units_column[CD$file == f] <- units_column <- 'Unidad.Estadística'
@@ -667,6 +667,15 @@ for (cc in countries){
 						}
 					
 					}
+					
+					
+					if (as.numeric(data[, CD$hs_column[CD$file == f]][i]) %in% c(corn, cotton, woodpulp, soy, sugarcane)){
+					
+						# if code is of a certain commodity, work with weight_column_2
+						data[, CD$weight_column[CD$file == f] ][i] <- as.numeric(data[, CD$weight_column_2[CD$file == f] ][i])
+						
+					}
+						
 				}
 			}
 			
@@ -725,7 +734,7 @@ for (cc in countries){
 				
 			
 			if (cc == 'COSTARICA'){names(weights_table)[names(weights_table) == 'new_column'] <- paste0( f , ' tons')}
-			names(weights_table)[names(weights_table) == 'new_column'] <- paste0( strsplit(f, paste0('/', cc))[[1]][2] , ' tons column1')
+			names(weights_table)[names(weights_table) == 'new_column'] <- paste0( strsplit(f, paste0('/', cc))[[1]][2] , ' tons')
 			names(weights_table)[names(weights_table) == 'comtrade'] <- paste0('comtrade_tons_', year)
 			names(weights_table)[names(weights_table) == 'deviation'] <- paste0('trase_per_comtrade')
 		#}
