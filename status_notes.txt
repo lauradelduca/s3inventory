@@ -30,17 +30,17 @@ soy: 1 liter of soy oil is 0.92 kilograms of soy
 want to try using the other weights column
 
 
-    commodity /2013/SICEX25/TEST/CD_ARGENTINA_2013.csv tons comtrade_tons_2013 trase_per_comtrade
-1        BEEF                                  586524.41396         269894.987    2.1731578658777  desco, kilo, unid
-2     CHICKEN                                  235215.99450         367782.465    0.6395519549851  		  kilo, unid
-3        CORN                                   90802.69471       20200819.739    0.0044950004942  		  kilo
-4      COTTON                                    4097.87847          83896.074    0.0488446988592  desco (kilo or ton!), kilo
-5     LEATHER                                  109446.63755         112433.086    0.9734379927097		  kilo
-6      TIMBER                                       1.71262             54.875    0.0312094760820		  kilo, 	  metros cubicos (metros, metros cuadrados, metros cubicos, unid)
-7   WOOD PULP                                       0.05555         196532.084    0.0000002826511		  kilo
-8     SHRIMPS                                   88383.29671          91288.683    0.9681736421808  desco (kilo), kilo
-9    SOYBEANS                                   16430.04254       34121384.963    0.0004815174577  desco (kilo, tons, unid!), kilo
-10 SUGAR CANE                                   13050.39125         281996.329    0.0462785855982  desco, kilo,    litros (desco/litros: kilo, litros, unidad)
+    commodity TEST/CD_ARGENTINA_2013.csv tons Cantidad.Estadística  comtrade_tons_2013 trase_per_comtrade
+1        BEEF                   586524.41396             647287.1        269894.987    2.1731578658777  desco (unid), kilo, unid
+2     CHICKEN                   235215.99450             398193.5        367782.465    0.6395519549851  		  kilo, unid
+3        CORN  test 2nd          90802.69471             24093022      20200819.739    0.0044950004942  		  kilo
+4      COTTON  test 2nd           4097.87847             98872.31         83896.074    0.0488446988592  desco (kilo or ton!), kilo
+5     LEATHER  use 1st          109446.63755             184181.8        112433.086    0.9734379927097		  kilo
+6      TIMBER                        1.71262              0.07201            54.875    0.0312094760820		  kilo, 	  metros cubicos (metros, metros cuadrados, metros cubicos, unid)
+7   WOOD PULP  test 2nd              0.05555             185283.6        196532.084    0.0000002826511		  kilo
+8     SHRIMPS  use 1st           88383.29671             198703.8         91288.683    0.9681736421808  desco (kilo), kilo
+9    SOYBEANS  test 2nd          16430.04254             39459697      34121384.963    0.0004815174577  desco (kilo, tons, unid!), kilo
+10 SUGAR CANE  test 2nd          13050.39125               318521        281996.329    0.0462785855982  desco, kilo,    litros (desco/litros: kilo, litros, unidad)
 
 > sum(as.numeric(gsub(',', '', data_chicken$TOTAL.Quantity.1[data_chicken$Unidad.Estadística == 'UNIDADES'])))/1000
 [1] 286.275

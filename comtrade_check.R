@@ -862,7 +862,27 @@ data_shrimps <- data[as.numeric(data$Harmonized.Code.Product.English) %in% shrim
 data_soy <- data[as.numeric(data$Harmonized.Code.Product.English) %in% soy,]
 data_sugarcane <- data[as.numeric(data$Harmonized.Code.Product.English) %in% sugarcane,]
 
+sum(as.numeric(gsub(',', '', data_beef$TOTAL.Quantity.1)))/1000
+sum(as.numeric(gsub(',', '', data_beef$Cantidad.Estadística)))/1000
+sum(as.numeric(gsub(',', '', data_chicken$TOTAL.Quantity.1)))/1000
+sum(as.numeric(gsub(',', '', data_chicken$Cantidad.Estadística)))/1000
+sum(as.numeric(gsub(',', '', data_corn$TOTAL.Quantity.1)))/1000
+sum(as.numeric(gsub(',', '', data_corn$Cantidad.Estadística)))/1000
+sum(as.numeric(gsub(',', '', data_cotton$TOTAL.Quantity.1)))/1000
+sum(as.numeric(gsub(',', '', data_cotton$Cantidad.Estadística)))/1000
+sum(as.numeric(gsub(',', '', data_leather$TOTAL.Quantity.1)))/1000
+sum(as.numeric(gsub(',', '', data_leather$Cantidad.Estadística)))/1000
+sum(as.numeric(gsub(',', '', data_timber$TOTAL.Quantity.1)))/1000
+sum(as.numeric(gsub(',', '', data_timber$Cantidad.Estadística)))/1000
+sum(as.numeric(gsub(',', '', data_woodpulp$TOTAL.Quantity.1)))/1000
+sum(as.numeric(gsub(',', '', data_woodpulp$Cantidad.Estadística)))/1000
+sum(as.numeric(gsub(',', '', data_shrimps$TOTAL.Quantity.1)))/1000
+sum(as.numeric(gsub(',', '', data_shrimps$Cantidad.Estadística)))/1000
 sum(as.numeric(gsub(',', '', data_soy$TOTAL.Quantity.1)))/1000
+sum(as.numeric(gsub(',', '', data_soy$Cantidad.Estadística)))/1000
+sum(as.numeric(gsub(',', '', data_sugarcane$TOTAL.Quantity.1)))/1000
+sum(as.numeric(gsub(',', '', data_sugarcane$Cantidad.Estadística)))/1000
+
 
 sort(unique(data_beef$Unidad.Estadística))
 sort(unique(data_chicken$Unidad.Estadística))
@@ -874,7 +894,7 @@ sort(unique(data_woodpulp$Unidad.Estadística))
 sort(unique(data_shrimps$Unidad.Estadística))
 sort(unique(data_soy$Unidad.Estadística))
 sort(unique(data_sugarcane$Unidad.Estadística))
-
+	
 
 sort(unique(data_beef$Measure.Unit.1..Quantity.1.[data_beef$Unidad.Estadística != 'KILOGRAMOS']))
 sort(unique(data_chicken$Measure.Unit.1..Quantity.1.[data_chicken$Unidad.Estadística != 'KILOGRAMOS']))
