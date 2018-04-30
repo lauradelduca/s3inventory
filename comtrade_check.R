@@ -5,7 +5,7 @@ library(stringr)
 library(gsubfn)
 library(dplyr)
 
-#options(scipen=999999999999999999999999999999999999999999)
+options(scipen=9999999999)
 
 
 
@@ -148,7 +148,9 @@ for (f in as.vector(CD$file)){
 	
 			CD$hs_column[CD$file == f] <- hs_column <- 'Harmonized.Code.Product.English'
 			CD$price_column[CD$file == f] <- price_column <- 'TOTAL.FOB.Value..US..'
-			CD$weight_column[CD$file == f] <- weight_column <- 'TOTAL.Quantity.1'
+			#CD$weight_column[CD$file == f] <- weight_column <- 'TOTAL.Quantity.1'
+			CD$weight_column[CD$file == f] <- weight_column <- 'Cantidad.Estadística'
+			
 			CD$weight_column_2[CD$file == f] <- weight_column_2 <- 'Cantidad.Estadística'
 			CD$units_column[CD$file == f] <- units_column <- 'Unidad.Estadística'
 			
@@ -571,7 +573,7 @@ for (cc in countries){
 			
 			
 			
-			# quick fix: remove all commas from weight_column
+			# quick fix: remove all commas from weight_column (and weight_column_2 for Argentina)
 			
 			if ((cc == 'URUGUAY') | (cc == 'PERU') | (cc == 'PARAGUAY') | (cc == 'BRAZIL') | (cc == 'ARGENTINA')){
 				data[, CD$weight_column[CD$file == f] ] <- as.character(data[, CD$weight_column[CD$file == f] ])
@@ -603,19 +605,20 @@ for (cc in countries){
 					# try using another column if weight = 0 in a record
 					# for soy, using weight_column_2 seems to work
 					
-					if (as.numeric(data[, CD$hs_column[CD$file == f] ][i] ) %in% soy){
+					# if (as.numeric(data[, CD$hs_column[CD$file == f] ][i] ) %in% soy){
+					
+						# data[, CD$weight_column[CD$file == f] ][i] <- data[, CD$weight_column_2[CD$file == f] ][i]
+					
+					# }
 					
 					
-					}
 					
 					
+					# if (data[, CD$weight_column[CD$file == f] ][i] == 0){
 					
+						# data[, CD$weight_column[CD$file == f] ][i] <- as.numeric(gsub(',', '', data[, CD$weight_column_2[CD$file == f] ][i]))
 					
-					if (data[, CD$weight_column[CD$file == f] ][i] == 0){
-					
-						data[, CD$weight_column[CD$file == f] ][i] <- as.numeric(gsub(',', '', data[, CD$weight_column_2[CD$file == f] ][i]))
-					
-					}
+					# }
 			
 					if (data[, CD$units_column[CD$file == f] ][i] == 'UNIDADES'){
 				
@@ -722,7 +725,7 @@ for (cc in countries){
 				
 			
 			if (cc == 'COSTARICA'){names(weights_table)[names(weights_table) == 'new_column'] <- paste0( f , ' tons')}
-			names(weights_table)[names(weights_table) == 'new_column'] <- paste0( strsplit(f, paste0('/', cc))[[1]][2] , ' tons')
+			names(weights_table)[names(weights_table) == 'new_column'] <- paste0( strsplit(f, paste0('/', cc))[[1]][2] , ' tons column1')
 			names(weights_table)[names(weights_table) == 'comtrade'] <- paste0('comtrade_tons_', year)
 			names(weights_table)[names(weights_table) == 'deviation'] <- paste0('trase_per_comtrade')
 		#}
@@ -848,11 +851,38 @@ soy <- as.vector(as.numeric(sort(unique(hs$code_value[hs$com_name == 'SOYBEANS']
 
 shrimps <- c( 30616, 30617, 30635, 30636, 30695)
 
+data_beef <- data[as.numeric(data$Harmonized.Code.Product.English) %in% beef,]
+data_chicken <- data[as.numeric(data$Harmonized.Code.Product.English) %in% chicken,]
+data_corn <- data[as.numeric(data$Harmonized.Code.Product.English) %in% corn,]
+data_cotton <- data[as.numeric(data$Harmonized.Code.Product.English) %in% cotton,]
+data_leather <- data[as.numeric(data$Harmonized.Code.Product.English) %in% leather,]
+data_timber <- data[as.numeric(data$Harmonized.Code.Product.English) %in% timber,]
+data_woodpulp <- data[as.numeric(data$Harmonized.Code.Product.English) %in% woodpulp,]
+data_shrimps <- data[as.numeric(data$Harmonized.Code.Product.English) %in% shrimps,]
 data_soy <- data[as.numeric(data$Harmonized.Code.Product.English) %in% soy,]
+data_sugarcane <- data[as.numeric(data$Harmonized.Code.Product.English) %in% sugarcane,]
 
 sum(as.numeric(gsub(',', '', data_soy$TOTAL.Quantity.1)))/1000
 
+sort(unique(data_beef$Unidad.Estadística))
+sort(unique(data_chicken$Unidad.Estadística))
+sort(unique(data_corn$Unidad.Estadística))
+sort(unique(data_cotton$Unidad.Estadística))
+sort(unique(data_leather$Unidad.Estadística))
+sort(unique(data_timber$Unidad.Estadística))
+sort(unique(data_woodpulp$Unidad.Estadística))
+sort(unique(data_shrimps$Unidad.Estadística))
 sort(unique(data_soy$Unidad.Estadística))
+sort(unique(data_sugarcane$Unidad.Estadística))
 
 
-
+sort(unique(data_beef$Measure.Unit.1..Quantity.1.[data_beef$Unidad.Estadística != 'KILOGRAMOS']))
+sort(unique(data_chicken$Measure.Unit.1..Quantity.1.[data_chicken$Unidad.Estadística != 'KILOGRAMOS']))
+sort(unique(data_corn$Measure.Unit.1..Quantity.1.[data_corn$Unidad.Estadística != 'KILOGRAMOS']))
+sort(unique(data_cotton$Measure.Unit.1..Quantity.1.[data_cotton$Unidad.Estadística != 'KILOGRAMOS']))
+sort(unique(data_leather$Measure.Unit.1..Quantity.1.[data_leather$Unidad.Estadística != 'KILOGRAMOS']))
+sort(unique(data_timber$Measure.Unit.1..Quantity.1.[data_timber$Unidad.Estadística != 'KILOGRAMOS']))
+sort(unique(data_woodpulp$Measure.Unit.1..Quantity.1.[data_woodpulp$Unidad.Estadística != 'KILOGRAMOS']))
+sort(unique(data_shrimps$Measure.Unit.1..Quantity.1.[data_shrimps$Unidad.Estadística != 'KILOGRAMOS']))
+sort(unique(data_soy$Measure.Unit.1..Quantity.1.[data_soy$Unidad.Estadística != 'KILOGRAMOS']))
+sort(unique(data_sugarcane$Measure.Unit.1..Quantity.1.[data_sugarcane$Unidad.Estadística != 'KILOGRAMOS']))
