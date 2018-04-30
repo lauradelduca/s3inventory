@@ -21,9 +21,13 @@ variance, as comparison is with comtrade 2016
 2013
 
 ok: leather and shrimps
-chicken: ok when applying 1 unidad of hs 010511 = 475kg
+chicken: ok when applying 1 unidad of hs 010511 = 475kg (beef animal unit)
+average weight of one live animal is 2kg
+
 
 beef: kilo, deco, unid, all non kilos are live animals, applied 475 to both so far, but will only raise total weight, so not a solution
+try beef 0.30 or 0.32, or maybe that's to de-bone
+
 
 soy: 1 liter of soy oil is 0.92 kilograms of soy
 
