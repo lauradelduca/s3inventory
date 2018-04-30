@@ -88,7 +88,16 @@ hs <- read.csv(text = rawToChar(obj), sep = ';', quote = '',
 
 hs6 <- as.vector(as.numeric(hs$code_value))
 
-
+beef <- as.vector(as.numeric(sort(unique(hs$code_value[hs$com_name == 'BEEF']))))
+chicken <- as.vector(as.numeric(sort(unique(hs$code_value[hs$com_name == 'CHICKEN']))))
+corn <- as.vector(as.numeric(sort(unique(hs$code_value[hs$com_name == 'CORN']))))
+cotton <- as.vector(as.numeric(sort(unique(hs$code_value[hs$com_name == 'COTTON']))))
+leather <- as.vector(as.numeric(sort(unique(hs$code_value[hs$com_name == 'LEATHER']))))
+timber <- as.vector(as.numeric(sort(unique(hs$code_value[hs$com_name == 'TIMBER']))))
+woodpulp <- as.vector(as.numeric(sort(unique(hs$code_value[hs$com_name == 'WOOD PULP']))))
+shrimps <- as.vector(as.numeric(sort(unique(hs$code_value[hs$com_name == 'SHRIMPS']))))
+soy <- as.vector(as.numeric(sort(unique(hs$code_value[hs$com_name == 'SOYBEANS']))))
+sugarcane <- as.vector(as.numeric(sort(unique(hs$code_value[hs$com_name == 'SUGAR CANE']))))
 
 
 
@@ -591,7 +600,17 @@ for (cc in countries){
 			
 				for (i in 1:nrow(data)){
 				
-					# try using another column if weight = 0 in a record, seems to work for soy
+					# try using another column if weight = 0 in a record
+					# for soy, using weight_column_2 seems to work
+					
+					if (as.numeric(data[, CD$hs_column[CD$file == f] ][i] ) %in% soy){
+					
+					
+					}
+					
+					
+					
+					
 					if (data[, CD$weight_column[CD$file == f] ][i] == 0){
 					
 						data[, CD$weight_column[CD$file == f] ][i] <- as.numeric(gsub(',', '', data[, CD$weight_column_2[CD$file == f] ][i]))
