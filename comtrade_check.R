@@ -586,7 +586,7 @@ for (cc in countries){
 			}
 			
 			
-			if ((cc == 'ARGENTINA')){
+			if ((cc == 'ARGENTINA') & (grepl('SICEX25', f))){
 				data[, CD$weight_column_2[CD$file == f] ] <- as.character(data[, CD$weight_column_2[CD$file == f] ])
 			
 				for (i in 1:nrow(data)){
@@ -668,14 +668,15 @@ for (cc in countries){
 					
 					}
 					
+					if (grepl('SICEX25', f)){
 					
-					if (as.numeric(data[, CD$hs_column[CD$file == f]][i]) %in% c(corn, cotton, woodpulp, soy, sugarcane)){
-					
-						# if code is of a certain commodity, work with weight_column_2
-						data[, CD$weight_column[CD$file == f] ][i] <- as.numeric(data[, CD$weight_column_2[CD$file == f] ][i])
+						if (as.numeric(data[, CD$hs_column[CD$file == f]][i]) %in% c(corn, cotton, woodpulp, soy, sugarcane)){
 						
+							# if code is of a certain commodity, work with weight_column_2
+							data[, CD$weight_column[CD$file == f] ][i] <- as.numeric(data[, CD$weight_column_2[CD$file == f] ][i])
+							
+						}
 					}
-						
 				}
 			}
 			
