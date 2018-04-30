@@ -27,6 +27,34 @@ beef: kilo, deco, unid, all non kilos are live animals, applied 475 to both so f
 
 soy: 1 liter of soy oil is 0.92 kilograms of soy
 
+
+timber:
+440729 from cubic meter to ton conversion factor 0.7 
+1 cubic meter is 0.7 tons, so 1 cubic meter is 700 kg
+but result in both weight columns is about double
+
+164195.8 metros cubicos + 0.23 kg correspond to 54875kg comtrade
+which would be a conversion factor of  0.3342033
+
+
+     TOTAL.Quantity.1 Measure.Unit.1..Quantity.1. Cantidad.Estadística Unidad.Estadística TOTAL.FOB.Value..US.. FOB.per.Unit..Quantity1.
+163467            24.00              METROS CUBICOS                24.00     METROS CUBICOS             57,600.00                 2,400.00
+163780           200.00                      METROS                 4.00     METROS CUBICOS              2,400.00                    12.00
+187574             1.00                    UNIDADES                 1.00     METROS CUBICOS                 35.00                    35.00
+243882             0.00                    UNIDADES                 0.23         KILOGRAMOS                 10.00                     0.00
+271506             1.55              METROS CUBICOS                 1.55     METROS CUBICOS                232.50                   150.00
+275663             4.40              METROS CUBICOS                16.68     METROS CUBICOS             11,445.19                 2,601.18
+275664            12.28              METROS CUBICOS                16.68     METROS CUBICOS             34,395.17                 2,800.91
+275665             0.03              METROS CUBICOS                 0.06     METROS CUBICOS                  1.00                    33.33
+275666             0.03              METROS CUBICOS                 0.06     METROS CUBICOS                  1.00                    33.33
+316514             1.33              METROS CUBICOS                 1.33     METROS CUBICOS             21,155.35                15,906.28
+394426         1,000.00                      METROS                 2.88     METROS CUBICOS              5,500.00                     5.50
+394427           450.00                      METROS                 2.88     METROS CUBICOS              1,800.00                     4.00
+394428            18.00            METROS CUADRADOS                 0.66     METROS CUBICOS 
+
+all but 3rd, 4th is 440729
+
+
 want to try using the other weights column
 
 

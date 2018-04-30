@@ -668,6 +668,20 @@ for (cc in countries){
 					
 					}
 					
+					if (data[, CD$units_column[CD$file == f] ][i] == 'METROS CUBICOS'){
+					
+						# timber 440729 from cubic meter to ton conversion factor 0.7 
+						if (as.numeric(data[, CD$hs_column[CD$file == f]][i]) == 440729){
+						
+							# # 1 cubic meter is 0.7 tons, so 1 cubic meter is 700 kg
+							data[, CD$weight_column[CD$file == f] ][i] <- as.numeric(data[, CD$weight_column[CD$file == f] ][i]) * 700
+						
+						}
+					
+					}
+					
+					
+					
 					if (grepl('SICEX25', f)){
 					
 						if (as.numeric(data[, CD$hs_column[CD$file == f]][i]) %in% c(corn, cotton, woodpulp, soy, sugarcane)){
