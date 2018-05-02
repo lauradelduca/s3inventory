@@ -11,7 +11,7 @@ options(scipen=99999999)
  
 
 # set location of files and get all file paths
-din <- 'C:/Users/laura.delduca/Desktop/code/0423/argentina/2013'
+din <- 'C:/Users/laura.delduca/Desktop/code/0502/brazil_corn/2015'
 
 setwd(din)
 
