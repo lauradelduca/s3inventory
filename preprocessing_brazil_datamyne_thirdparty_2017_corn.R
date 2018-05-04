@@ -4,6 +4,7 @@
 library(readxl)
 library(data.table)
 library(dplyr)
+library(stringr)
 
 options(scipen=99999999)
 
@@ -56,13 +57,15 @@ D$'COD.SUBITEM.NCM' <- as.numeric(D$'COD.SUBITEM.NCM')
 D$'COD.SUBITEM.NCM' <- formatC(D$'COD.SUBITEM.NCM', width = 8, format = "d", flag = "0") 
 
 # be sure that numbers are correctly formatted, no commas, only dot as decimal
-grepl(',', D$QTDE.EST.MERC.BAL.EXP)
-grepl(',', D$VMLE.DOLAR.Unid.BAL.EXP)
-grepl(',', D$VMLE.DOLAR.BAL.EXP)
-grepl(',', D$PESO.LIQ.MERC.BAL.EXP)
+grep(',', D$QTDE.EST.MERC.BAL.EXP)
+grep(',', D$VMLE.DOLAR.Unid.BAL.EXP)
+grep(',', D$VMLE.DOLAR.BAL.EXP)
+grep(',', D$PESO.LIQ.MERC.BAL.EXP)
 
-# check dates unique(D$'DIA REGIS'); unique(D$'DIA DESEMB')
-!!
+# check dates 
+unique(str_sub(as.character(D$'DIA.REGIS'), start = -4))
+unique(str_sub(as.character(D$'DIA.DESEMB'), start = -4))
+
 
 # write file
 write.table(D, 'CD_BRAZIL_2017.csv', quote = FALSE, row.names = FALSE, dec = '.', sep = ';')
