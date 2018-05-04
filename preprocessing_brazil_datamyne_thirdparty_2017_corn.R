@@ -11,7 +11,7 @@ options(scipen=99999999)
 
 
 #din <- 'C:/Users/laura.delduca/Desktop/code/0502/brazil_corn/2017'
-din <- 'C:/Users/laura.delduca/Desktop/code/0502/brazil_corn/2017'
+din <- 'C:/Users/laura.delduca/Desktop/code/0502/brazil_corn/2016'
 setwd(din)
 ff <- list.files(din, pattern = 'csv', full = TRUE)
 
