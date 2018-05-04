@@ -52,7 +52,8 @@ D <- data.frame(lapply(D, function(x) {gsub(";", ",", x)}))
 
 # add that hs column needs to have leading zeroes
 D$'COD.SUBITEM.NCM' <- as.character(D$'COD.SUBITEM.NCM')
-D$'COD.SUBITEM.NCM' <- sprintf("%08s", D$'COD.SUBITEM.NCM')
+D$'COD.SUBITEM.NCM' <- as.numeric(D$'COD.SUBITEM.NCM')
+D$'COD.SUBITEM.NCM' <- formatC(D$'COD.SUBITEM.NCM', width = 8, format = "d", flag = "0") 
 
 # be sure that numbers are correctly formatted, no commas, only dot as decimal
 grepl(',', D$QTDE.EST.MERC.BAL.EXP)
