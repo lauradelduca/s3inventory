@@ -217,6 +217,14 @@ for (f in as.vector(CD$file)){
 		CD$price_column[CD$file == f] <- price_column <- 'VMLE_DOLAR_BAL_EXP'
 		CD$weight_column[CD$file == f] <- weight_column <- 'PESO_LIQ_MERC_BAL_EXP'
 		
+		if (grepl('2017', f){
+		
+			CD$hs_column[CD$file == f] <- hs_column <- 'COD.SUBITEM.NCM'
+			CD$price_column[CD$file == f] <- price_column <- 'VMLE.DOLAR.BAL.EXP'
+			CD$weight_column[CD$file == f] <- weight_column <- 'PESO.LIQ.MERC.BAL.EXP'
+
+		}
+		
 		release <- c('BEEF', 'CHICKEN', 'COCOA', 'COFFEE', 'CORN', 'COTTON', 'LEATHER', 
 					'TIMBER', 'PALM OIL', 'WOOD PULP', 'SOYBEANS', 'SUGAR CANE')
 		CD$comtrade_country[CD$file == f] <- 'Brazil'

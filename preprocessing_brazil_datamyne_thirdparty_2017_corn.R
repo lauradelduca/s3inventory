@@ -10,6 +10,7 @@ options(scipen=99999999)
 
 
 
+#din <- 'C:/Users/laura.delduca/Desktop/code/0502/brazil_corn/2017'
 din <- 'C:/Users/laura.delduca/Desktop/code/0502/brazil_corn/2017'
 setwd(din)
 ff <- list.files(din, pattern = 'csv', full = TRUE)
@@ -74,15 +75,6 @@ write.table(D, 'CD_BRAZIL_2017.csv', quote = FALSE, row.names = FALSE, dec = '.'
 
 ## to clear the R environment
 #rm(list = ls())
-
-
-#nm <- c('DATE_YYYY_MM', 'DATE_YYYY_MM_DD', 'COMPANY_ID_NUMBER', 'EXPORTER', 
-#'COUNTRY_OF_DESTINY', 'PRODUCT_SCHEDULE_B_CODE', 'PRODUCT_DESCRIPTION_BY_SCHEDULE_B_CODE', 'PRODUCT_DESCRIPTION_BY_SCHEDULE_B_CODE_IN_URUGUAY', 
-#'PRODUCT_DESCRIPTION', 'HARMONIZED_CODEPRODUCT_ENGLISH', 'HARMONIZED_CODE_DESCRIPTION_ENGLISH', 
-#'TOTAL_QUANTITY_1', 'MEASURE_UNIT_1_QUANTITY_1', 'TOTAL_FOB_VALUE_US', "FOB_PER_UNIT_QUANTITY_1", 'TOTAL_CIF_VALUE_US', 
-#'TOTAL_NET_WEIGHT_KG', 'TOTAL_GROSS_WEIGHT_KG', 'TYPE_OF_TRANSPORT', 'CUSTOM', 'FREIGHT', 'INSURANCE',
-#"TRANSPORT_COMPANY_TRANSPORT_USED", 'INCOTERM')
-
 
 
 ## replacing codes with new download
