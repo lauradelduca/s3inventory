@@ -11,7 +11,8 @@ options(scipen=99999999)
 
 
 #din <- 'C:/Users/laura.delduca/Desktop/code/0502/brazil_corn/2017'
-din <- 'C:/Users/laura.delduca/Desktop/code/0502/brazil_corn/2016'
+#din <- 'C:/Users/laura.delduca/Desktop/code/0502/brazil_corn/2016'
+din <- 'C:/Users/laura.delduca/Desktop/code/0502/brazil_corn/2015'
 setwd(din)
 ff <- list.files(din, pattern = 'csv', full = TRUE)
 
@@ -69,7 +70,7 @@ unique(str_sub(as.character(D$'DIA.DESEMB'), start = -4))
 
 
 # write file
-write.table(D, 'CD_BRAZIL_2017.csv', quote = FALSE, row.names = FALSE, dec = '.', sep = ';')
+write.table(D, 'CD_BRAZIL_2016.csv', quote = FALSE, row.names = FALSE, dec = '.', sep = ';')
 
 
 
