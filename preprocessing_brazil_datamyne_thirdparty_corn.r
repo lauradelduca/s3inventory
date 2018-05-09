@@ -70,7 +70,7 @@ unique(str_sub(as.character(D$'DIA.DESEMB'), start = -4))
 
 
 # write file
-write.table(D, 'CD_BRAZIL_2016.csv', quote = FALSE, row.names = FALSE, dec = '.', sep = ';')
+write.table(D, 'CD_BRAZIL_2015.csv', quote = FALSE, row.names = FALSE, dec = '.', sep = ';')
 
 
 
