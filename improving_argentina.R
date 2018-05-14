@@ -40,14 +40,20 @@ for (f in ff){
 
 D <- do.call(rbind, J)
 
+# assign correct names, use 2013 for 2014-2017
 names(D) <- names(arg13)
 D <- data.frame(lapply(D, function(x) {gsub(";", ",", x)}))
 
 
-# remove commas from both 2013 and 2014 file, for both weight columns
+# remove commas from both all files, for both weight columns
+arg13$TOTAL.Quantity.1
+arg13$Cantidad.Estadística
+D$TOTAL.Quantity.1
+D$Cantidad.Estadística
 
-# make sure HS column is even number of digit in 2013 and 2014
+
+# make sure HS column is even number of digit
 # data$PRODUCT_HS <- formatC(data$PRODUCT_HS, width = 8, format = "d", flag = "0") 
 
-
+write.table(arg13, 'CD_ARGENTINA_2013.csv', quote = FALSE, row.names = FALSE, dec = '.', sep = ';')
 write.table(D, 'CD_ARGENTINA_2014.csv', quote = FALSE, row.names = FALSE, dec = '.', sep = ';')
