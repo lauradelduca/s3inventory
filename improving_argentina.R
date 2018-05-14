@@ -6,6 +6,7 @@ library(readxl)
 library(data.table)
 library(dplyr)
 library(stringr)
+library(libamtrack)
 
 options(scipen=99999999)
 
@@ -33,11 +34,10 @@ setnames(	arg13,
 			new = c('Cantidad.Estadistica', 'Unidad.Estadistica'))
 
 # make sure HS column is even number of digits, here 6
-arg13$Harmonized.Code.Product.English <- formatC(	arg13$Harmonized.Code.Product.English, 
-													width = 6, format = "d", flag = "0") 
+arg13$Harmonized.Code.Product.English <- AT.add.leading.zeros(arg13$Harmonized.Code.Product.English, digits = 6)
 # this should be 10 digits:
-arg13$Product.Schedule.B.Code <- formatC(	arg13$Product.Schedule.B.Code, 
-											width = 10, format = "d", flag = "0") 
+arg13$Product.Schedule.B.Code <- AT.add.leading.zeros(arg13$Product.Schedule.B.Code, digits = 10)
+
 
 write.table(arg13, paste0(din, '/', 'CD_ARGENTINA_2013_test.csv'), quote = FALSE, row.names = FALSE, dec = '.', sep = ';')
 
@@ -49,7 +49,6 @@ din <- c('argentina_2014', 'argentina_2015', 'argentina_2016', 'argentina_2017')
 
 for (yy in din){
 
-	setwd(yy)
 	ff <- list.files(yy, pattern = 'csv', full = TRUE)
 
 	J <- list()
@@ -91,12 +90,10 @@ for (yy in din){
 	D$Freight <- as.numeric(gsub(",", "", D$Freight))
 
 	# make sure HS column is even number of digits, here 6
-	D$Harmonized.Code.Product.English <- formatC(	D$Harmonized.Code.Product.English, 
-													width = 6, format = "d", flag = "0") 
+	D$Harmonized.Code.Product.English <- AT.add.leading.zeros(D$Harmonized.Code.Product.English, digits = 6)
 	# this should be 10 digits:
-	D$Product.Schedule.B.Code <- formatC(	D$Product.Schedule.B.Code, 
-											width = 10, format = "d", flag = "0") 
-											
+	D$Product.Schedule.B.Code <- AT.add.leading.zeros(D$Product.Schedule.B.Code, digits = 10)	
+	
 
 	write.table(D, paste0(yy, '/', 'CD_ARGENTINA_', str_sub(yy, start= -4), '_test.csv'), quote = FALSE, row.names = FALSE, dec = '.', sep = ';')
 
@@ -105,8 +102,11 @@ for (yy in din){
 # clean up
 gc()
 
+
 # things to fix:
 
-# hs column seems incorrect, problem should be factor class and formatC
+# hs column
 # number of rows needs to be correct
+
 # make corrections in comtrade_check script
+
