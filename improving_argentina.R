@@ -34,6 +34,9 @@ setnames(	arg13,
 # make sure HS column is even number of digits, here 6
 arg13$Harmonized.Code.Product.English <- formatC(	arg13$Harmonized.Code.Product.English, 
 													width = 6, format = "d", flag = "0") 
+# this should be 10 digits:
+arg13$Product.Schedule.B.Code <- formatC(	arg13$Product.Schedule.B.Code, 
+											width = 10, format = "d", flag = "0") 
 
 write.table(arg13, 'CD_ARGENTINA_2013_test.csv', quote = FALSE, row.names = FALSE, dec = '.', sep = ';')
 
@@ -53,11 +56,13 @@ for (yy in din){
 
 	J <- list()
 	i = 1
-
+	total_rows <- 0
+	
 	for (f in ff){
 
 		j <- fread(f)
-
+		total_rows <- total_rows + nrow(j)
+		
 		k <- which( apply(j, 1, function(x) all(is.na(x))) )
 		if(length(k)>0) j<- j[-k,]
 
@@ -67,6 +72,11 @@ for (yy in din){
 	}
 
 	D <- do.call(rbind, J)
+	
+	
+	# check that dimensions are correct for each year	
+	print(dim(D))
+	print(total_rows)
 
 	# check there is no separator issue
 	D <- data.frame(lapply(D, function(x) {gsub(";", ",", x)}))
@@ -88,8 +98,13 @@ for (yy in din){
 	# this should be 10 digits:
 	D$Product.Schedule.B.Code <- formatC(	D$Product.Schedule.B.Code, 
 											width = 10, format = "d", flag = "0") 
-	
+											
 
 	write.table(D, paste0('CD_ARGENTINA_', str_sub(yy, start= -4), '_test.csv'), quote = FALSE, row.names = FALSE, dec = '.', sep = ';')
 
 }
+
+# things to fix:
+# hs column seems incorrect, problem may be factor class and formatC
+# number of rows needs to be correct
+# setwd should be set once and relational
