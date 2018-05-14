@@ -208,7 +208,7 @@ for (f in as.vector(CD$file)){
 		CD$price_column[CD$file == f] <- price_column <- 'VMLE_DOLAR_BAL_EXP'
 		CD$weight_column[CD$file == f] <- weight_column <- 'PESO_LIQ_MERC_BAL_EXP'
 		
-		if (grepl('2017', f){
+		if (grepl('2017', f)){
 			CD$hs_column[CD$file == f] <- hs_column <- 'COD.SUBITEM.NCM'
 			CD$price_column[CD$file == f] <- price_column <- 'VMLE.DOLAR.BAL.EXP'
 			CD$weight_column[CD$file == f] <- weight_column <- 'PESO.LIQ.MERC.BAL.EXP'
@@ -426,8 +426,6 @@ for (cc in countries){
 			}
 			
 			
-			
-			
 			# ##### correct weight_column format #############
 				
 			# # goal: correct any formatting errors in data_commodity[, CD$weight_column[CD$file == f] ]
@@ -538,7 +536,7 @@ for (cc in countries){
 			
 			# quick fix: remove all commas from weight_column (and weight_column_2 for Argentina)
 			
-			if ((cc == 'URUGUAY') | (cc == 'PERU') | (cc == 'PARAGUAY') | (cc == 'BRAZIL') | (cc == 'ARGENTINA')){
+			if ((cc == 'URUGUAY') | (cc == 'PERU') | (cc == 'PARAGUAY') | (cc == 'BRAZIL') ){
 				data[, CD$weight_column[CD$file == f] ] <- as.character(data[, CD$weight_column[CD$file == f] ])
 			
 				for (i in 1:nrow(data)){
@@ -549,15 +547,15 @@ for (cc in countries){
 			}
 			
 			
-			if ((cc == 'ARGENTINA') & (grepl('SICEX25', f))){
-				data[, CD$weight_column_2[CD$file == f] ] <- as.character(data[, CD$weight_column_2[CD$file == f] ])
-			
-				for (i in 1:nrow(data)){
-					data[, CD$weight_column_2[CD$file == f] ][i] <- gsub(',', '', data[, CD$weight_column_2[CD$file == f] ][i])
-				}
-			
-				data[, CD$weight_column_2[CD$file == f] ] <- as.numeric(data[, CD$weight_column_2[CD$file == f] ])
-			}
+			#if ((cc == 'ARGENTINA') & (grepl('SICEX25', f))){
+			#	data[, CD$weight_column_2[CD$file == f] ] <- as.character(data[, CD$weight_column_2[CD$file == f] ])
+			#
+			#	for (i in 1:nrow(data)){
+			#		data[, CD$weight_column_2[CD$file == f] ][i] <- gsub(',', '', data[, CD$weight_column_2[CD$file == f] ][i])
+			#	}
+			#
+			#	data[, CD$weight_column_2[CD$file == f] ] <- as.numeric(data[, CD$weight_column_2[CD$file == f] ])
+			#}
 			
 			
 			
