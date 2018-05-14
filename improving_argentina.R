@@ -90,8 +90,10 @@ for (yy in din){
 	D$Freight <- as.numeric(gsub(",", "", D$Freight))
 
 	# make sure HS column is even number of digits, here 6
+	D$Harmonized.Code.Product.English <- as.numeric(D$Harmonized.Code.Product.English)
 	D$Harmonized.Code.Product.English <- AT.add.leading.zeros(D$Harmonized.Code.Product.English, digits = 6)
 	# this should be 10 digits:
+	D$Product.Schedule.B.Code <- as.character(D$Product.Schedule.B.Code)
 	D$Product.Schedule.B.Code <- AT.add.leading.zeros(D$Product.Schedule.B.Code, digits = 10)	
 	
 
@@ -104,9 +106,6 @@ gc()
 
 
 # things to fix:
-
-# hs column
-# number of rows needs to be correct
-
+# hs columns for 2014-2017
 # make corrections in comtrade_check script
 
