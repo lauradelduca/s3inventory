@@ -93,7 +93,7 @@ for (yy in din){
 	D$Harmonized.Code.Product.English <- as.numeric(D$Harmonized.Code.Product.English)
 	D$Harmonized.Code.Product.English <- AT.add.leading.zeros(D$Harmonized.Code.Product.English, digits = 6)
 	# this should be 10 digits:
-	D$Product.Schedule.B.Code <- as.character(D$Product.Schedule.B.Code)
+	D$Product.Schedule.B.Code <- as.numeric(D$Product.Schedule.B.Code)
 	D$Product.Schedule.B.Code <- AT.add.leading.zeros(D$Product.Schedule.B.Code, digits = 10)	
 	
 
