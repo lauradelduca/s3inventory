@@ -1,4 +1,6 @@
-## improving argentina
+## Preprocessing of Argentina customs declarations trade data 2013 - 2017 from SICEX2.5
+## Laura Del Duca
+
 
 library(readxl)
 library(data.table)
@@ -7,12 +9,11 @@ library(stringr)
 
 options(scipen=99999999)
 
+setwd('C:/Users/laura.delduca/Desktop/code/0507')
 
-# should setwd once here, and then have it relational to this one
 	
 # 2013
-din <- 'C:/Users/laura.delduca/Desktop/code/0507/argentina_2013'
-setwd(din)
+din <- '/argentina_2013'
 ff <- list.files(din, pattern = 'csv', full = TRUE)
 arg13 <- fread(ff[1])
 
@@ -37,7 +38,7 @@ arg13$Harmonized.Code.Product.English <- formatC(	arg13$Harmonized.Code.Product.
 arg13$Product.Schedule.B.Code <- formatC(	arg13$Product.Schedule.B.Code, 
 											width = 10, format = "d", flag = "0") 
 
-write.table(arg13, 'CD_ARGENTINA_2013_test.csv', quote = FALSE, row.names = FALSE, dec = '.', sep = ';')
+write.table(arg13, paste0(din, 'CD_ARGENTINA_2013_test.csv'), quote = FALSE, row.names = FALSE, dec = '.', sep = ';')
 
 
 # 2014 - 2017
@@ -105,7 +106,8 @@ for (yy in din){
 
 # things to fix:
 
-# hs column seems incorrect, problem may be factor class and formatC
+# hs column seems incorrect, problem should be factor class and formatC
 # number of rows needs to be correct
 # setwd should be set once and relational
 # make corrections in comtrade_check script
+# improve style
