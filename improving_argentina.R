@@ -85,7 +85,11 @@ for (yy in din){
 	# make sure HS column is even number of digits, here 6
 	D$Harmonized.Code.Product.English <- formatC(	D$Harmonized.Code.Product.English, 
 													width = 6, format = "d", flag = "0") 
+	# this should be 10 digits:
+	D$Product.Schedule.B.Code <- formatC(	D$Product.Schedule.B.Code, 
+											width = 10, format = "d", flag = "0") 
+	
 
-	write.table(D, paste0('CD_ARGENTINA_', str_sub(yy, start= -4), '.csv'), quote = FALSE, row.names = FALSE, dec = '.', sep = ';')
+	write.table(D, paste0('CD_ARGENTINA_', str_sub(yy, start= -4), '_test.csv'), quote = FALSE, row.names = FALSE, dec = '.', sep = ';')
 
 }
