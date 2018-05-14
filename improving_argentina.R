@@ -3,6 +3,7 @@
 library(readxl)
 library(data.table)
 library(dplyr)
+library(stringr)
 
 options(scipen=99999999)
 
@@ -50,7 +51,6 @@ for (yy in din){
 	setwd(yy)
 	ff <- list.files(yy, pattern = 'csv', full = TRUE)
 
-
 	J <- list()
 	i = 1
 
@@ -68,24 +68,24 @@ for (yy in din){
 
 	D <- do.call(rbind, J)
 
+	# check there is no separator issue
+	D <- data.frame(lapply(D, function(x) {gsub(";", ",", x)}))
+	
 	# assign correct names, use 2013 for 2014-2017
 	names(D) <- names(arg13)
 
-	# check there is no separator issue
-	D <- data.frame(lapply(D, function(x) {gsub(";", ",", x)}))
-
-	# remove commas from all files, for both weight columns
+	# remove commas from all numeric columns
 	D$TOTAL.Quantity.1 <- as.numeric(gsub(",", "", D$TOTAL.Quantity.1))
-	D$Cantidad.Estadística <- as.numeric(gsub(",", "", D$Cantidad.Estadística))
+	D$Cantidad.Estadistica <- as.numeric(gsub(",", "", D$Cantidad.Estadistica))
 	D$TOTAL.FOB.Value..US.. <- as.numeric(gsub(",", "", D$TOTAL.FOB.Value..US..))
 	D$FOB.per.Unit..Quantity1. <- as.numeric(gsub(",", "", D$FOB.per.Unit..Quantity1.))
 	D$TOTAL.CIF.Value..US.. <- as.numeric(gsub(",", "", D$TOTAL.CIF.Value..US..))
 	D$Freight <- as.numeric(gsub(",", "", D$Freight))
 
+	# make sure HS column is even number of digits, here 6
+	D$Harmonized.Code.Product.English <- formatC(	D$Harmonized.Code.Product.English, 
+													width = 6, format = "d", flag = "0") 
 
-	# make sure HS column is even number of digits
-	# data$PRODUCT_HS <- formatC(data$PRODUCT_HS, width = 8, format = "d", flag = "0") 
-
-	write.table(D, 'CD_ARGENTINA_2014.csv', quote = FALSE, row.names = FALSE, dec = '.', sep = ';')
+	write.table(D, paste0('CD_ARGENTINA_', str_sub(yy, start= -4), '.csv'), quote = FALSE, row.names = FALSE, dec = '.', sep = ';')
 
 }
