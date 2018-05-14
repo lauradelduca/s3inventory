@@ -104,6 +104,9 @@ for (yy in din){
 
 }
 
+# clean up
+gc()
+
 # things to fix:
 
 # hs column seems incorrect, problem should be factor class and formatC
