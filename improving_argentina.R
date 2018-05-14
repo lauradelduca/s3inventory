@@ -8,7 +8,8 @@ options(scipen=99999999)
 
 
 # should setwd once here, and then have it relational to this one
-
+# correct all in comtrade check if working
+	
 # 2013
 din <- 'C:/Users/laura.delduca/Desktop/code/0507/argentina_2013'
 setwd(din)
@@ -29,10 +30,11 @@ setnames(	arg13,
 			old = c('Cantidad.Estadística', 'Unidad.Estadística'), 
 			new = c('Cantidad.Estadistica', 'Unidad.Estadistica'))
 
-# make sure HS column is even number of digits
-# data$PRODUCT_HS <- formatC(data$PRODUCT_HS, width = 8, format = "d", flag = "0") 
+# make sure HS column is even number of digits, here 6
+arg13$Harmonized.Code.Product.English <- formatC(	arg13$Harmonized.Code.Product.English, 
+													width = 6, format = "d", flag = "0") 
 
-write.table(arg13, 'CD_ARGENTINA_2013.csv', quote = FALSE, row.names = FALSE, dec = '.', sep = ';')
+write.table(arg13, 'CD_ARGENTINA_2013_test.csv', quote = FALSE, row.names = FALSE, dec = '.', sep = ';')
 
 
 # 2014 - 2017
@@ -79,8 +81,7 @@ for (yy in din){
 	D$FOB.per.Unit..Quantity1. <- as.numeric(gsub(",", "", D$FOB.per.Unit..Quantity1.))
 	D$TOTAL.CIF.Value..US.. <- as.numeric(gsub(",", "", D$TOTAL.CIF.Value..US..))
 	D$Freight <- as.numeric(gsub(",", "", D$Freight))
-	
-	# correct all in comtrade check if working
+
 
 	# make sure HS column is even number of digits
 	# data$PRODUCT_HS <- formatC(data$PRODUCT_HS, width = 8, format = "d", flag = "0") 
