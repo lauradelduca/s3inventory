@@ -13,9 +13,10 @@ setwd('C:/Users/laura.delduca/Desktop/code/0507')
 
 	
 # 2013
-din <- '/argentina_2013'
+din <- 'argentina_2013'
 ff <- list.files(din, pattern = 'csv', full = TRUE)
 arg13 <- fread(ff[1])
+
 
 # remove commas from 2013, for numeric columns
 arg13$TOTAL.Quantity.1 <- as.numeric(gsub(",", "", arg13$TOTAL.Quantity.1))
@@ -38,16 +39,13 @@ arg13$Harmonized.Code.Product.English <- formatC(	arg13$Harmonized.Code.Product.
 arg13$Product.Schedule.B.Code <- formatC(	arg13$Product.Schedule.B.Code, 
 											width = 10, format = "d", flag = "0") 
 
-write.table(arg13, paste0(din, 'CD_ARGENTINA_2013_test.csv'), quote = FALSE, row.names = FALSE, dec = '.', sep = ';')
+write.table(arg13, paste0(din, '/', 'CD_ARGENTINA_2013_test.csv'), quote = FALSE, row.names = FALSE, dec = '.', sep = ';')
+
 
 
 # 2014 - 2017
-# should loop through all years
 
-din <- c(	'C:/Users/laura.delduca/Desktop/code/0507/argentina_2014',
-			'C:/Users/laura.delduca/Desktop/code/0507/argentina_2015',
-			'C:/Users/laura.delduca/Desktop/code/0507/argentina_2016',
-			'C:/Users/laura.delduca/Desktop/code/0507/argentina_2017')
+din <- c('argentina_2014', 'argentina_2015', 'argentina_2016', 'argentina_2017')
 
 for (yy in din){
 
@@ -100,7 +98,7 @@ for (yy in din){
 											width = 10, format = "d", flag = "0") 
 											
 
-	write.table(D, paste0('CD_ARGENTINA_', str_sub(yy, start= -4), '_test.csv'), quote = FALSE, row.names = FALSE, dec = '.', sep = ';')
+	write.table(D, paste0(yy, '/', 'CD_ARGENTINA_', str_sub(yy, start= -4), '_test.csv'), quote = FALSE, row.names = FALSE, dec = '.', sep = ';')
 
 }
 
@@ -111,6 +109,4 @@ gc()
 
 # hs column seems incorrect, problem should be factor class and formatC
 # number of rows needs to be correct
-# setwd should be set once and relational
 # make corrections in comtrade_check script
-# improve style
