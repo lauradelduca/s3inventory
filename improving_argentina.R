@@ -9,7 +9,6 @@ options(scipen=99999999)
 
 
 # should setwd once here, and then have it relational to this one
-# correct all in comtrade check if working
 	
 # 2013
 din <- 'C:/Users/laura.delduca/Desktop/code/0507/argentina_2013'
@@ -105,6 +104,8 @@ for (yy in din){
 }
 
 # things to fix:
+
 # hs column seems incorrect, problem may be factor class and formatC
 # number of rows needs to be correct
 # setwd should be set once and relational
+# make corrections in comtrade_check script
