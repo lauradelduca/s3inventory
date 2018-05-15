@@ -13,8 +13,8 @@ options(scipen=9999999999)
 
 setwd('C:/Users/laura.delduca/Desktop/code')
 current_folder <- '0515'
-
 aws_credentials_file <- 'R_aws.s3_credentials.R'
+
 source(aws_credentials_file)
 
 
@@ -106,32 +106,7 @@ sugarcane <- as.vector(as.numeric(sort(unique(hs$code_value[hs$com_name == 'SUGA
 
 
 ## load preprocessed COMTRADE files
-
-obj <- get_object(object = 'data/1-TRADE/STATISTICAL_DATA/GLOBAL/COMTRADE/COMTRADE_ZOOM/COMTRADE_2005_zoom.csv', bucket = 'trase-storage')
-comtrade05 <- read.csv(text = rawToChar(obj), quote = '', sep = ';')
-obj <- get_object(object = 'data/1-TRADE/STATISTICAL_DATA/GLOBAL/COMTRADE/COMTRADE_ZOOM/COMTRADE_2006_zoom.csv', bucket = 'trase-storage')
-comtrade06 <- read.csv(text = rawToChar(obj), quote = '', sep = ';')
-obj <- get_object(object = 'data/1-TRADE/STATISTICAL_DATA/GLOBAL/COMTRADE/COMTRADE_ZOOM/COMTRADE_2007_zoom.csv', bucket = 'trase-storage')
-comtrade07 <- read.csv(text = rawToChar(obj), quote = '', sep = ';')
-obj <- get_object(object = 'data/1-TRADE/STATISTICAL_DATA/GLOBAL/COMTRADE/COMTRADE_ZOOM/COMTRADE_2008_zoom.csv', bucket = 'trase-storage')
-comtrade08 <- read.csv(text = rawToChar(obj), quote = '', sep = ';')
-obj <- get_object(object = 'data/1-TRADE/STATISTICAL_DATA/GLOBAL/COMTRADE/COMTRADE_ZOOM/COMTRADE_2009_zoom.csv', bucket = 'trase-storage')
-comtrade09 <- read.csv(text = rawToChar(obj), quote = '', sep = ';')
-obj <- get_object(object = 'data/1-TRADE/STATISTICAL_DATA/GLOBAL/COMTRADE/COMTRADE_ZOOM/COMTRADE_2010_zoom.csv', bucket = 'trase-storage')
-comtrade10 <- read.csv(text = rawToChar(obj), quote = '', sep = ';')
-obj <- get_object(object = 'data/1-TRADE/STATISTICAL_DATA/GLOBAL/COMTRADE/COMTRADE_ZOOM/COMTRADE_2011_zoom.csv', bucket = 'trase-storage')
-comtrade11 <- read.csv(text = rawToChar(obj), quote = '', sep = ';')
-obj <- get_object(object = 'data/1-TRADE/STATISTICAL_DATA/GLOBAL/COMTRADE/COMTRADE_ZOOM/COMTRADE_2012_zoom.csv', bucket = 'trase-storage')
-comtrade12 <- read.csv(text = rawToChar(obj), quote = '', sep = ';')
-obj <- get_object(object = 'data/1-TRADE/STATISTICAL_DATA/GLOBAL/COMTRADE/COMTRADE_ZOOM/COMTRADE_2013_zoom.csv', bucket = 'trase-storage')
-comtrade13 <- read.csv(text = rawToChar(obj), quote = '', sep = ';')
-obj <- get_object(object = 'data/1-TRADE/STATISTICAL_DATA/GLOBAL/COMTRADE/COMTRADE_ZOOM/COMTRADE_2014_zoom.csv', bucket = 'trase-storage')
-comtrade14 <- read.csv(text = rawToChar(obj), quote = '', sep = ';')
-obj <- get_object(object = 'data/1-TRADE/STATISTICAL_DATA/GLOBAL/COMTRADE/COMTRADE_ZOOM/COMTRADE_2015_zoom.csv', bucket = 'trase-storage')
-comtrade15 <- read.csv(text = rawToChar(obj), quote = '', sep = ';')
-obj <- get_object(object = 'data/1-TRADE/STATISTICAL_DATA/GLOBAL/COMTRADE/COMTRADE_ZOOM/COMTRADE_2016_zoom.csv', bucket = 'trase-storage')
-comtrade16 <- read.csv(text = rawToChar(obj), quote = '', sep = ';')
-
+source(get_comtrade_files.R)
 
 
 
