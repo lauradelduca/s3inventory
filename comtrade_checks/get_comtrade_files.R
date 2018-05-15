@@ -1,6 +1,7 @@
-## Load preprocessed COMTRADE files from AWS S3 for comtrade_check.R
+## Load preprocessed COMTRADE files 2005 - 2016 from AWS S3 for comtrade_check.R
 ## Laura Del Duca
 
+## needs to have library aws.s3 and AWS S3 credentials loaded into R
 
 
 obj <- get_object(object = 'data/1-TRADE/STATISTICAL_DATA/GLOBAL/COMTRADE/COMTRADE_ZOOM/COMTRADE_2005_zoom.csv', bucket = 'trase-storage')

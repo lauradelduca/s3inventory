@@ -15,9 +15,8 @@ setwd('C:/Users/laura.delduca/Desktop/code')
 current_folder <- '0515'
 aws_credentials_file <- 'R_aws.s3_credentials.R'
 
-source(aws_credentials_file)
-
-
+source(aws_credentials_file)		# load AWS S3 credentials
+source(get_comtrade_files.R)		# load preprocessed COMTRADE files 2005 - 2016
 
 ## get content of AWS
 
@@ -103,10 +102,6 @@ shrimps <- as.vector(as.numeric(sort(unique(hs$code_value[hs$com_name == 'SHRIMP
 soy <- as.vector(as.numeric(sort(unique(hs$code_value[hs$com_name == 'SOYBEANS']))))
 sugarcane <- as.vector(as.numeric(sort(unique(hs$code_value[hs$com_name == 'SUGAR CANE']))))
 
-
-
-## load preprocessed COMTRADE files
-source(get_comtrade_files.R)
 
 
 
