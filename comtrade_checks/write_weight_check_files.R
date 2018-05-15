@@ -318,6 +318,6 @@ for (cc in countries){
 	
 	}
 	
-	write.table(weights_table, paste0('CD_weights_', cc, '.csv'), quote = FALSE, row.names = FALSE, dec = '.', sep = ';')
+	write.table(weights_table, paste0(current_folder, '/', 'CD_weights_', cc, '.csv'), quote = FALSE, row.names = FALSE, dec = '.', sep = ';')
 
 }

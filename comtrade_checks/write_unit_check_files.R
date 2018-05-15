@@ -47,6 +47,6 @@ for (cc in countries){
 		}
 	}
 	
-	write.table(units_table, paste0('CD_units_', cc, '.csv'), quote = FALSE, row.names = FALSE, dec = '.', sep = ';')
+	write.table(units_table, paste0(current_folder, '/', 'CD_units_', cc, '.csv'), quote = FALSE, row.names = FALSE, dec = '.', sep = ';')
 
 }
