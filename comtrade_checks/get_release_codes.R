@@ -3,7 +3,7 @@
 
 ## needs to have library aws.s3 and AWS S3 credentials loaded into R
 ## needs AWS S3 1-TRADE/CD/Export content loaded into dataframe CD
-## needs HS codes laoded from get_hs_codes.R
+## needs HS codes loaded from get_hs_codes.R
 
 
 todownload <- data.frame(file = CD$file, release = '')
