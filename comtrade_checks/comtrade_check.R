@@ -16,6 +16,12 @@ setwd('C:/Users/laura.delduca/Desktop/code')
 current_folder <- '0515'
 aws_credentials_file <- 'R_aws.s3_credentials.R'
 
+countries <- unique(as.vector(CD$country))		# chose which countries to run
+parked <- c('VENEZUELA', 'COLOMBIA', 'PANAMA', 'BOLIVIA', 'MEXICO', 'ARGENTINA', 'BRAZIL')
+countries <- countries[!countries %in% parked]
+countries <- c('ARGENTINA')
+cc <- 'ARGENTINA'
+
 
 source(aws_credentials_file)		# load AWS S3 credentials
 source(get_comtrade_files.R)		# load preprocessed COMTRADE files 2005 - 2016
@@ -23,16 +29,12 @@ source(get_hs_codes.R)				# load relevant HS codes from commodity dictionary
 
 source(get_aws_content.R)			# load content of AWS into dataframe CD
 source(get_columns.R)				# select columns for each country/dataset
-
 write.table(CD, paste0(current_folder, '/', 'CD_AWS.csv'), quote = FALSE, row.names = FALSE, dec = '.', sep = ';')
 
+source(comtrade_check_helpers.R) 	# helpers (print header,first lines of all files for 'countries')
 
-countries <- unique(as.vector(CD$country))		# chose which countries to run
-parked <- c('VENEZUELA', 'COLOMBIA', 'PANAMA', 'BOLIVIA', 'MEXICO', 'ARGENTINA', 'BRAZIL')
-countries <- countries[!countries %in% parked]
-countries <- c('ARGENTINA')
-cc <- 'ARGENTINA'
-
+source(get_release_codes.R)			# load codes needed for release
+write.table(todownload, 'CD_todownload.csv', quote = FALSE, row.names = FALSE, dec = '.', sep = ';')
 
 
 ## Trase - COMTRADE weights comparison
@@ -358,7 +360,7 @@ for (cc in countries){
 
 
 
-## units test ---------------------------
+## units test
 
 for (cc in countries){
 	
@@ -404,61 +406,6 @@ for (cc in countries){
 	write.table(units_table, paste0('CD_units_', cc, '.csv'), quote = FALSE, row.names = FALSE, dec = '.', sep = ';')
 
 }
-
-
-
-
-
-## helper: print header and first lines of all files of country in countries --------------------------
-
-for (cc in countries){	
-	
-	for (f in CD$file[CD$country == cc]){
-	
-	#	if (grepl('MINTRADE', f)){
-
-			obj <- get_object(object = f, bucket = 'trase-storage')
-			data <- read.csv(text = rawToChar(obj), sep = ';', quote = '', row.names = NULL)
-			
-			print(f)
-			print('')
-			print(data[1:5,])
-			print('')
-			print('')
-			print('')
-			print('')
-			
-	#	}
-
-	}
-
-}
-
-
-for (f in ff){
-	data <- fread(f)
-	print(f)
-	print(data[1:3,])
-}
-
-
-## codes for release
-
-todownload <- data.frame(file = CD$file, release = '')
-todownload$release <- as.character(todownload$release)
-
-for (f in as.vector(todownload$file)){
-
-	release <- as.vector( strsplit(as.character(CD$release[CD$file == f][1]), ', ') )
-	hs6_release <- as.vector(as.numeric(hs$code_value[ hs$com_name %in% release[[1]] ]))
-	hs6_release <- as.character(formatC(hs6_release, width = 6, format = "d", flag = "0"))
-	hs2_release <- sort( unique( substr(hs6_release, 1, 2) ) )
-	
-	todownload$release[todownload$file == f] <- paste(hs2_release, collapse=", ")
-
-}
-
-write.table(todownload, 'CD_todownload.csv', quote = FALSE, row.names = FALSE, dec = '.', sep = ';')
 
 
 
