@@ -23,29 +23,13 @@ for (cc in countries){
 			data[, CD$hs_column[CD$file == f] ] <- as.integer(substr(data[, CD$hs_column[CD$file == f] ], 0, 6))
 		}
 		
-		
 		if ((cc == 'URUGUAY') | (cc == 'PERU') | (cc == 'PARAGUAY') | (cc == 'BRAZIL') ){
 			data[, CD$weight_column[CD$file == f] ] <- as.character(data[, CD$weight_column[CD$file == f] ])
-		
 			for (i in 1:nrow(data)){
 				data[, CD$weight_column[CD$file == f] ][i] <- gsub(',', '', data[, CD$weight_column[CD$file == f] ][i])
 			}
-		
 			data[, CD$weight_column[CD$file == f] ] <- as.numeric(data[, CD$weight_column[CD$file == f] ])
-		}
-		
-		
-		#if ((cc == 'ARGENTINA') & (grepl('SICEX25', f))){
-		#	data[, CD$weight_column_2[CD$file == f] ] <- as.character(data[, CD$weight_column_2[CD$file == f] ])
-		#
-		#	for (i in 1:nrow(data)){
-		#		data[, CD$weight_column_2[CD$file == f] ][i] <- gsub(',', '', data[, CD$weight_column_2[CD$file == f] ][i])
-		#	}
-		#
-		#	data[, CD$weight_column_2[CD$file == f] ] <- as.numeric(data[, CD$weight_column_2[CD$file == f] ])
-		#}
-		
-		
+		}		
 		
 		if (grepl('ARGENTINA', f)){
 		
@@ -186,24 +170,18 @@ for (cc in countries){
 			comtrade <- comtrade[(comtrade$country == CD$comtrade_country[CD$file == f]) & (comtrade$commodity %in% hs6_commodity),  ]
 				
 			weights_table$comtrade[i] <- sum(as.numeric( comtrade$comtrade_weight )) / 1000
-			
 			weights_table$deviation[i] <- weights_table$new_column[i] / weights_table$comtrade[i]
-				
 		}
-		
 		
 		year <- CD$year[CD$file == f]
 		if (CD$year[CD$file == f] == 2017){ year <- 2016 }
 		if (CD$year[CD$file == f] == 2018){ year <- 2016 }
-			
 		
 		if (cc == 'COSTARICA'){names(weights_table)[names(weights_table) == 'new_column'] <- paste0( f , ' tons')}
 		names(weights_table)[names(weights_table) == 'new_column'] <- paste0( strsplit(f, paste0('/', cc))[[1]][2] , ' tons')
 		names(weights_table)[names(weights_table) == 'comtrade'] <- paste0('comtrade_tons_', year)
 		names(weights_table)[names(weights_table) == 'deviation'] <- paste0('trase_per_comtrade')
-
 	}
 	
 	write.table(weights_table, paste0(current_folder, '/', 'CD_weights_', cc, '.csv'), quote = FALSE, row.names = FALSE, dec = '.', sep = ';')
-
 }
