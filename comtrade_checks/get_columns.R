@@ -18,8 +18,8 @@ for (f in as.vector(CD$file)){
 		if (grepl("SICEX25", f)){
 			CD$hs_column[CD$file == f] <- hs_column <- 'Harmonized.Code.Product.English'
 			CD$price_column[CD$file == f] <- price_column <- 'TOTAL.FOB.Value..US..'
-			CD$weight_column[CD$file == f] <- weight_column <- 'TOTAL.Quantity.1'
-			#CD$weight_column[CD$file == f] <- weight_column <- 'Cantidad.Estadistica'
+			#CD$weight_column[CD$file == f] <- weight_column <- 'TOTAL.Quantity.1'
+			CD$weight_column[CD$file == f] <- weight_column <- 'Cantidad.Estadistica'
 			#CD$weight_column_2[CD$file == f] <- weight_column_2 <- 'Cantidad.Estadistica'
 			CD$units_column[CD$file == f] <- units_column <- 'Unidad.Estadistica'
 		}
