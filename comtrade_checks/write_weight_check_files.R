@@ -31,68 +31,69 @@ for (cc in countries){
 			data[, CD$weight_column[CD$file == f] ] <- as.numeric(data[, CD$weight_column[CD$file == f] ])
 		}		
 		
-		if (grepl('ARGENTINA', f)){
+		# # comment from here
+		# if (grepl('ARGENTINA', f)){
 		
-			for (i in 1:nrow(data)){
+			# for (i in 1:nrow(data)){
 			
-				# try using another column if weight = 0 in a record
-				# for soy, using weight_column_2 seems to work
-				# if (as.numeric(data[, CD$hs_column[CD$file == f] ][i] ) %in% soy){
-					# data[, CD$weight_column[CD$file == f] ][i] <- data[, CD$weight_column_2[CD$file == f] ][i]
+				# # try using another column if weight = 0 in a record
+				# # for soy, using weight_column_2 seems to work
+				# # if (as.numeric(data[, CD$hs_column[CD$file == f] ][i] ) %in% soy){
+					# # data[, CD$weight_column[CD$file == f] ][i] <- data[, CD$weight_column_2[CD$file == f] ][i]
+				# # }
+				
+				# # if (data[, CD$weight_column[CD$file == f] ][i] == 0){
+					# # data[, CD$weight_column[CD$file == f] ][i] <- as.numeric(gsub(',', '', data[, CD$weight_column_2[CD$file == f] ][i]))
+				# # }
+		
+				# if (data[, CD$units_column[CD$file == f] ][i] == 'UNIDADES'){
+					# # chicken 010511
+					# if (as.numeric(data[, CD$hs_column[CD$file == f]][i]) == 10511){
+						# # one unidad of live animal is 475kg
+						# data[, CD$weight_column[CD$file == f] ][i] <- as.numeric(data[, CD$weight_column[CD$file == f] ][i]) * 475
+					# }
+					# # beef 010221
+					# if (as.numeric(data[, CD$hs_column[CD$file == f]][i]) == 10221){
+						# # one unidad of live animal is 475kg
+						# data[, CD$weight_column[CD$file == f] ][i] <- as.numeric(data[, CD$weight_column[CD$file == f] ][i]) * 475
+					# }
+					# # beef 010229
+					# if (as.numeric(data[, CD$hs_column[CD$file == f]][i]) == 10229){
+						# # one unidad of live animal is 475kg
+						# data[, CD$weight_column[CD$file == f] ][i] <- as.numeric(data[, CD$weight_column[CD$file == f] ][i]) * 475
+					# }
 				# }
 				
-				# if (data[, CD$weight_column[CD$file == f] ][i] == 0){
-					# data[, CD$weight_column[CD$file == f] ][i] <- as.numeric(gsub(',', '', data[, CD$weight_column_2[CD$file == f] ][i]))
+				# if (data[, CD$units_column[CD$file == f] ][i] == 'DESCONOCIDA'){
+					# # beef 010221
+					# if (as.numeric(data[, CD$hs_column[CD$file == f]][i]) == 10221){
+						# # one unidad of live animal is 475kg
+						# data[, CD$weight_column[CD$file == f] ][i] <- as.numeric(data[, CD$weight_column[CD$file == f] ][i]) * 475
+					# }
+					# # beef 010229
+					# if (as.numeric(data[, CD$hs_column[CD$file == f]][i]) == 10229){
+						# # one unidad of live animal is 475kg
+						# data[, CD$weight_column[CD$file == f] ][i] <- as.numeric(data[, CD$weight_column[CD$file == f] ][i]) * 475
+					# }
 				# }
-		
-				if (data[, CD$units_column[CD$file == f] ][i] == 'UNIDADES'){
-					# chicken 010511
-					if (as.numeric(data[, CD$hs_column[CD$file == f]][i]) == 10511){
-						# one unidad of live animal is 475kg
-						data[, CD$weight_column[CD$file == f] ][i] <- as.numeric(data[, CD$weight_column[CD$file == f] ][i]) * 475
-					}
-					# beef 010221
-					if (as.numeric(data[, CD$hs_column[CD$file == f]][i]) == 10221){
-						# one unidad of live animal is 475kg
-						data[, CD$weight_column[CD$file == f] ][i] <- as.numeric(data[, CD$weight_column[CD$file == f] ][i]) * 475
-					}
-					# beef 010229
-					if (as.numeric(data[, CD$hs_column[CD$file == f]][i]) == 10229){
-						# one unidad of live animal is 475kg
-						data[, CD$weight_column[CD$file == f] ][i] <- as.numeric(data[, CD$weight_column[CD$file == f] ][i]) * 475
-					}
-				}
 				
-				if (data[, CD$units_column[CD$file == f] ][i] == 'DESCONOCIDA'){
-					# beef 010221
-					if (as.numeric(data[, CD$hs_column[CD$file == f]][i]) == 10221){
-						# one unidad of live animal is 475kg
-						data[, CD$weight_column[CD$file == f] ][i] <- as.numeric(data[, CD$weight_column[CD$file == f] ][i]) * 475
-					}
-					# beef 010229
-					if (as.numeric(data[, CD$hs_column[CD$file == f]][i]) == 10229){
-						# one unidad of live animal is 475kg
-						data[, CD$weight_column[CD$file == f] ][i] <- as.numeric(data[, CD$weight_column[CD$file == f] ][i]) * 475
-					}
-				}
+				# if (data[, CD$units_column[CD$file == f] ][i] == 'METROS CUBICOS'){
+					# # timber 440729 from cubic meter to ton conversion factor 0.7 
+					# if (as.numeric(data[, CD$hs_column[CD$file == f]][i]) == 440729){
+						# # # 1 cubic meter is 0.7 tons, so 1 cubic meter is 700 kg
+						# data[, CD$weight_column[CD$file == f] ][i] <- as.numeric(data[, CD$weight_column[CD$file == f] ][i]) * 700
+					# }
+				# }
 				
-				if (data[, CD$units_column[CD$file == f] ][i] == 'METROS CUBICOS'){
-					# timber 440729 from cubic meter to ton conversion factor 0.7 
-					if (as.numeric(data[, CD$hs_column[CD$file == f]][i]) == 440729){
-						# # 1 cubic meter is 0.7 tons, so 1 cubic meter is 700 kg
-						data[, CD$weight_column[CD$file == f] ][i] <- as.numeric(data[, CD$weight_column[CD$file == f] ][i]) * 700
-					}
-				}
-				
-				if (grepl('SICEX25', f)){
-					if (as.numeric(data[, CD$hs_column[CD$file == f]][i]) %in% c(corn, cotton, woodpulp, soy, sugarcane)){
-						# if code is of a certain commodity, work with weight_column_2
-						data[, CD$weight_column[CD$file == f] ][i] <- as.numeric(data[, CD$weight_column_2[CD$file == f] ][i])
-					}
-				}
-			}
-		}
-		
+				# if (grepl('SICEX25', f)){
+					# if (as.numeric(data[, CD$hs_column[CD$file == f]][i]) %in% c(corn, cotton, woodpulp, soy, sugarcane)){
+						# # if code is of a certain commodity, work with weight_column_2
+						# data[, CD$weight_column[CD$file == f] ][i] <- as.numeric(data[, CD$weight_column_2[CD$file == f] ][i])
+					# }
+				# }
+			# }
+		# }
+		# # until here
 		
 		
 		for (i in 1:nrow(weights_table)){
@@ -113,9 +114,6 @@ for (cc in countries){
 			#									...
 			# include column with, if column exists, levels of unit_column, with ': number of rows in this commodity, '
 			
-						
-			
-				
 			weights_table$new_column[i] <- sum( as.numeric(data_commodity[, CD$weight_column[CD$file == f] ]) ) / 1000
 						
 			if (CD$year[CD$file == f] == 2005){ comtrade <- comtrade05 }
