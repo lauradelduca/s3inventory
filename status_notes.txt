@@ -18,6 +18,10 @@ variance, as comparison is with comtrade 2016
 
 --- ARGENTINA 
 
+it's clear that for some commodities total_quantity1, for others cantidad estadistica is better
+next: look at the data per commodity again, check when (units) one is better
+propose in summary
+
 2013
 
 ok: leather and shrimps
