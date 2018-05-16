@@ -1,6 +1,8 @@
 ## Checking customs declarations trade data against COMTRADE for 2018 level 1 release
 ## Laura Del Duca
 
+rm(list=ls(all=TRUE))
+
 require(stringr)
 require(gsubfn)
 require(dplyr)
@@ -13,7 +15,7 @@ options(scipen=9999999999)
 
 setwd('C:/Users/laura.delduca/Desktop/code')
 
-current_folder <- '0515'
+current_folder <- '0516'
 aws_credentials_file <- 'R_aws.s3_credentials.R'
 
 countries <- unique(as.vector(CD$country))		# chose which countries to run
