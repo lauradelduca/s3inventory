@@ -33,6 +33,8 @@ countries <- c('ARGENTINA')
 cc <- 'ARGENTINA'
 
 source(paste0(script_folder, '/', 'write_weight_check_files.R'))			# write weight checks files
+
+
 source(paste0(script_folder, '/', 'write_unit_check_files.R'))				# write unit checks files
 
 source(paste0(script_folder, '/', 'comtrade_check_helpers.R')) 				# helpers (print header,first lines of all files for 'countries')
