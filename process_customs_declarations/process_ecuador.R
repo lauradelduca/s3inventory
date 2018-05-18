@@ -53,17 +53,14 @@ for (yy in 2013:2017){
 		obj <- get_object(object = f, bucket = 'trase-storage')
 		data <- read.csv(text = rawToChar(obj), sep = ';', quote = '', row.names = NULL)
 	
-		# make sure the files look correct
+		# make sure the files look correct, and numbers of columns match, to use same names
 		print(f)
 		print(data[1:3,])
+		print(ncol(data))
 		
 		# remove all empty rows
 		
-		# check that names and number of columns match
-		
 		# think about creating a new HS6 etc column
-		
-		
 		
 	}
 }
