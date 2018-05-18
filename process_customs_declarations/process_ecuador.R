@@ -1,6 +1,12 @@
 ## Preprocessing of Ecuador customs declarations trade data 2013 - 2017 from SICEX2.0
 ## Laura Del Duca
 
+## download xlsx files
+## open each one: enable editing, go to data sheet, replace all ';' with '.'
+## save data sheet as csv, with the same name as the xlsx original
+## upload both, xlsx and csv files, in an 'ORIGINALS' folder in the appropriate location on S3
+
+
 rm(list=ls(all=TRUE))
 
 require(stringr)
@@ -17,11 +23,18 @@ setwd('C:/Users/laura.delduca/Desktop/code')
 current_folder <- '0518'
 script_folder <- 's3inventory/comtrade_checks'
 
-source('R_aws.s3_credentials.R')										# load AWS S3 credentials
+source('R_aws.s3_credentials.R')					# load AWS S3 credentials
 
-ecuador_content <- get_bucket_df(bucket = 'trase-storage', prefix = 'data/1-TRADE/CD/EXPORT/ECUADOR/')
-ecuador_content <- subset(ecuador_content, grepl(".*/CD_[A-Z]+_[1-9][0-9]{3}.csv$", Key) ) # check if this is what we want for originals
 
+# load csv originals for all years
+
+for (yy in 2013:2017){
+	
+	orig <- get_bucket_df(	bucket = 'trase-storage', prefix = paste0('data/1-TRADE/CD/EXPORT/ECUADOR/', yy))
+	paste0('ecuador_originals_', yy) <- subset(orig, grepl(".*/CD_[A-Z]+_[1-9][0-9]{3}.csv$", Key) ) 
+	# check if this is what we want for originals
+
+}
 
 setwd('C:/Users/laura.delduca/Desktop/code/0507')
 
