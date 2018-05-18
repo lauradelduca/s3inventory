@@ -26,13 +26,12 @@ script_folder <- 's3inventory/comtrade_checks'
 source('R_aws.s3_credentials.R')					# load AWS S3 credentials
 
 
-# load csv originals for all years
+# load csv originals keys for all years, store in 'ecuador_originals_YEAR'
 
 for (yy in 2013:2017){
 	
 	orig <- get_bucket_df(	bucket = 'trase-storage', prefix = paste0('data/1-TRADE/CD/EXPORT/ECUADOR/', yy))
-	paste0('ecuador_originals_', yy) <- subset(orig, grepl(".*/CD_[A-Z]+_[1-9][0-9]{3}.csv$", Key) ) 
-	# check if this is what we want for originals
+	assign(paste0('ecuador_originals_', yy), subset(orig, grepl("ORIGINALS/.*.csv$", Key) ) )					# this is neat!
 
 }
 
