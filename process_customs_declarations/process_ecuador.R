@@ -65,9 +65,15 @@ for (yy in 2013:2017){
 		k <- which( apply(data, 1, function(x) all(is.na(x))) )
 		if(length(k)>0) data<- data[-k,]
 		
-		# think about creating a new HS6 etc column
-		
+		# add the data to the list
+		J[[i]] <- data
+		i <- i + 1
 	}
+
+	# append all data stored in list of dataframes in J
+	D <- do.call(rbind, J)
+	
+	# think about creating a new HS6 etc column
 }
 
 
