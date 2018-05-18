@@ -33,11 +33,10 @@ require(aws.s3)
 options(scipen=99999999)
 
 setwd('C:/Users/laura.delduca/Desktop/code')
-
 current_folder <- '0517'
 script_folder <- 's3inventory/comtrade_checks'
 
-source('R_aws.s3_credentials.R')											# load AWS S3 credentials
+source('R_aws.s3_credentials.R')						# load AWS S3 credentials
 
 
 
@@ -134,4 +133,3 @@ for (yy in din){
 
 # clean up
 gc()
-

@@ -120,8 +120,6 @@ for (yy in 2013:2017){
 	# close the connection
 	close(zz)
 	
-	## this puts it just in trase-storage, not with prefix
-
 }
 
 # clean up
