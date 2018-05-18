@@ -4,7 +4,7 @@
 rm(list=ls(all=TRUE))
 
 require(stringr)
-# require(gsubfn)
+require(gsubfn)
 require(dplyr)
 require(readxl)
 require(data.table)
@@ -19,7 +19,9 @@ script_folder <- 's3inventory/comtrade_checks'
 
 source('R_aws.s3_credentials.R')										# load AWS S3 credentials
 
-# this should really get the files directly from aws s3
+ecuador_content <- get_bucket_df(bucket = 'trase-storage', prefix = 'data/1-TRADE/CD/EXPORT/ECUADOR/')
+ecuador_content <- subset(ecuador_content, grepl(".*/CD_[A-Z]+_[1-9][0-9]{3}.csv$", Key) ) # check if this is what we want for originals
+
 
 setwd('C:/Users/laura.delduca/Desktop/code/0507')
 
