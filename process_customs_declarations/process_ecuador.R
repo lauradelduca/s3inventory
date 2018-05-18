@@ -1,4 +1,4 @@
-## Preprocessing of Argentina customs declarations trade data 2013 - 2017 from SICEX2.5
+## Preprocessing of Ecuador customs declarations trade data 2013 - 2017 from SICEX2.0
 ## Laura Del Duca
 
 rm(list=ls(all=TRUE))
@@ -14,13 +14,12 @@ require(aws.s3)
 options(scipen=99999999)
 
 setwd('C:/Users/laura.delduca/Desktop/code')
-
-current_folder <- '0517'
+current_folder <- '0518'
 script_folder <- 's3inventory/comtrade_checks'
 
-source('R_aws.s3_credentials.R')											# load AWS S3 credentials
+source('R_aws.s3_credentials.R')										# load AWS S3 credentials
 
-
+# this should really get the files directly from aws s3
 
 setwd('C:/Users/laura.delduca/Desktop/code/0507')
 
