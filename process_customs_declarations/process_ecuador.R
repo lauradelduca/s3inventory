@@ -83,7 +83,6 @@ for (yy in 2013:2017){
 	# in all columns check again that ; is replaced with .
 	D <- data.frame(lapply(D, function(x) {gsub(";", ".", x)}))
 	
-	
 	# remove commas from numeric columns
 	D$TOTAL.Quantity.1 <- as.numeric(gsub(",", "", D$TOTAL.Quantity.1))
 	D$TOTAL.FOB.Value.US <- as.numeric(gsub(",", "", D$TOTAL.FOB.Value.US))
@@ -92,8 +91,11 @@ for (yy in 2013:2017){
 	D$TOTAL.Net.Weight.Kg <- as.numeric(gsub(",", "", D$TOTAL.Net.Weight.Kg))
 	D$TOTAL.Gross.Weight.Kg <- as.numeric(gsub(",", "", D$TOTAL.Gross.Weight.Kg))
 	
-	
-	# think about creating a new HS6 etc column
+	# make sure HS column is even number of digits, here 6
+	D$Harmonized.CodeProduct.Spanish <- AT.add.leading.zeros(D$Harmonized.CodeProduct.Spanish, digits = 6)
+	# this should be 10 digits:
+	D$Product.Schedule.B.Code <- AT.add.leading.zeros(D$Product.Schedule.B.Code, digits = 10)
+
 	
 	
 	# just for testing... save a copy locally
@@ -106,13 +108,6 @@ for (yy in 2013:2017){
 
 # clean up
 gc()
-
-
-
-# make sure HS column is even number of digits, here 6
-arg13$Harmonized.Code.Product.English <- AT.add.leading.zeros(arg13$Harmonized.Code.Product.English, digits = 6)
-# this should be 10 digits:
-arg13$Product.Schedule.B.Code <- AT.add.leading.zeros(arg13$Product.Schedule.B.Code, digits = 10)
 
 
 
