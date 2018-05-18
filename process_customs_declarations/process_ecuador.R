@@ -1,6 +1,7 @@
 ## Preprocessing of Ecuador customs declarations trade data 2013 - 2017 from SICEX2.0
 ## Laura Del Duca
 
+
 ## download xlsx files
 ## open each one, check that file has no obvious errors: has data for correct year, country, rows as expected etc
 
@@ -65,16 +66,35 @@ for (yy in 2013:2017){
 		k <- which( apply(data, 1, function(x) all(is.na(x))) )
 		if(length(k)>0) data<- data[-k,]
 		
+		# use column names of the first files, remove special characters if needed, and assign to all
+		# setting encoding of whole file to utf8: 
+		# fread with encoding = 'UTF-8' option is not sufficient so correcting colnames manually
+		if (i==1)  nn <- names(data)
+		if (i>1)   names(data) <- nn
+		
 		# add the data to the list
 		J[[i]] <- data
 		i <- i + 1
 	}
 
-	# append all data stored in list of dataframes in J
+	# append all data stored in list of data frames in J
 	D <- do.call(rbind, J)
 	
+	# in all columns check again that ; is replaced with .
+	D <- data.frame(lapply(D, function(x) {gsub(";", ".", x)}))
+	
 	# think about creating a new HS6 etc column
+	
+	
+	# just for testing... save a copy locally
+	write.table(D, paste0('CD_ECUADOR_', yy, '_TEST.csv', quote = FALSE, row.names = FALSE, dec = '.', sep = ';')
+
 }
+
+
+# clean up
+gc()
+
 
 
 # 2013
@@ -91,11 +111,6 @@ arg13$FOB.per.Unit..Quantity1. <- as.numeric(gsub(",", "", arg13$FOB.per.Unit..Q
 arg13$TOTAL.CIF.Value..US.. <- as.numeric(gsub(",", "", arg13$TOTAL.CIF.Value..US..))
 arg13$Freight <- as.numeric(gsub(",", "", arg13$Freight))
 
-# remove special characters from colnames, correct encoding of whole file to utf8
-# fread with encoding = 'UTF-8' option is not sufficient so correcting colnames manually
-setnames(	arg13, 
-			old = c('Cantidad.Estadística', 'Unidad.Estadística'), 
-			new = c('Cantidad.Estadistica', 'Unidad.Estadistica'))
 
 # make sure HS column is even number of digits, here 6
 arg13$Harmonized.Code.Product.English <- AT.add.leading.zeros(arg13$Harmonized.Code.Product.English, digits = 6)
@@ -165,6 +180,4 @@ for (yy in din){
 
 }
 
-# clean up
-gc()
 
