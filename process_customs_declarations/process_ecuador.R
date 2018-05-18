@@ -2,9 +2,18 @@
 ## Laura Del Duca
 
 ## download xlsx files
-## open each one: enable editing, go to data sheet, replace all ';' with '.'
+## open each one, check that file has no obvious errors: has data for correct year, country, rows as expected etc
+
+## for SICEX2.5:
+## enable editing, go to data sheet, replace all ';' with '.'
 ## save data sheet as csv, with the same name as the xlsx original
+
+## for SICEX2.0:
+## enable editing, replace all ';' with '.'
+## save as csv, with the same name as the xlsx original
+
 ## upload both, xlsx and csv files, in an 'ORIGINALS' folder in the appropriate location on S3
+## there are various possibilities for interacting with S3: through the site, command line, 'S3 browser' software, ...
 
 
 rm(list=ls(all=TRUE))
@@ -26,17 +35,27 @@ script_folder <- 's3inventory/comtrade_checks'
 source('R_aws.s3_credentials.R')					# load AWS S3 credentials
 
 
-# load csv originals keys for all years, store in 'ecuador_originals_YEAR'
+# load csv originals keys for all years, store in vector 'ecuador_originals_YEAR_keys'
 
 for (yy in 2013:2017){
 	
-	orig <- get_bucket_df(	bucket = 'trase-storage', prefix = paste0('data/1-TRADE/CD/EXPORT/ECUADOR/', yy))
-	assign(paste0('ecuador_originals_', yy), subset(orig, grepl("ORIGINALS/.*.csv$", Key) ) )					# this is neat!
-
+	orig <- get_bucket_df(	bucket = 'trase-storage', prefix = paste0('data/1-TRADE/CD/EXPORT/ECUADOR/', yy))	
+	keys <- subset(orig, grepl("ORIGINALS/.*.csv$", Key) )
+	keys <- as.vector(keys$Key)
+	assign(paste0('ecuador_originals_', yy, '_keys'), keys)
 }
 
 
+## for SICEX2.0:
+## need to test which row contains column names and in which row the actual data starts
+
+	for (f in CD$file[CD$country == cc]){
 	
+		obj <- get_object(object = f, bucket = 'trase-storage')
+		data <- read.csv(text = rawToChar(obj), sep = ';', quote = '', row.names = NULL)
+
+
+
 # 2013
 din <- 'argentina_2013'
 ff <- list.files(din, pattern = 'csv', full = TRUE)
