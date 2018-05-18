@@ -57,7 +57,13 @@ for (yy in 2013:2017){
 		print(f)
 		print(data[1:3,])
 		
+		# remove all empty rows
+		
 		# check that names and number of columns match
+		
+		# think about creating a new HS6 etc column
+		
+		
 		
 	}
 }
