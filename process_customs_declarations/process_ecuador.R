@@ -116,7 +116,7 @@ for (yy in 2013:2017){
 	# upload the object to S3
 	put_object(	file = rawConnectionValue(zz), 
 				bucket = 'trase-storage', 
-				object = paste0('data/1-TRADE/CD/EXPORT/ECUADOR/', yy, '/SICEX20/CD_ECUADOR_', yy, '_TEST.csv') )
+				object = paste0('data/1-TRADE/CD/EXPORT/ECUADOR/', yy, '/SICEX20/TEST/CD_ECUADOR_', yy, '.csv') )
 	# close the connection
 	close(zz)
 	

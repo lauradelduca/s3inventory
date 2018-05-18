@@ -1,10 +1,23 @@
 ## Preprocessing of Argentina customs declarations trade data 2013 - 2017 from SICEX2.5
 ## Laura Del Duca
 
+
 ## download xlsx files
-## open each one: enable editing, go to data sheet, replace all ';' with '.'
+## open each one, check that file has no obvious errors: has data for correct year, country, rows as expected etc
+
+## for SICEX2.5:
+## enable editing, go to data sheet, replace all ';' with '.'
 ## save data sheet as csv, with the same name as the xlsx original
+
+## for SICEX2.0:
+## enable editing, replace all ';' with '.'
+## save as csv, with the same name as the xlsx original
+## need to check which row contains column names and in which row the actual data starts
+## as this really is different for each file it is not efficient to automate:
+## delete rows above header manually
+
 ## upload both, xlsx and csv files, in an 'ORIGINALS' folder in the appropriate location on S3
+## there are various possibilities for interacting with S3: through the site, command line, 'S3 browser' software, ...
 
 
 rm(list=ls(all=TRUE))
