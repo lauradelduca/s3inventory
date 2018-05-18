@@ -92,81 +92,32 @@ for (yy in 2013:2017){
 	D$TOTAL.Gross.Weight.Kg <- as.numeric(gsub(",", "", D$TOTAL.Gross.Weight.Kg))
 	
 	# make sure HS column is even number of digits, here 6
+	D$Harmonized.CodeProduct.Spanish <- as.numeric(as.character(D$Harmonized.CodeProduct.Spanish))
 	D$Harmonized.CodeProduct.Spanish <- AT.add.leading.zeros(D$Harmonized.CodeProduct.Spanish, digits = 6)
 	# this should be 10 digits:
+	D$Product.Schedule.B.Code <- as.numeric(as.character(D$Product.Schedule.B.Code))
 	D$Product.Schedule.B.Code <- AT.add.leading.zeros(D$Product.Schedule.B.Code, digits = 10)
-
 	
 	
 	# just for testing... save a copy locally
-	write.table(D, paste0('CD_ECUADOR_', yy, '_TEST.csv', quote = FALSE, row.names = FALSE, dec = '.', sep = ';')
+	write.table(D, paste0('CD_ECUADOR_', yy, '_TEST.csv'), quote = FALSE, row.names = FALSE, dec = '.', sep = ';')
 
-	# write table to S3
-	
+	# write table to S3:
+	# write to an in-memory raw connection
+	zz <- rawConnection(raw(0), "r+")
+	# can use write.table? to keep dec and sep...
+	write.table(D, zz, quote = FALSE, row.names = FALSE, dec = '.', sep = ';')
+	# upload the object to S3
+	put_object(	file = rawConnectionValue(zz), 
+				bucket = 'trase-storage', 
+				prefix = paste0('data/1-TRADE/CD/EXPORT/ECUADOR/', yy, 'SICEX20'),
+				object = paste0('CD_ECUADOR_', yy, '_TEST.csv') )
+	# close the connection
+	close(zz)
+
 }
 
 
 # clean up
 gc()
-
-
-
-# 2014 - 2017
-
-din <- c('argentina_2014', 'argentina_2015', 'argentina_2016', 'argentina_2017')
-
-for (yy in din){
-
-	ff <- list.files(yy, pattern = 'csv', full = TRUE)
-
-	J <- list()
-	i = 1
-	total_rows <- 0
-	
-	for (f in ff){
-
-		j <- fread(f)
-		total_rows <- total_rows + nrow(j)
-		
-		k <- which( apply(j, 1, function(x) all(is.na(x))) )
-		if(length(k)>0) j<- j[-k,]
-
-		J[[i]] <- j
-		i <- i + 1
-		
-	}
-
-	D <- do.call(rbind, J)
-	
-	
-	# check that dimensions are correct for each year	
-	print(dim(D))
-	print(total_rows)
-
-	# check there is no separator issue
-	D <- data.frame(lapply(D, function(x) {gsub(";", ",", x)}))
-	
-	# assign correct names, use 2013 for 2014-2017
-	names(D) <- names(arg13)
-
-	# remove commas from all numeric columns
-	D$TOTAL.Quantity.1 <- as.numeric(gsub(",", "", D$TOTAL.Quantity.1))
-	D$Cantidad.Estadistica <- as.numeric(gsub(",", "", D$Cantidad.Estadistica))
-	D$TOTAL.FOB.Value..US.. <- as.numeric(gsub(",", "", D$TOTAL.FOB.Value..US..))
-	D$FOB.per.Unit..Quantity1. <- as.numeric(gsub(",", "", D$FOB.per.Unit..Quantity1.))
-	D$TOTAL.CIF.Value..US.. <- as.numeric(gsub(",", "", D$TOTAL.CIF.Value..US..))
-	D$Freight <- as.numeric(gsub(",", "", D$Freight))
-
-	# make sure HS column is even number of digits, here 6
-	D$Harmonized.Code.Product.English <- as.numeric(as.character(D$Harmonized.Code.Product.English))
-	D$Harmonized.Code.Product.English <- AT.add.leading.zeros(D$Harmonized.Code.Product.English, digits = 6)
-	# this should be 10 digits:
-	D$Product.Schedule.B.Code <- as.numeric(as.character(D$Product.Schedule.B.Code))
-	D$Product.Schedule.B.Code <- AT.add.leading.zeros(D$Product.Schedule.B.Code, digits = 10)	
-	
-
-	write.table(D, paste0(yy, '/', 'CD_ARGENTINA_', str_sub(yy, start= -4), '_test.csv'), quote = FALSE, row.names = FALSE, dec = '.', sep = ';')
-
-}
-
 
