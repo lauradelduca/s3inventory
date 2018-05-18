@@ -39,10 +39,10 @@ script_folder <- 's3inventory/comtrade_checks'
 source('R_aws.s3_credentials.R')					# load AWS S3 credentials
 
 
-# load csv originals keys for all years, store in vector 'ecuador_originals_YEAR_keys'
 
 for (yy in 2013:2017){
 	
+	# load csv originals keys for all years, store in vector 'ecuador_originals_YEAR_keys'
 	orig <- get_bucket_df(	bucket = 'trase-storage', prefix = paste0('data/1-TRADE/CD/EXPORT/ECUADOR/', yy))	
 	keys <- subset(orig, grepl("ORIGINALS/.*.csv$", Key) )
 	keys <- as.vector(keys$Key)
@@ -80,6 +80,7 @@ for (yy in 2013:2017){
 	# append all data stored in list of data frames in J
 	D <- do.call(rbind, J)
 	
+	
 	# in all columns check again that ; is replaced with .
 	D <- data.frame(lapply(D, function(x) {gsub(";", ".", x)}))
 	
@@ -100,7 +101,12 @@ for (yy in 2013:2017){
 	
 	
 	# just for testing... save a copy locally
-	write.table(D, paste0('CD_ECUADOR_', yy, '_TEST.csv'), quote = FALSE, row.names = FALSE, dec = '.', sep = ';')
+	write.table(	D, 
+					paste0(current_folder, '/', 'CD_ECUADOR_', yy, '_TEST.csv'), 
+					quote = FALSE, 
+					row.names = FALSE, 
+					dec = '.', 
+					sep = ';')
 
 	# write table to S3:
 	# write to an in-memory raw connection
@@ -117,7 +123,5 @@ for (yy in 2013:2017){
 
 }
 
-
 # clean up
 gc()
-
