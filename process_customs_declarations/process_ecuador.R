@@ -35,7 +35,6 @@ for (yy in 2013:2017){
 
 }
 
-setwd('C:/Users/laura.delduca/Desktop/code/0507')
 
 	
 # 2013
