@@ -83,12 +83,24 @@ for (yy in 2013:2017){
 	# in all columns check again that ; is replaced with .
 	D <- data.frame(lapply(D, function(x) {gsub(";", ".", x)}))
 	
+	
+	# remove commas from numeric columns
+	D$TOTAL.Quantity.1 <- as.numeric(gsub(",", "", D$TOTAL.Quantity.1))
+	D$TOTAL.FOB.Value.US <- as.numeric(gsub(",", "", D$TOTAL.FOB.Value.US))
+	D$FOB.per.Unit.Quantity1 <- as.numeric(gsub(",", "", D$FOB.per.Unit.Quantity1))
+	D$TOTAL.CIF.Value.US <- as.numeric(gsub(",", "", D$TOTAL.CIF.Value.US))
+	D$TOTAL.Net.Weight.Kg <- as.numeric(gsub(",", "", D$TOTAL.Net.Weight.Kg))
+	D$TOTAL.Gross.Weight.Kg <- as.numeric(gsub(",", "", D$TOTAL.Gross.Weight.Kg))
+	
+	
 	# think about creating a new HS6 etc column
 	
 	
 	# just for testing... save a copy locally
 	write.table(D, paste0('CD_ECUADOR_', yy, '_TEST.csv', quote = FALSE, row.names = FALSE, dec = '.', sep = ';')
 
+	# write table to S3
+	
 }
 
 
@@ -97,28 +109,10 @@ gc()
 
 
 
-# 2013
-din <- 'argentina_2013'
-ff <- list.files(din, pattern = 'csv', full = TRUE)
-arg13 <- fread(ff[1])
-
-
-# remove commas from 2013, for numeric columns
-arg13$TOTAL.Quantity.1 <- as.numeric(gsub(",", "", arg13$TOTAL.Quantity.1))
-arg13$Cantidad.Estadística <- as.numeric(gsub(",", "", arg13$Cantidad.Estadística))
-arg13$TOTAL.FOB.Value..US.. <- as.numeric(gsub(",", "", arg13$TOTAL.FOB.Value..US..))
-arg13$FOB.per.Unit..Quantity1. <- as.numeric(gsub(",", "", arg13$FOB.per.Unit..Quantity1.))
-arg13$TOTAL.CIF.Value..US.. <- as.numeric(gsub(",", "", arg13$TOTAL.CIF.Value..US..))
-arg13$Freight <- as.numeric(gsub(",", "", arg13$Freight))
-
-
 # make sure HS column is even number of digits, here 6
 arg13$Harmonized.Code.Product.English <- AT.add.leading.zeros(arg13$Harmonized.Code.Product.English, digits = 6)
 # this should be 10 digits:
 arg13$Product.Schedule.B.Code <- AT.add.leading.zeros(arg13$Product.Schedule.B.Code, digits = 10)
-
-
-write.table(arg13, paste0(din, '/', 'CD_ARGENTINA_2013_test.csv'), quote = FALSE, row.names = FALSE, dec = '.', sep = ';')
 
 
 
