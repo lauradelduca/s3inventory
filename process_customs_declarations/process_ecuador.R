@@ -47,7 +47,10 @@ for (yy in 2013:2017){
 	keys <- as.vector(keys$Key)
 	assign(paste0('ecuador_originals_', yy, '_keys'), keys)
 	
-
+	# create an empty list to store the data of each file
+	J <- list()
+	i = 1
+	
 	for (f in keys){
 		
 		obj <- get_object(object = f, bucket = 'trase-storage')
@@ -58,7 +61,9 @@ for (yy in 2013:2017){
 		print(data[1:3,])
 		print(ncol(data))
 		
-		# remove all empty rows
+		# remove all empty rows: get index of all rows that have NAs across all columns and remove
+		k <- which( apply(data, 1, function(x) all(is.na(x))) )
+		if(length(k)>0) data<- data[-k,]
 		
 		# think about creating a new HS6 etc column
 		
