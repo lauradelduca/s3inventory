@@ -43,17 +43,19 @@ for (yy in 2013:2017){
 	keys <- subset(orig, grepl("ORIGINALS/.*.csv$", Key) )
 	keys <- as.vector(keys$Key)
 	assign(paste0('ecuador_originals_', yy, '_keys'), keys)
-}
-
-
+	
 ## for SICEX2.0:
 ## need to test which row contains column names and in which row the actual data starts
 
-	for (f in CD$file[CD$country == cc]){
-	
+	for (f in keys){
+		
 		obj <- get_object(object = f, bucket = 'trase-storage')
 		data <- read.csv(text = rawToChar(obj), sep = ';', quote = '', row.names = NULL)
-
+	
+		print(f)
+		print(data[1:18,])
+	}
+}
 
 
 # 2013
