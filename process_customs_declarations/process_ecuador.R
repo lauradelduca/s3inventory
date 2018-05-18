@@ -120,6 +120,8 @@ for (yy in 2013:2017){
 				object = paste0('CD_ECUADOR_', yy, '_TEST.csv') )
 	# close the connection
 	close(zz)
+	
+	## this puts it just in trase-storage, not with prefix
 
 }
 
