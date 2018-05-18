@@ -11,6 +11,9 @@
 ## for SICEX2.0:
 ## enable editing, replace all ';' with '.'
 ## save as csv, with the same name as the xlsx original
+## need to check which row contains column names and in which row the actual data starts
+## as this really is different for each file it is not efficient to automate:
+## delete rows above header manually
 
 ## upload both, xlsx and csv files, in an 'ORIGINALS' folder in the appropriate location on S3
 ## there are various possibilities for interacting with S3: through the site, command line, 'S3 browser' software, ...
@@ -44,16 +47,18 @@ for (yy in 2013:2017){
 	keys <- as.vector(keys$Key)
 	assign(paste0('ecuador_originals_', yy, '_keys'), keys)
 	
-## for SICEX2.0:
-## need to test which row contains column names and in which row the actual data starts
 
 	for (f in keys){
 		
 		obj <- get_object(object = f, bucket = 'trase-storage')
 		data <- read.csv(text = rawToChar(obj), sep = ';', quote = '', row.names = NULL)
 	
+		# make sure the files look correct
 		print(f)
-		print(data[1:18,])
+		print(data[1:3,])
+		
+		# check that names and number of columns match
+		
 	}
 }
 
