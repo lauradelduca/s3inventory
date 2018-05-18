@@ -1,6 +1,8 @@
 ## Preprocessing of Argentina customs declarations trade data 2013 - 2017 from SICEX2.5
 ## Laura Del Duca
 
+## this script runs locally, not on S3 yet
+
 
 ## download xlsx files
 ## open each one, check that file has no obvious errors: has data for correct year, country, rows as expected etc
