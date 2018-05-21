@@ -17,6 +17,8 @@ variance, as comparison is with comtrade 2016
 
 
 --- ARGENTINA 
+2013 - 2017 
+process_argentina.R (locally, 2014-2017)
 
 it's clear that for some commodities total_quantity1, for others cantidad estadistica is better
 next: look at the data per commodity again, check when (units) one is better
@@ -159,8 +161,8 @@ timber 0.52, soybeans 0.57, sugar cane 0.51 !!
 
 
 --- COSTA RICA ---
-
-looks great, except for one/two values in 2016 and 2017
+2013 - 2017
+process_costarica.R
 
 2016 shrimps (0.77 ratio):
 three units: caja, carton, bultos, but all have net weight
@@ -180,7 +182,7 @@ two records with weight == 0, value == 0 but number of items 1 and 4
 
 --- ECUADOR --- 
 2013 - 2017
-process_ecuador.R on S3
+process_ecuador.R
 look into higher palm oil values
 
 
@@ -199,7 +201,7 @@ removed comma in weight_column
 
 --- URUGUAY ---
 2012 - 2017
-process_uruguay.R on S3
+process_uruguay.R
 
 some files had incorrect column names so re-downloaded 2013-2017
 drop 2012 as too problematic/not available for download

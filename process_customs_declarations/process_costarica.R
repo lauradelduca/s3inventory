@@ -10,7 +10,7 @@
 ## save data sheet as csv, with the same name as the xlsx original
 
 ## for SICEX2.0:
-## enable editing, replace all ';' with '.' (careful with Costa Rica)
+## enable editing, replace all ';' with '.' (nothing found for Costa Rica)
 ## save as csv, with the same name as the xlsx original
 ## need to check which row contains column names and in which row the actual data starts
 ## as this really is different for each file it is not efficient to automate:
@@ -43,10 +43,10 @@ source('R_aws.s3_credentials.R')					# load AWS S3 credentials
 for (yy in 2013:2017){
 	
 	# load csv originals keys for all years, store in vector 'uruguay_originals_YEAR_keys'
-	orig <- get_bucket_df(	bucket = 'trase-storage', prefix = paste0('data/1-TRADE/CD/EXPORT/URUGUAY/', yy))	
+	orig <- get_bucket_df(bucket = 'trase-storage', prefix = paste0('data/1-TRADE/CD/EXPORT/COSTA RICA/', yy))	
 	keys <- subset(orig, grepl("ORIGINALS/.*.csv$", Key) )
 	keys <- as.vector(keys$Key)
-	assign(paste0('uruguay_originals_', yy, '_keys'), keys)
+	assign(paste0('costarica_originals_', yy, '_keys'), keys)
 	
 	# create an empty list to store the data of each file
 	J <- list()
@@ -85,16 +85,19 @@ for (yy in 2013:2017){
 	D <- data.frame(lapply(D, function(x) {gsub(";", ".", x)}))
 	
 	# remove commas from numeric columns
+	D$TOTAL.Net.Weight.Kg <- as.numeric(gsub(",", "", D$TOTAL.Net.Weight.Kg))
+	D$TOTAL.CIF.Value.US <- as.numeric(gsub(",", "", D$TOTAL.CIF.Value.US))
+	D$Invoice.Total.Value <- as.numeric(gsub(",", "", D$Invoice.Total.Value))
+	D$Rate <- as.numeric(gsub(",", "", D$Rate))
+	D$Number.Items <- as.numeric(gsub(",", "", D$Number.Items))
 	D$TOTAL.Quantity.1 <- as.numeric(gsub(",", "", D$TOTAL.Quantity.1))
-	D$TOTAL.FOB.Value..US.. <- as.numeric(gsub(",", "", D$TOTAL.FOB.Value..US..))
-	D$FOB.per.Unit..Quantity1. <- as.numeric(gsub(",", "", D$FOB.per.Unit..Quantity1.))
-	D$TOTAL.CIF.Value..US.. <- as.numeric(gsub(",", "", D$TOTAL.CIF.Value..US..))
-	D$TOTAL.Net.Weight..Kg. <- as.numeric(gsub(",", "", D$TOTAL.Net.Weight..Kg.))
-	D$TOTAL.Gross.Weight..Kg. <- as.numeric(gsub(",", "", D$TOTAL.Gross.Weight..Kg.))
+	D$Measure.Unit.1.Quantity.1 <- as.numeric(gsub(",", "", D$Measure.Unit.1.Quantity.1))
+	D$TOTAL.Gross.Weight.Kg <- as.numeric(gsub(",", "", D$TOTAL.Gross.Weight.Kg))
+	
 	
 	# make sure HS column is even number of digits, here 6
-	D$Harmonized.Code.Product.English <- as.numeric(as.character(D$Harmonized.Code.Product.English))
-	D$Harmonized.Code.Product.English <- AT.add.leading.zeros(D$Harmonized.Code.Product.English, digits = 6)
+	D$Harmonized.CodeProduct.English <- as.numeric(as.character(D$Harmonized.CodeProduct.English))
+	D$Harmonized.CodeProduct.English <- AT.add.leading.zeros(D$Harmonized.CodeProduct.English, digits = 6)
 	# this should be 10 digits:
 	D$Product.Schedule.B.Code <- as.numeric(as.character(D$Product.Schedule.B.Code))
 	D$Product.Schedule.B.Code <- AT.add.leading.zeros(D$Product.Schedule.B.Code, digits = 10)
@@ -102,7 +105,7 @@ for (yy in 2013:2017){
 	
 	# just for testing... save a copy locally
 	write.table(	D, 
-					paste0(current_folder, '/', 'CD_URUGUAY_', yy, '_TEST.csv'), 
+					paste0(current_folder, '/', 'CD_COSTARICA_', yy, '_TEST.csv'), 
 					quote = FALSE, 
 					row.names = FALSE, 
 					dec = '.', 
@@ -116,7 +119,7 @@ for (yy in 2013:2017){
 	# upload the object to S3
 	put_object(	file = rawConnectionValue(zz), 
 				bucket = 'trase-storage', 
-				object = paste0('data/1-TRADE/CD/EXPORT/URUGUAY/', yy, '/SICEX25/TEST/CD_URUGUAY_', yy, '.csv') )
+				object = paste0('data/1-TRADE/CD/EXPORT/COSTA RICA/', yy, '/SICEX20/TEST/CD_COSTARICA_', yy, '.csv') )
 	# close the connection
 	close(zz)
 	
