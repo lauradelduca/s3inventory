@@ -6,7 +6,7 @@ Brazil
 Paraguay
 
 others:
-Costa Rica 
+Costa Rica, process_costarica.R 2013-2017
 Ecuador, process_ecuador.R 2013-2017
 Peru
 Uruguay, process_uruguay.R 2013-2017
