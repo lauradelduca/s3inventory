@@ -102,7 +102,7 @@ for (yy in 2013:2017){
 	
 	# just for testing... save a copy locally
 	write.table(	D, 
-					paste0(current_folder, '/', 'CD_ECUADOR_', yy, '_TEST.csv'), 
+					paste0(current_folder, '/', 'CD_URUGUAY_', yy, '_TEST.csv'), 
 					quote = FALSE, 
 					row.names = FALSE, 
 					dec = '.', 
@@ -116,7 +116,7 @@ for (yy in 2013:2017){
 	# upload the object to S3
 	put_object(	file = rawConnectionValue(zz), 
 				bucket = 'trase-storage', 
-				object = paste0('data/1-TRADE/CD/EXPORT/ECUADOR/', yy, '/SICEX20/TEST/CD_ECUADOR_', yy, '.csv') )
+				object = paste0('data/1-TRADE/CD/EXPORT/URUGUAY/', yy, '/SICEX25/TEST/CD_URUGUAY_', yy, '.csv') )
 	# close the connection
 	close(zz)
 	
@@ -124,3 +124,7 @@ for (yy in 2013:2017){
 
 # clean up
 gc()
+
+
+## test new files with comtrade_check.R weight_table
+## correct folder structure on aws

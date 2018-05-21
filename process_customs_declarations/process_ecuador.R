@@ -124,3 +124,6 @@ for (yy in 2013:2017){
 
 # clean up
 gc()
+
+## test new files with comtrade_check.R weight_table
+## correct folder structure on aws
