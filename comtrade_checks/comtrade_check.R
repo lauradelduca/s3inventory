@@ -11,7 +11,7 @@ require(data.table)
 require(libamtrack)
 require(aws.s3)
 
-options(scipen=9999999999)
+options(scipen=999)
 
 setwd('C:/Users/laura.delduca/Desktop/code')
 
