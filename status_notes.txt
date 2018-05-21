@@ -1,15 +1,15 @@
 # notes 2018-05-17
 
 priority countries:
-Argentina process_argentina.R 20(13)14-2017
+Argentina process_argentina.R (locally) 20(13)14-2017
 Brazil
 Paraguay
 
 others:
-Costa Rica
-Ecuador
+Costa Rica 
+Ecuador, process_ecuador.R 2013-2017
 Peru
-Uruguay
+Uruguay, process_uruguay.R 2013-2017
 
 comtrade comparison 2017 consistently has greater
 variance, as comparison is with comtrade 2016
@@ -180,7 +180,7 @@ two records with weight == 0, value == 0 but number of items 1 and 4
 
 --- ECUADOR --- 
 2013 - 2017
-process_ecuador.R works on S3
+process_ecuador.R on S3
 look into higher palm oil values
 
 
@@ -198,14 +198,12 @@ removed comma in weight_column
 
 
 --- URUGUAY ---
+2012 - 2017
+process_uruguay.R on S3
 
 some files had incorrect column names so re-downloaded 2013-2017
-we drop 2012 as too problematic and not available for download
-
-after replacing ',' with '' in weight_column (removing thousands separator ,):
-results for 2013-2017 are great
+drop 2012 as too problematic/not available for download
 
 wood pulp 0.81 for 2013
 soy beans 1.12 for 2014
 soy beans 1.24 for 2016
-2017 a bit more variance as comtrade data is for 2016, but looks good enough
