@@ -113,6 +113,12 @@ for (f in as.vector(CD$file)){
 		CD$price_column[CD$file == f] <- price_column <- 'TOTAL_CIF_VALUE_US'
 		CD$weight_column[CD$file == f] <- weight_column <- 'TOTAL_NET_WEIGHT_KG'
 		
+		if (grepl('SICEX20', f)){
+			CD$hs_column[CD$file == f] <- hs_column <- 'Harmonized.CodeProduct.English'
+			CD$price_column[CD$file == f] <- price_column <- 'TOTAL.CIF.Value.US'
+			CD$weight_column[CD$file == f] <- weight_column <- 'TOTAL.Net.Weight.Kg'
+		}
+		
 		release <- c('BEEF', 'COFFEE', 'LEATHER', 
 					'TIMBER', 'PALM OIL', 'SHRIMPS', 'SOYBEANS', 'SUGAR CANE')
 		CD$comtrade_country[CD$file == f] <- c('Costa Rica')
