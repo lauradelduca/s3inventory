@@ -33,7 +33,7 @@ require(aws.s3)
 options(scipen=99999999)
 
 setwd('C:/Users/laura.delduca/Desktop/code')
-current_folder <- '0518'
+current_folder <- '0521'
 script_folder <- 's3inventory/comtrade_checks'
 
 source('R_aws.s3_credentials.R')					# load AWS S3 credentials
@@ -42,11 +42,11 @@ source('R_aws.s3_credentials.R')					# load AWS S3 credentials
 
 for (yy in 2013:2017){
 	
-	# load csv originals keys for all years, store in vector 'ecuador_originals_YEAR_keys'
-	orig <- get_bucket_df(	bucket = 'trase-storage', prefix = paste0('data/1-TRADE/CD/EXPORT/ECUADOR/', yy))	
+	# load csv originals keys for all years, store in vector 'uruguay_originals_YEAR_keys'
+	orig <- get_bucket_df(	bucket = 'trase-storage', prefix = paste0('data/1-TRADE/CD/EXPORT/URUGUAY/', yy))	
 	keys <- subset(orig, grepl("ORIGINALS/.*.csv$", Key) )
 	keys <- as.vector(keys$Key)
-	assign(paste0('ecuador_originals_', yy, '_keys'), keys)
+	assign(paste0('uruguay_originals_', yy, '_keys'), keys)
 	
 	# create an empty list to store the data of each file
 	J <- list()
@@ -86,15 +86,15 @@ for (yy in 2013:2017){
 	
 	# remove commas from numeric columns
 	D$TOTAL.Quantity.1 <- as.numeric(gsub(",", "", D$TOTAL.Quantity.1))
-	D$TOTAL.FOB.Value.US <- as.numeric(gsub(",", "", D$TOTAL.FOB.Value.US))
-	D$FOB.per.Unit.Quantity1 <- as.numeric(gsub(",", "", D$FOB.per.Unit.Quantity1))
-	D$TOTAL.CIF.Value.US <- as.numeric(gsub(",", "", D$TOTAL.CIF.Value.US))
-	D$TOTAL.Net.Weight.Kg <- as.numeric(gsub(",", "", D$TOTAL.Net.Weight.Kg))
-	D$TOTAL.Gross.Weight.Kg <- as.numeric(gsub(",", "", D$TOTAL.Gross.Weight.Kg))
+	D$TOTAL.FOB.Value..US.. <- as.numeric(gsub(",", "", D$TOTAL.FOB.Value..US..))
+	D$FOB.per.Unit..Quantity1. <- as.numeric(gsub(",", "", D$FOB.per.Unit..Quantity1.))
+	D$TOTAL.CIF.Value..US.. <- as.numeric(gsub(",", "", D$TOTAL.CIF.Value..US..))
+	D$TOTAL.Net.Weight..Kg. <- as.numeric(gsub(",", "", D$TOTAL.Net.Weight..Kg.))
+	D$TOTAL.Gross.Weight..Kg. <- as.numeric(gsub(",", "", D$TOTAL.Gross.Weight..Kg.))
 	
 	# make sure HS column is even number of digits, here 6
-	D$Harmonized.CodeProduct.Spanish <- as.numeric(as.character(D$Harmonized.CodeProduct.Spanish))
-	D$Harmonized.CodeProduct.Spanish <- AT.add.leading.zeros(D$Harmonized.CodeProduct.Spanish, digits = 6)
+	D$Harmonized.Code.Product.English <- as.numeric(as.character(D$Harmonized.Code.Product.English))
+	D$Harmonized.Code.Product.English <- AT.add.leading.zeros(D$Harmonized.Code.Product.English, digits = 6)
 	# this should be 10 digits:
 	D$Product.Schedule.B.Code <- as.numeric(as.character(D$Product.Schedule.B.Code))
 	D$Product.Schedule.B.Code <- AT.add.leading.zeros(D$Product.Schedule.B.Code, digits = 10)
