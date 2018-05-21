@@ -15,7 +15,7 @@ options(scipen=9999999999)
 
 setwd('C:/Users/laura.delduca/Desktop/code')
 
-current_folder <- '0518'
+current_folder <- '0521'
 script_folder <- 's3inventory/comtrade_checks'
 
 source('R_aws.s3_credentials.R')											# load AWS S3 credentials

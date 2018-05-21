@@ -180,9 +180,7 @@ two records with weight == 0, value == 0 but number of items 1 and 4
 
 --- ECUADOR --- 
 
-(2013 same re problem table as costa rica)
-seems ok except for two commodities: palm oil too high, and wood pulp precise one year and 0 both Trase and Comtrade others
-need to look into both 
+look into higher palm oil values
 
 
 --- PERU ---
