@@ -1,4 +1,4 @@
-## Preprocessing of Ecuador customs declarations trade data 2013 - 2017 from SICEX2.0
+## Preprocessing of Uruguay customs declarations trade data 2013 - 2017 from SICEX2.5
 ## Laura Del Duca
 
 
@@ -6,11 +6,11 @@
 ## open each one, check that file has no obvious errors: has data for correct year, country, rows as expected etc
 
 ## for SICEX2.5:
-## enable editing, go to data sheet, replace all ';' with '.'
+## enable editing, go to data sheet, replace all ';' with '.' (lots of replacements for Uruguay)
 ## save data sheet as csv, with the same name as the xlsx original
 
 ## for SICEX2.0:
-## enable editing, replace all ';' with '.' (no or almost no replacements for Ecuador)
+## enable editing, replace all ';' with '.'
 ## save as csv, with the same name as the xlsx original
 ## need to check which row contains column names and in which row the actual data starts
 ## as this really is different for each file it is not efficient to automate:

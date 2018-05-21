@@ -179,7 +179,8 @@ two records with weight == 0, value == 0 but number of items 1 and 4
 
 
 --- ECUADOR --- 
-
+2013 - 2017
+process_ecuador.R works on S3
 look into higher palm oil values
 
 
