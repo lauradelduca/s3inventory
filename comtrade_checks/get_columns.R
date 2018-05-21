@@ -214,20 +214,18 @@ for (f in as.vector(CD$file)){
 	}
 	
 	if (CD$country[CD$file == f] == 'URUGUAY'){
+	
+		CD$hs_column[CD$file == f] <- hs_column <- 'Harmonized.Code.Product.English'
+		CD$price_column[CD$file == f] <- price_column <- 'TOTAL.FOB.Value..US..'
+		CD$weight_column[CD$file == f] <- weight_column <- 'TOTAL.Net.Weight..Kg.'
 
 		if ((grepl('/URUGUAY/2012/CD_URUGUAY_2012.csv', f)) ){
 			CD$hs_column[CD$file == f] <- hs_column <- 'TOTAL_NET_WEIGHT_KG'
 			CD$price_column[CD$file == f] <- price_column <- 'HARMONIZED_CODEPRODUCT_ENGLISH'
 			CD$weight_column[CD$file == f] <- weight_column <- 'MEASURE_UNIT_1_QUANTITY_1'
 		}
-		if (grepl("SICEX25", f)){
-			CD$hs_column[CD$file == f] <- hs_column <- 'Harmonized.Code.Product.English'
-			CD$price_column[CD$file == f] <- price_column <- 'TOTAL.FOB.Value..US..'
-			CD$weight_column[CD$file == f] <- weight_column <- 'TOTAL.Net.Weight..Kg.'
-		} 
 		
-		release <- c('BEEF', 'CHICKEN', 'COCOA', 'CORN', 'LEATHER', 
-					'WOOD PULP', 'SOYBEANS')
+		release <- c('BEEF', 'CHICKEN', 'COCOA', 'CORN', 'LEATHER', 'WOOD PULP', 'SOYBEANS')
 		CD$comtrade_country[CD$file == f] <- c('Uruguay')
 		
 	}
