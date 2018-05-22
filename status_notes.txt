@@ -147,8 +147,8 @@ timber: 440311 440312 440321 440322 440325 440326 440341 440349 440410 440420 44
 
 
 --- PARAGUAY (MINTRADE)
-
-remove commas in weight
+2007 - 2018 (2018 not to be included in upload, still approximation)
+process_paraguay.R
 
 2007 leather 0.82, soybeans 0.73
 2008 corn 0.74, soybeans 0.77
