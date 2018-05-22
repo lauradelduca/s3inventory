@@ -7,7 +7,7 @@
 ## open each one, check that file has no obvious errors: has data for correct year, country, rows as expected etc
 
 ## enable editing, and on each sheet, replace all ';' with '.'
-## save each sheet as csv, here I did CD_PARAGUAY_YEAR.csv
+## save each sheet as csv, here I did PARAGUAY_YEAR.csv
 
 ## xlsx was uploaded to S3 'PARAGUAY/MINTRADE/ORIGINALS'
 ## each csv file in an 'ORIGINALS' folder in the appropriate 'PARAGUAY/MINTRADE/YEAR'
