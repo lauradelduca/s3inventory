@@ -183,13 +183,12 @@ for (f in as.vector(CD$file)){
 		
 	if (grepl("data/1-TRADE/CD/EXPORT/PARAGUAY/MINTRADE/", f)){
 	
-		CD$hs_column[CD$file == f] <- hs_column <- 'hs6'
+		CD$hs_column[CD$file == f] <- hs_column <- 'HS6'
 		CD$price_column[CD$file == f] <- price_column <- 'Valor.Fob.Dolar'
 		CD$weight_column[CD$file == f] <- weight_column <- 'Kilo.Neto'
 		
 		release <- c('BEEF', 'CORN', 'LEATHER', 'TIMBER', 'SOYBEANS', 'SUGAR CANE')
-		CD$comtrade_country[CD$file == f] <- c('Paraguay')
-		
+		CD$comtrade_country[CD$file == f] <- c('Paraguay')	
 	}
 		
 	if (CD$country[CD$file == f] == 'PERU'){
