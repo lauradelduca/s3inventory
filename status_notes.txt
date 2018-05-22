@@ -190,9 +190,7 @@ look into higher palm oil values
 2012, 2013 - 2015, 2016 - 2017
 process_peru.R
 
-years 2016-2017 great
-years 2013-2015 redownloaded reduced number of columns, only what's needed to upload
-see if 2012 is to be included
+2013-2015 redownloaded reduced number of columns, only what's needed to upload
 
 2012 no leather, timber
 2013 chicken 1.22 ratio, palm oil 1.17 ratio
