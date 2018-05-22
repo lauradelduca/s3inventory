@@ -33,50 +33,36 @@ script_folder <- 's3inventory/comtrade_checks'
 source('R_aws.s3_credentials.R')					# load AWS S3 credentials
 
 
-## 2013 - 2015 SICEX2.5
 for (yy in 2007:2018){
 	
-	# load csv originals keys for all years, store in vector 'peru_originals_YEAR_keys'
+	# load csv originals keys for all years, store in vector 'paraguay_originals_YEAR_keys'
 	orig <- get_bucket_df(bucket = 'trase-storage', prefix = paste0('data/1-TRADE/CD/EXPORT/PARAGUAY/MINTRADE/', yy))	
 	keys <- subset(orig, grepl("ORIGINALS/.*.csv$", Key) )
 	keys <- as.vector(keys$Key)
-	assign(paste0('peru_originals_', yy, '_keys'), keys)
+	assign(paste0('paraguay_originals_', yy, '_keys'), keys)
 	
-	# create an empty list to store the data of each file
-	J <- list()
-	i = 1
-	
-	for (f in keys){
-		
-		obj <- get_object(object = f, bucket = 'trase-storage')
-		data <- read.csv(text = rawToChar(obj), sep = ';', quote = '', row.names = NULL)
-	
-		# make sure the files look correct, and numbers of columns match, to use same names
-		print(f)
-		print(data[1:3,])
-		print(ncol(data))
-		
-		# remove all empty rows: get index of all rows that have NAs across all columns and remove
-		k <- which( apply(data, 1, function(x) all(is.na(x))) )
-		if(length(k)>0) data<- data[-k,]
-		
-		# use column names of the first files, remove special characters if needed, and assign to all
-		# setting encoding of whole file to utf8: 
-		# fread with encoding = 'UTF-8' option is not sufficient so correcting colnames manually
-		if (i==1)  nn <- names(data)
-		if (i>1)   names(data) <- nn
-		
-		# add the data to the list
-		J[[i]] <- data
-		i <- i + 1
-	}
+	obj <- get_object(object = f, bucket = 'trase-storage')
+	data <- read.csv(text = rawToChar(obj), sep = ';', quote = '', row.names = NULL)
 
-	# append all data stored in list of data frames in J
-	D <- do.call(rbind, J)
+	# make sure the files look correct
+	print(f)
+	print(data[1:3,])
+	print(ncol(data))
 	
+	# remove all empty rows: get index of all rows that have NAs across all columns and remove
+	k <- which( apply(data, 1, function(x) all(is.na(x))) )
+	if(length(k)>0) data<- data[-k,]
+	
+	# remove special characters from column names, if needed
+	# setting encoding of whole file to utf8: 
+	# fread with encoding = 'UTF-8' option is not sufficient so correcting colnames manually
+	print(names(data))	
 	
 	# in all columns check again that ; is replaced with .
 	D <- data.frame(lapply(D, function(x) {gsub(";", ".", x)}))
+	
+	
+	# file specific:
 	
 	# remove commas from numeric columns
 	D$TOTAL.FOB.Value..US.. <- as.numeric(gsub(",", "", D$TOTAL.FOB.Value..US..))
@@ -89,7 +75,7 @@ for (yy in 2007:2018){
 	
 	# just for testing... save a copy locally
 	write.table(	D, 
-					paste0(current_folder, '/', 'CD_PERU_', yy, '_TEST.csv'), 
+					paste0(current_folder, '/', 'CD_PARAGUAY_', yy, '_TEST.csv'), 
 					quote = FALSE, 
 					row.names = FALSE, 
 					dec = '.', 
