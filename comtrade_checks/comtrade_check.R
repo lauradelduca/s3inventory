@@ -29,8 +29,8 @@ write.table(CD, paste0(current_folder, '/', 'CD_AWS.csv'), quote = FALSE, row.na
 countries <- unique(as.vector(CD$country))									# chose which countries to run
 # parked <- c('VENEZUELA', 'COLOMBIA', 'PANAMA', 'BOLIVIA', 'MEXICO', 'ARGENTINA', 'BRAZIL')
 # countries <- countries[!countries %in% parked]
-countries <- c('COSTARICA')
-cc <- 'COSTARICA'
+countries <- c('PERU')
+cc <- 'PERU'
 
 source(paste0(script_folder, '/', 'write_weight_check_files.R'))			# write weight checks files
 

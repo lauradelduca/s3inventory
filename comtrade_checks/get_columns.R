@@ -213,10 +213,28 @@ for (f in as.vector(CD$file)){
 			CD$weight_column[CD$file == f] <- weight_column <- 'TOTAL.PESO.NETO.KG'
 		}
 		
+		# 2012 test
+		if (grepl("2012/SOURCE/TEST", f)){
+			CD$hs_column[CD$file == f] <- hs_column <- 'Harmonized.CodeProduct.English'
+			CD$price_column[CD$file == f] <- price_column <- 'TOTAL.FOB.Value.US'
+			CD$weight_column[CD$file == f] <- weight_column <- 'TOTAL.Net.Weight.Kg'  
+		}
+		# 2013 - 2015 test
+		if (grepl("SICEX25/TEST", f)){
+			CD$hs_column[CD$file == f] <- hs_column <- 'Harmonized.Code.Product.English'
+			CD$price_column[CD$file == f] <- price_column <- 'TOTAL.FOB.Value..US..'
+			CD$weight_column[CD$file == f] <- weight_column <- 'TOTAL.Net.Weight..Kg.'  
+		}
+		# 2016 - 2017 test
+		if (grepl("SICEX20/TEST", f)){
+			CD$hs_column[CD$file == f] <- hs_column <- 'Cod..ArmonizadoProducto.Ingles'
+			CD$price_column[CD$file == f] <- price_column <- 'TOTAL.Valor.FOB.US'
+			CD$weight_column[CD$file == f] <- weight_column <- 'TOTAL.Peso.Neto.Kg'  
+		}
+		
 		release <- c('CHICKEN', 'COCOA', 'COFFEE', 'CORN', 'LEATHER', 
 					'TIMBER', 'PALM OIL', 'SHRIMPS', 'SUGAR CANE')
-		CD$comtrade_country[CD$file == f] <- c('Peru')
-		
+		CD$comtrade_country[CD$file == f] <- c('Peru')	
 	}
 	
 	if (CD$country[CD$file == f] == 'URUGUAY'){
