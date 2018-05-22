@@ -53,8 +53,7 @@ for (f in as.vector(CD$file)){
 			CD$weight_column[CD$file == f] <- weight_column <- 'TOTAL_PESO_NETO_KG'
 		}
 			
-		release <- c('CHICKEN', 'COFFEE', 'CORN', 'LEATHER', 
-					'TIMBER', 'SOYBEANS')
+		release <- c('CHICKEN', 'COFFEE', 'CORN', 'LEATHER', 'TIMBER', 'SOYBEANS')
 		CD$comtrade_country[CD$file == f] <- 'Bolivia (Plurinational State of)'
 		
 	}
@@ -166,8 +165,7 @@ for (f in as.vector(CD$file)){
 			CD$weight_column[CD$file == f] <- weight_column <- 'TOTAL_NET_WEIGHT_KG'
 		}
 		
-		release <- c('COFFEE', 'LEATHER', 
-					'TIMBER', 'PALM OIL', 'SHRIMPS', 'SUGAR CANE')	
+		release <- c('COFFEE', 'LEATHER', 'TIMBER', 'PALM OIL', 'SHRIMPS', 'SUGAR CANE')	
 		CD$comtrade_country[CD$file == f] <- c('Panama')
 		
 	}
@@ -189,8 +187,7 @@ for (f in as.vector(CD$file)){
 		CD$price_column[CD$file == f] <- price_column <- 'Valor.Fob.Dolar'
 		CD$weight_column[CD$file == f] <- weight_column <- 'Kilo.Neto'
 		
-		release <- c('BEEF', 'CORN', 'LEATHER', 
-					'TIMBER', 'SOYBEANS', 'SUGAR CANE')
+		release <- c('BEEF', 'CORN', 'LEATHER', 'TIMBER', 'SOYBEANS', 'SUGAR CANE')
 		CD$comtrade_country[CD$file == f] <- c('Paraguay')
 		
 	}
@@ -250,8 +247,7 @@ for (f in as.vector(CD$file)){
 			CD$weight_column[CD$file == f] <- weight_column <- 'TOTAL_NET_WEIGHT_KG'		
 		}
 		
-		release <- c('COCOA', 'LEATHER', 
-					'WOOD PULP', 'SHRIMPS')
+		release <- c('COCOA', 'LEATHER', 'WOOD PULP', 'SHRIMPS')
 		CD$comtrade_country[CD$file == f] <- c('Venezuela')
 		
 	}

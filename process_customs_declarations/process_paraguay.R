@@ -61,19 +61,15 @@ for (yy in 2007:2018){
 	# in all columns check again that ; is replaced with .
 	data <- data.frame(lapply(data, function(x) {gsub(";", ".", x)}))
 	
-	
-	# file specific:
-	if (yy == 2007){
-		# remove commas from numeric columns
-		data$Cantidad <- as.numeric(gsub(",", "", data$Cantidad))
-		data$Kilo.Neto <- as.numeric(gsub(",", "", data$Kilo.Neto))	
-		data$Valor.Fob.Dolar <- as.numeric(gsub(",", "", data$Valor.Fob.Dolar))	
-		# convert from factor to character, remove '.' from NCM column, format to 11 digits
-		# create 6-digit HS column from NCM
-		data$NCM <- gsub(".", "", as.character(data$NCM))
-		data$HS6 <- substr(data$NCM, 1, 6)
-		data$NCM <- AT.add.leading.zeros(as.numeric(data$NCM), digits = 11)
-	}
+	# remove commas from numeric columns
+	data$Cantidad <- as.numeric(gsub(",", "", data$Cantidad))
+	data$Kilo.Neto <- as.numeric(gsub(",", "", data$Kilo.Neto))	
+	data$Valor.Fob.Dolar <- as.numeric(gsub(",", "", data$Valor.Fob.Dolar))	
+	# convert from factor to character, remove '.' from NCM column, format to 11 digits
+	data$NCM <- as.numeric(gsub("\\.", "", as.character(data$NCM)))
+	data$NCM <- AT.add.leading.zeros(data$NCM, digits = 11)
+	# create 6-digit HS column from NCM
+	data$HS6 <- substr(data$NCM, 1, 6)
 	
 	
 	# just for testing... save a copy locally
