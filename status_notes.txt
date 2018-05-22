@@ -187,9 +187,11 @@ look into higher palm oil values
 
 
 --- PERU ---
+process_peru.R in progress
 
 years 2016-2017 great
 years 2013-2015 redownloaded reduced number of columns, only what's needed to upload
+see if 2012 is to be included
 
 removed comma in weight_column
 
