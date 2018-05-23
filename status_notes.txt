@@ -1,4 +1,6 @@
-# notes 2018-05-17
+# notes 2018-05-23
+
+so far, only brazil dashboard 2015-2016 originals are read only, need to correct
 
 priority countries:
 Argentina process_argentina.R (locally) 20(13)14-2017

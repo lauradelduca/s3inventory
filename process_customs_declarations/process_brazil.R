@@ -6,7 +6,7 @@
 
 ## download xlsx files, set properties to 'read only'
 ## open each one, check that file has no obvious errors: has data for correct year, country, rows as expected etc
-## enable editing, go to data sheet, replace all ';' with '.'
+## enable editing, replace all ';' with '.': ctrl-a, ctrl-f, 'save as'
 ## save data sheet as csv, with the same/recognizable name as the xlsx original
 
 ## need to check which row contains column names and in which row the actual data starts
@@ -37,7 +37,7 @@ source('R_aws.s3_credentials.R')					# load AWS S3 credentials
 
 
 ## 2015 - 2017 dashboard
-for (yy in 2013:2015){
+for (yy in 2015:2017){
 	
 	# load csv originals keys for all years, store in vector 'brazil_originals_YEAR_keys'
 	orig <- get_bucket_df(bucket = 'trase-storage', prefix = paste0('data/1-TRADE/CD/EXPORT/BRAZIL/', yy))	
