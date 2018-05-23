@@ -1,19 +1,14 @@
 ## Preprocessing of Brazil customs declarations trade data from Datamyne, 2015-2017 dashboard, 20 - 20 third party
+## check email, there is some more data to add, and third_party_separate
+
 ## Laura Del Duca
 
-## check email, there is some more data to add
 
-
-## download xlsx files
+## download xlsx files, set properties to 'read only'
 ## open each one, check that file has no obvious errors: has data for correct year, country, rows as expected etc
-
-## for SICEX2.5:
 ## enable editing, go to data sheet, replace all ';' with '.'
-## save data sheet as csv, with the same name as the xlsx original
+## save data sheet as csv, with the same/recognizable name as the xlsx original
 
-## for SICEX2.0:
-## enable editing, replace all ';' with '.'
-## save as csv, with the same name as the xlsx original
 ## need to check which row contains column names and in which row the actual data starts
 ## as this really is different for each file it is not efficient to automate:
 ## delete rows above header manually
