@@ -4,6 +4,7 @@
 
 
 ## MinTrade data comes in one xlsx file with one sheet per year, varying column names/content
+## set properties to 'read only'
 ## open each one, check that file has no obvious errors: has data for correct year, country, rows as expected etc
 
 ## enable editing, and on each sheet, replace all ';' with '.'

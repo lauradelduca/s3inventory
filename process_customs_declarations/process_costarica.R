@@ -2,7 +2,7 @@
 ## Laura Del Duca
 
 
-## download xlsx files
+## download xlsx files, set properties to 'read only'
 ## open each one, check that file has no obvious errors: has data for correct year, country, rows as expected etc
 
 ## for SICEX2.5:

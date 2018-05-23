@@ -1,10 +1,21 @@
 ## Preprocessing of Argentina customs declarations trade data 2013 - 2017 from SICEX2.5
+
+## maybe adding 2010 - 2012 
+## update to work remotely
+
 ## Laura Del Duca
 
-## this script runs locally, not on S3 yet
+
+## Weight is defined by the field "Cantidad Estadstica"
+## We have detected mistakes in weight values, given that
+
+## i) units change and are not always kilograms
+## ii) sometimes the reporters report tones instead of kilograms. To detect these cases divide FOB values and weight, and see which records have "wrong" prices per kilogram (values about 1000 times larger/smaller than the majority of the records)
 
 
-## download xlsx files
+
+
+## download xlsx files, set properties to 'read only'
 ## open each one, check that file has no obvious errors: has data for correct year, country, rows as expected etc
 
 ## for SICEX2.5:

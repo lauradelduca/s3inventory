@@ -19,7 +19,7 @@ comtrade comparison 2017 consistently has greater variance, as comparison is wit
 
 
 --- ARGENTINA 
-2013 - 2017 
+2013 - 2017  (2012?)
 process_argentina.R (locally, 2014-2017)
 
 it's clear that for some commodities total_quantity1, for others cantidad estadistica is better
