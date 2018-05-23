@@ -1,6 +1,12 @@
 ## Preprocessing of Brazil customs declarations trade data from Datamyne, 2015-2017 dashboard, 20 - 20 third party
 ## check email, there is some more data to add, and third_party_separate
 
+## Brazil has originals for dashboard 2015-2017, with read-only and csvs
+## and now need to work through the 2015-2017 loop
+## especially considering that there are probably two types of original files
+## then go on to figure out third party...
+
+
 ## Laura Del Duca
 
 

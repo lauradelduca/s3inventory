@@ -1,6 +1,6 @@
 # notes 2018-05-23
 
-so far, only brazil dashboard 2015-2016 originals are read only, need to correct
+so far, only brazil dashboard 2015-2017 originals are read only, need to correct
 
 priority countries:
 Argentina process_argentina.R (locally) 20(13)14-2017
@@ -128,6 +128,10 @@ that's
  
 
 --- BRAZIL ---
+## Brazil has originals for dashboard 2015-2017, with read-only and csvs
+## and now need to work through the 2015-2017 loop
+## especially considering that there are probably two types of original files
+## then go on to figure out third party...
 
 remove commas in weight
 
