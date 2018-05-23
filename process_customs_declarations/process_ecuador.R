@@ -2,7 +2,7 @@
 ## Laura Del Duca
 
 
-## download xlsx files
+## download xlsx files, set properties to 'read only'
 ## open each one, check that file has no obvious errors: has data for correct year, country, rows as expected etc
 
 ## for SICEX2.5:
@@ -111,7 +111,6 @@ for (yy in 2013:2017){
 	# write table to S3:
 	# write to an in-memory raw connection
 	zz <- rawConnection(raw(0), "r+")
-	# can use write.table? to keep dec and sep...
 	write.table(D, zz, quote = FALSE, row.names = FALSE, dec = '.', sep = ';')
 	# upload the object to S3
 	put_object(	file = rawConnectionValue(zz), 
