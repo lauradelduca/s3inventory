@@ -3,7 +3,7 @@
 priority countries:
 Argentina process_argentina.R (locally) 20(13)14-2017
 Brazil
-Paraguay (mintrade)
+Paraguay (mintrade), process_paraguay.R 2007-2018 (2018 not for upload)
 
 others:
 Costa Rica, process_costarica.R 2013-2017
