@@ -3,7 +3,7 @@
 so far, only brazil dashboard 2015-2017 originals are read only, need to correct
 
 priority countries:
-Argentina process_argentina.R (locally) 20(13)14-2017
+Argentina process_argentina.R 2013-2017
 Brazil
 Paraguay (mintrade), process_paraguay.R 2007-2018 (2018 not for upload)
 
@@ -20,11 +20,16 @@ comtrade comparison 2017 consistently has greater variance, as comparison is wit
 
 --- ARGENTINA 
 2013 - 2017  (2012?)
-process_argentina.R (locally, 2014-2017)
+process_argentina.R
 
 it's clear that for some commodities total_quantity1, for others cantidad estadistica is better
-next: look at the data per commodity again, check when (units) one is better
-propose in summary
+
+## Weight is defined by the field "Cantidad Estadstica"
+## We have detected mistakes in weight values, given that
+
+## i) units change and are not always kilograms
+## ii) sometimes the reporters report tones instead of kilograms. To detect these cases divide FOB values and weight, and see which records have "wrong" prices per kilogram (values about 1000 times larger/smaller than the majority of the records)
+
 
 2013
 
@@ -32,13 +37,10 @@ ok: leather and shrimps
 chicken: ok when applying 1 unidad of hs 010511 = 475kg (beef animal unit)
 average weight of one live animal is 2kg
 
-
 beef: kilo, deco, unid, all non kilos are live animals, applied 475 to both so far, but will only raise total weight, so not a solution
 try beef 0.30 or 0.32, or maybe that's to de-bone
 
-
 soy: 1 liter of soy oil is 0.92 kilograms of soy
-
 
 timber:
 440729 from cubic meter to ton conversion factor 0.7 
@@ -121,9 +123,6 @@ that's
  [1] 121292 121293 170111 170113 170114 170191 170199 170310 220710 220720
 
 
-
- 
- 
  
  
 
