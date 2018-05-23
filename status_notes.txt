@@ -1,6 +1,9 @@
 # notes 2018-05-23
 
-so far, only brazil dashboard 2015-2017 originals are read only, need to correct
+so far, only 
+brazil dashboard 2015-2017
+argentina 2010-2017 (all) 
+originals are read only, need to correct
 
 priority countries:
 Argentina process_argentina.R 2013-2017
