@@ -50,6 +50,28 @@ for (yy in 2015:2017){
 	keys <- as.vector(keys$Key)
 	assign(paste0('brazil_originals_', yy, '_keys'), keys)
 	
+	# remove all " as they mess with columns
+	for (f in keys){
+	
+		obj <- get_object(object = f, bucket = 'trase-storage')
+		data <- read.csv(text = rawToChar(obj), sep = ';', quote = '', row.names = NULL) #, stringsAsFactors=FALSE)
+		
+		data <- data.frame(lapply(data, function(x) {gsub('"', '', x)}))
+	
+		# write table to S3:
+		# write to an in-memory raw connection
+		zz <- rawConnection(raw(0), "r+")
+		write.table(data, zz, quote = FALSE, row.names = FALSE, dec = '.', sep = ';')
+		# upload the object to S3
+		put_object(	file = rawConnectionValue(zz), 
+					bucket = 'trase-storage', 
+					object = paste0(f) )
+		# close the connection
+		close(zz)
+	
+	}
+	
+	
 	# create an empty list to store the data of each file
 	J <- list()
 	i = 1
@@ -57,7 +79,7 @@ for (yy in 2015:2017){
 	for (f in keys){
 		
 		obj <- get_object(object = f, bucket = 'trase-storage')
-		data <- read.csv(text = rawToChar(obj), sep = ';', quote = '', row.names = NULL, stringsAsFactors=FALSE)
+		data <- read.csv(text = rawToChar(obj), sep = ';', quote = '', row.names = NULL) #, stringsAsFactors=FALSE)
 		
 		# delete empty columns
 		data <- data[,1:12]
@@ -75,12 +97,12 @@ for (yy in 2015:2017){
 		# remove this manually
 		print(tail(data))
 		
-		print(sapply(data, class))
 		# is sometimes factor, sometimes integer, so rbind causes NAs
-		# should be converted to integer, for fob and weight
+		# should be converted to numeric, for fob and weight
+		#data$FOB.Value..US.. <- as.numeric(as.character(data$FOB.Value..US..))
+		#data$Net.Weight <- as.numeric(as.character(data$Net.Weight))
 		
-
-		
+		print(sapply(data, class))
 		## issues:
 		# 2015 weights are still all NA
 		# 2015, 16 cotton is too much -> go over 'trasesei' integration
