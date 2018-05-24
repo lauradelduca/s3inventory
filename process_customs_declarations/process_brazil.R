@@ -2,10 +2,6 @@
 ## check email, there is some more data to add, and third_party_separate
 
 ## Brazil has originals for dashboard 2015-2017, with read-only and csvs
-## and now need to work through the 2015-2017 loop
-## especially considering that there are probably two types of original files
-## then go on to figure out third party...
-
 
 ## careful to check if dashboard 2015 cotton is added twice
 ## sum of last three files is 975148.956 tons, comtrade is 951038
@@ -95,17 +91,19 @@ for (yy in 2015:2017){
 	D <- data.frame(lapply(D, function(x) {gsub(";", ".", x)}))
 	
 	# remove commas from numeric columns
-	D$TOTAL.FOB.Value..US.. <- as.numeric(gsub(",", "", D$TOTAL.FOB.Value..US..))
-	D$TOTAL.Net.Weight..Kg. <- as.numeric(gsub(",", "", D$TOTAL.Net.Weight..Kg.))	
+	D$FOB.Value..US.. <- as.numeric(gsub(",", "", D$FOB.Value..US..))
+	D$Net.Weight <- as.numeric(gsub(",", "", D$Net.Weight))	
 	
-	# make sure HS column is even number of digits, here 6
-	D$Harmonized.Code.Product.English <- as.numeric(as.character(D$Harmonized.Code.Product.English))
-	D$Harmonized.Code.Product.English <- AT.add.leading.zeros(D$Harmonized.Code.Product.English, digits = 6)
+	# make sure HS column is even number of digits, here 8
+	D$Product.HS <- as.numeric(as.character(D$Product.HS))
+	D$Product.HS <- AT.add.leading.zeros(D$Product.HS, digits = 8)
+	# create 6-digit HS column from Product.HS
+	D$HS6 <- substr(D$Product.HS, 1, 6)
 	
 	
 	# just for testing... save a copy locally
 	write.table(	D, 
-					paste0(current_folder, '/', 'CD_PERU_', yy, '_TEST.csv'), 
+					paste0(current_folder, '/', 'CD_BRAZIL_DASHBOARD_', yy, '_TEST.csv'), 
 					quote = FALSE, 
 					row.names = FALSE, 
 					dec = '.', 
@@ -118,7 +116,7 @@ for (yy in 2015:2017){
 	# upload the object to S3
 	put_object(	file = rawConnectionValue(zz), 
 				bucket = 'trase-storage', 
-				object = paste0('data/1-TRADE/CD/EXPORT/PERU/', yy, '/SICEX25/TEST/CD_PERU_', yy, '.csv') )
+				object = paste0('data/1-TRADE/CD/EXPORT/BRAZIL/DATAMYNE/DASHBOARD/', yy, '/TEST/CD_BRAZIL_', yy, '.csv') )
 	# close the connection
 	close(zz)
 	
