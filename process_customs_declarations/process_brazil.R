@@ -71,17 +71,15 @@ for (yy in 2015:2017){
 		k <- which( apply(data, 1, function(x) all(is.na(x))) )
 		if(length(k)>0) data<- data[-k,]
 		
-		# delete tails?
 		# some 'trasesei' titled downloads have info at the end, and all of 2017 dashboard originals
+		# remove this manually
 		print(tail(data))
 		
-		print(nrow(data[is.na(data$Net.Weight),]))
-		print(nrow(data[is.na(data$Net.Weight)]))
+		sapply(data, class)
+		# is sometimes factor, sometimes integer, so rbind causes NAs
+		# should be converted to integer
 		
-		# delete rows with NA in weight column?
-		# no, this is probably the same 2015 problem I've encountered before
-		
-		#
+
 		
 		## issues:
 		# 2015 weights are still all NA
