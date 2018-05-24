@@ -52,7 +52,7 @@ D <- do.call(rbind, J)
 # in all columns replace ; with ,
 D <- data.frame(lapply(D, function(x) {gsub(";", ",", x)}))
 
-# add that hs column needs to have leading zeroes
+# add that hs column needs to have leading zeros
 D$'COD.SUBITEM.NCM' <- as.character(D$'COD.SUBITEM.NCM')
 D$'COD.SUBITEM.NCM' <- as.numeric(D$'COD.SUBITEM.NCM')
 D$'COD.SUBITEM.NCM' <- formatC(D$'COD.SUBITEM.NCM', width = 8, format = "d", flag = "0") 

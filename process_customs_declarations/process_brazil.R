@@ -7,6 +7,9 @@
 ## then go on to figure out third party...
 
 
+## careful to check if dashboard 2015 cotton is added twice
+## sum of last three files is 975148.956 tons, comtrade is 951038
+
 ## Laura Del Duca
 
 
@@ -72,6 +75,7 @@ for (yy in 2015:2017){
 		k <- which( apply(data, 1, function(x) all(is.na(x))) )
 		if(length(k)>0) data<- data[-k,]
 		
+		# files were downloaded separatedly but names match
 		# use column names of the first files, remove special characters if needed, and assign to all
 		# setting encoding of whole file to utf8: 
 		# fread with encoding = 'UTF-8' option is not sufficient so correcting colnames manually

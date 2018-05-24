@@ -135,6 +135,8 @@ that's
 ## especially considering that there are probably two types of original files
 ## then go on to figure out third party...
 
+
+## make sure that dashboard 2015 cotton is not added twice
 remove commas in weight
 
 2005-2009 only soybeans
