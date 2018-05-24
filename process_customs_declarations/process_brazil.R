@@ -57,7 +57,7 @@ for (yy in 2015:2017){
 	for (f in keys){
 		
 		obj <- get_object(object = f, bucket = 'trase-storage')
-		data <- read.csv(text = rawToChar(obj), sep = ';', quote = '', row.names = NULL)
+		data <- read.csv(text = rawToChar(obj), sep = ';', quote = '', row.names = NULL, stringsAsFactors=FALSE)
 		
 		# delete empty columns
 		data <- data[,1:12]
@@ -75,9 +75,9 @@ for (yy in 2015:2017){
 		# remove this manually
 		print(tail(data))
 		
-		sapply(data, class)
+		print(sapply(data, class))
 		# is sometimes factor, sometimes integer, so rbind causes NAs
-		# should be converted to integer
+		# should be converted to integer, for fob and weight
 		
 
 		
