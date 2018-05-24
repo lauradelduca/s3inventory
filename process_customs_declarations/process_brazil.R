@@ -46,7 +46,7 @@ source('R_aws.s3_credentials.R')					# load AWS S3 credentials
 for (yy in 2015:2017){
 	
 	# load csv originals keys for all years, store in vector 'brazil_originals_YEAR_keys'
-	orig <- get_bucket_df(bucket = 'trase-storage', prefix = paste0('data/1-TRADE/CD/EXPORT/BRAZIL/', yy))	
+	orig <- get_bucket_df(bucket = 'trase-storage', prefix = paste0('data/1-TRADE/CD/EXPORT/BRAZIL/DATAMYNE/DASHBOARD/', yy))	
 	keys <- subset(orig, grepl("ORIGINALS/.*.csv$", Key) )
 	keys <- as.vector(keys$Key)
 	assign(paste0('brazil_originals_', yy, '_keys'), keys)
