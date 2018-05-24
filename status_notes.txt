@@ -131,10 +131,7 @@ that's
 
 --- BRAZIL ---
 ## Brazil has originals for dashboard 2015-2017, with read-only and csvs
-## and now need to work through the 2015-2017 loop
-## especially considering that there are probably two types of original files
 ## then go on to figure out third party...
-
 
 ## make sure that dashboard 2015 cotton is not added twice
 remove commas in weight
