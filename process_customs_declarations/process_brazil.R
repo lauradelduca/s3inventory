@@ -75,10 +75,18 @@ for (yy in 2015:2017){
 		# some 'trasesei' titled downloads have info at the end, and all of 2017 dashboard originals
 		print(tail(data))
 		
+		print(nrow(data[is.na(data$Net.Weight),]))
+		print(nrow(data[is.na(data$Net.Weight)]))
+		
 		# delete rows with NA in weight column?
-		# trying this; many rows with NA weight and FOB, and a few with 0 weight/nonzero FOB
+		# no, this is probably the same 2015 problem I've encountered before
 		
 		#
+		
+		## issues:
+		# 2015 weights are still all NA
+		# 2015, 16 cotton is too much -> go over 'trasesei' integration
+		# (not a problem for 2017 as this is all newly downloaded)
 		
 		
 		# files were downloaded separately but names match
