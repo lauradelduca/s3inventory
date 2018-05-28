@@ -49,8 +49,7 @@ for (yy in 2015:2017){
 	keys <- subset(orig, grepl("ORIGINALS/.*.csv$", Key) )
 	keys <- as.vector(keys$Key)
 	assign(paste0('brazil_originals_', yy, '_keys'), keys)
-	
-	keys <- keys[1:28]
+		
 	
 	# remove all " as they mess with columns
 	for (f in keys){
