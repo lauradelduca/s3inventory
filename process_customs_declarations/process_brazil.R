@@ -50,6 +50,8 @@ for (yy in 2015:2017){
 	keys <- as.vector(keys$Key)
 	assign(paste0('brazil_originals_', yy, '_keys'), keys)
 	
+	keys <- keys[1:28]
+	
 	# remove all " as they mess with columns
 	for (f in keys){
 	
@@ -60,6 +62,14 @@ for (yy in 2015:2017){
 		
 		# in all columns check again that ; is replaced with .
 		data <- data.frame(lapply(data, function(x) {gsub(";", ".", x)}))
+	
+		for (i in 1:length(data[is.na(data$FOB.Value..US..),])){
+		
+			data[is.na(data$FOB.Value..US..),]$HS.Description[i] <- paste0(	data[is.na(data$FOB.Value..US..),]$HS.Description[i], 
+																			'. ',
+																			data[is.na(data$FOB.Value..US..),]$Country.of.Destination[i])
+		
+		}
 	
 		# write table to S3:
 		# write to an in-memory raw connection
@@ -145,7 +155,7 @@ for (yy in 2015:2017){
 	
 	# just for testing... save a copy locally
 	write.table(	D, 
-					paste0(current_folder, '/', 'CD_BRAZIL_DASHBOARD_', yy, '_TEST.csv'), 
+					paste0(current_folder, '/', 'CD_BRAZIL_DASHBOARD_', yy, '_TEST_withoutcotton.csv'), 
 					quote = FALSE, 
 					row.names = FALSE, 
 					dec = '.', 
