@@ -69,6 +69,10 @@ for (yy in 2015:2017){
 																			data[is.na(data$FOB.Value..US..),]$Country.of.Destination[i])
 		
 		}
+		# delete column country of destination
+		
+		# reassign column names?
+	
 	
 		# write table to S3:
 		# write to an in-memory raw connection
