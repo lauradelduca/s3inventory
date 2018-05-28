@@ -35,7 +35,7 @@ require(aws.s3)
 options(scipen=99999999)
 
 setwd('C:/Users/laura.delduca/Desktop/code')
-current_folder <- '0524'
+current_folder <- '0528'
 script_folder <- 's3inventory/comtrade_checks'
 
 source('R_aws.s3_credentials.R')					# load AWS S3 credentials
@@ -54,9 +54,12 @@ for (yy in 2015:2017){
 	for (f in keys){
 	
 		obj <- get_object(object = f, bucket = 'trase-storage')
-		data <- read.csv(text = rawToChar(obj), sep = ';', quote = '', row.names = NULL) #, stringsAsFactors=FALSE)
+		data <- read.csv(text = rawToChar(obj), sep = ';', quote = '', row.names = NULL, stringsAsFactors=FALSE)
 		
 		data <- data.frame(lapply(data, function(x) {gsub('"', '', x)}))
+		
+		# in all columns check again that ; is replaced with .
+		data <- data.frame(lapply(data, function(x) {gsub(";", ".", x)}))
 	
 		# write table to S3:
 		# write to an in-memory raw connection
@@ -79,7 +82,7 @@ for (yy in 2015:2017){
 	for (f in keys){
 		
 		obj <- get_object(object = f, bucket = 'trase-storage')
-		data <- read.csv(text = rawToChar(obj), sep = ';', quote = '', row.names = NULL) #, stringsAsFactors=FALSE)
+		data <- read.csv(text = rawToChar(obj), sep = ';', quote = '', row.names = NULL, stringsAsFactors=FALSE)
 		
 		# delete empty columns
 		data <- data[,1:12]
@@ -127,6 +130,7 @@ for (yy in 2015:2017){
 	
 	# in all columns check again that ; is replaced with .
 	D <- data.frame(lapply(D, function(x) {gsub(";", ".", x)}))
+	
 	
 	# remove commas from numeric columns
 	D$FOB.Value..US.. <- as.numeric(gsub(",", "", D$FOB.Value..US..))
