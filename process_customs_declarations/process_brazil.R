@@ -18,6 +18,17 @@
 ## as this really is different for each file it is not efficient to automate:
 ## delete rows above header manually
 
+## issue specific to some Brazil Datamyne Dashboard 2015 files:
+## some HS description (940 rows) contain ; that fall through all usual checks and end up splitting the column in two
+## after locating the errors it was quicker to correct manually (substituted '.' for ';' in the HS description)
+## the files affected are:
+## "data/1-TRADE/CD/EXPORT/BRAZIL/DATAMYNE/DASHBOARD/2015/ORIGINALS/MASTER_2015_100001_105000.csv"
+## "data/1-TRADE/CD/EXPORT/BRAZIL/DATAMYNE/DASHBOARD/2015/ORIGINALS/MASTER_2015_110001_115000.csv"
+## "data/1-TRADE/CD/EXPORT/BRAZIL/DATAMYNE/DASHBOARD/2015/ORIGINALS/MASTER_2015_130001_135000.csv"
+## "data/1-TRADE/CD/EXPORT/BRAZIL/DATAMYNE/DASHBOARD/2015/ORIGINALS/MASTER_2015_50001_55000.csv"
+## "data/1-TRADE/CD/EXPORT/BRAZIL/DATAMYNE/DASHBOARD/2015/ORIGINALS/MASTER_2015_5001_10000.csv"
+## "data/1-TRADE/CD/EXPORT/BRAZIL/DATAMYNE/DASHBOARD/2015/ORIGINALS/MASTER_2015_80001_85000.csv"
+
 ## upload both, xlsx and csv files, in an 'ORIGINALS' folder in the appropriate location on S3
 ## there are various possibilities for interacting with S3: through the site, command line, 'S3 browser' software, ...
 
@@ -50,16 +61,16 @@ for (yy in 2015:2017){
 	keys <- as.vector(keys$Key)
 	assign(paste0('brazil_originals_', yy, '_keys'), keys)
 	
-	# test which file has ; problem
+	## test which file has ; problem
 	for (f in keys){
 	
 		obj <- get_object(object = f, bucket = 'trase-storage')
 		data <- read.csv(text = rawToChar(obj), sep = ';', quote = '', row.names = NULL, stringsAsFactors=FALSE)
-		
-		print(f)
-		print(dim(data[is.na(data$FOB.Value..US..),]))
+				
+		data$FOB.Value..US.. <- as.numeric(data$FOB.Value..US..)
+		if (nrow(data[is.na(data$FOB.Value..US..),]) > 0){ print(f) }		# these sum to 940!!
 	}
-
+	##
 	
 	
 	# remove all " as they mess with columns
