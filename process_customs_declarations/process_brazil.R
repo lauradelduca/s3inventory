@@ -28,6 +28,9 @@
 ## "data/1-TRADE/CD/EXPORT/BRAZIL/DATAMYNE/DASHBOARD/2015/ORIGINALS/MASTER_2015_50001_55000.csv"
 ## "data/1-TRADE/CD/EXPORT/BRAZIL/DATAMYNE/DASHBOARD/2015/ORIGINALS/MASTER_2015_5001_10000.csv"
 ## "data/1-TRADE/CD/EXPORT/BRAZIL/DATAMYNE/DASHBOARD/2015/ORIGINALS/MASTER_2015_80001_85000.csv"
+## one file has one row with net weight NA, I'll remove it for now:
+## "data/1-TRADE/CD/EXPORT/BRAZIL/DATAMYNE/DASHBOARD/2015/ORIGINALS/MASTER_2015_25001_30000.csv"
+## 11/1/2015;2062100;TONGUES OF BOVINE ANIMALS, EDIBLE, FROZEN;RUSSIA;SANTOS;75860;MATABOI ALIMENTOS S.A.;MINAS GERAIS-MG;ARAGUARI;MARITIMA;NA;1.68201E+13;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA;NA
 
 ## upload both, xlsx and csv files, in an 'ORIGINALS' folder in the appropriate location on S3
 ## there are various possibilities for interacting with S3: through the site, command line, 'S3 browser' software, ...
@@ -60,7 +63,7 @@ for (yy in 2015:2017){
 	keys <- subset(orig, grepl("ORIGINALS/.*.csv$", Key) )
 	keys <- as.vector(keys$Key)
 	assign(paste0('brazil_originals_', yy, '_keys'), keys)
-	
+
 	## test which file has ; problem
 	## for (f in keys){
 	##
@@ -69,6 +72,14 @@ for (yy in 2015:2017){
 	##			
 	##	data$FOB.Value..US.. <- as.numeric(data$FOB.Value..US..)
 	##	if (nrow(data[is.na(data$FOB.Value..US..),]) > 0){ print(f) }		# these sum to 940!!
+	##}
+	
+	## test why beef still shows one NA...
+	## for (f in keys){
+	##	obj <- get_object(object = f, bucket = 'trase-storage')
+	##	data <- read.csv(text = rawToChar(obj), sep = ';', quote = '', row.names = NULL, stringsAsFactors=FALSE)
+	##	data$Net.Weight <- as.numeric(data$Net.Weight)
+	##	if (nrow(data[is.na(data$Net.Weight),]) > 0){ print(f) }		# these sum to 940!!
 	##}
 	
 	
