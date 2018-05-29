@@ -62,15 +62,14 @@ for (yy in 2015:2017){
 	assign(paste0('brazil_originals_', yy, '_keys'), keys)
 	
 	## test which file has ; problem
-	for (f in keys){
-	
-		obj <- get_object(object = f, bucket = 'trase-storage')
-		data <- read.csv(text = rawToChar(obj), sep = ';', quote = '', row.names = NULL, stringsAsFactors=FALSE)
-				
-		data$FOB.Value..US.. <- as.numeric(data$FOB.Value..US..)
-		if (nrow(data[is.na(data$FOB.Value..US..),]) > 0){ print(f) }		# these sum to 940!!
-	}
+	## for (f in keys){
 	##
+	##	obj <- get_object(object = f, bucket = 'trase-storage')
+	##	data <- read.csv(text = rawToChar(obj), sep = ';', quote = '', row.names = NULL, stringsAsFactors=FALSE)
+	##			
+	##	data$FOB.Value..US.. <- as.numeric(data$FOB.Value..US..)
+	##	if (nrow(data[is.na(data$FOB.Value..US..),]) > 0){ print(f) }		# these sum to 940!!
+	##}
 	
 	
 	# remove all " as they mess with columns
