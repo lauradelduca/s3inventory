@@ -72,7 +72,7 @@ for (yy in 2015:2017){
 	##}
 	
 	
-	# remove all " as they mess with columns
+	# remove all " as they mess with columns, and check for ; again
 	for (f in keys){
 	
 		obj <- get_object(object = f, bucket = 'trase-storage')
@@ -82,18 +82,6 @@ for (yy in 2015:2017){
 		
 		# in all columns check again that ; is replaced with .
 		data <- data.frame(lapply(data, function(x) {gsub(";", ".", x)}))
-	
-		for (i in 1:length(data[is.na(data$FOB.Value..US..),])){
-		
-			data[is.na(data$FOB.Value..US..),]$HS.Description[i] <- paste0(	data[is.na(data$FOB.Value..US..),]$HS.Description[i], 
-																			'. ',
-																			data[is.na(data$FOB.Value..US..),]$Country.of.Destination[i])
-		
-		}
-		# delete column country of destination
-		
-		# reassign column names?
-	
 	
 		# write table to S3:
 		# write to an in-memory raw connection
@@ -105,7 +93,6 @@ for (yy in 2015:2017){
 					object = paste0(f) )
 		# close the connection
 		close(zz)
-	
 	}
 	
 	
@@ -134,14 +121,7 @@ for (yy in 2015:2017){
 		# remove this manually
 		print(tail(data))
 		
-		# is sometimes factor, sometimes integer, so rbind causes NAs
-		# should be converted to numeric, for fob and weight
-		#data$FOB.Value..US.. <- as.numeric(as.character(data$FOB.Value..US..))
-		#data$Net.Weight <- as.numeric(as.character(data$Net.Weight))
-		
-		print(sapply(data, class))
-		## issues:
-		# 2015 weights are still all NA
+
 		# 2015, 16 cotton is too much -> go over 'trasesei' integration
 		# (not a problem for 2017 as this is all newly downloaded)
 		
