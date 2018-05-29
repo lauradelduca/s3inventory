@@ -287,19 +287,22 @@ for (yy in 2005:2016){
 	D <- data.frame(lapply(D, function(x) {gsub(";", ".", x)}))
 	
 	# remove commas from numeric columns
-	D$FOB.Value..US.. <- as.numeric(gsub(",", "", D$FOB.Value..US..))
-	D$Net.Weight <- as.numeric(gsub(",", "", D$Net.Weight))	
+	D$QTDE.PROD.BAL.EXP <- as.numeric(gsub(",", "", D$QTDE.PROD.BAL.EXP))
+	D$VMLE.DOLAR.Unid.BAL.EXP <- as.numeric(gsub(",", "", D$VMLE.DOLAR.Unid.BAL.EXP))	
+	D$QTDE.EST.MERC.BAL.EXP <- as.numeric(gsub(",", "", D$QTDE.EST.MERC.BAL.EXP))
+	D$VMLE.DOLAR.BAL.EXP <- as.numeric(gsub(",", "", D$VMLE.DOLAR.BAL.EXP))
+	D$PESO.LIQ.MERC.BAL.EXP <- as.numeric(gsub(",", "", D$PESO.LIQ.MERC.BAL.EXP))
 	
 	# make sure HS column is even number of digits, here 8
-	D$Product.HS <- as.numeric(as.character(D$Product.HS))
-	D$Product.HS <- AT.add.leading.zeros(D$Product.HS, digits = 8)
+	D$COD.SUBITEM.NCM <- as.numeric(as.character(D$COD.SUBITEM.NCM))
+	D$COD.SUBITEM.NCM <- AT.add.leading.zeros(D$COD.SUBITEM.NCM, digits = 8)
 	# create 6-digit HS column from Product.HS
-	D$HS6 <- substr(D$Product.HS, 1, 6)
+	D$HS6 <- substr(D$COD.SUBITEM.NCM, 1, 6)
 	
 	
 	# just for testing... save a copy locally
 	write.table(	D, 
-					paste0(current_folder, '/', 'CD_BRAZIL_DASHBOARD_', yy, '_TEST.csv'), 
+					paste0(current_folder, '/', 'CD_BRAZIL_THIRD_PARTY_', yy, '_TEST.csv'), 
 					quote = FALSE, 
 					row.names = FALSE, 
 					dec = '.', 
@@ -312,7 +315,7 @@ for (yy in 2005:2016){
 	# upload the object to S3
 	put_object(	file = rawConnectionValue(zz), 
 				bucket = 'trase-storage', 
-				object = paste0('data/1-TRADE/CD/EXPORT/BRAZIL/DATAMYNE/DASHBOARD/', yy, '/TEST/CD_BRAZIL_', yy, '.csv') )
+				object = paste0('data/1-TRADE/CD/EXPORT/BRAZIL/DATAMYNE/THIRD_PARTY/', yy, '/TEST/CD_BRAZIL_', yy, '.csv') )
 	# close the connection
 	close(zz)
 	
