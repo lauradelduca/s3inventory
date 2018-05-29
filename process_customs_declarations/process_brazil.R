@@ -35,7 +35,7 @@ require(aws.s3)
 options(scipen=99999999)
 
 setwd('C:/Users/laura.delduca/Desktop/code')
-current_folder <- '0528'
+current_folder <- '0529'
 script_folder <- 's3inventory/comtrade_checks'
 
 source('R_aws.s3_credentials.R')					# load AWS S3 credentials
@@ -49,7 +49,18 @@ for (yy in 2015:2017){
 	keys <- subset(orig, grepl("ORIGINALS/.*.csv$", Key) )
 	keys <- as.vector(keys$Key)
 	assign(paste0('brazil_originals_', yy, '_keys'), keys)
+	
+	# test which file has ; problem
+	for (f in keys){
+	
+		obj <- get_object(object = f, bucket = 'trase-storage')
+		data <- read.csv(text = rawToChar(obj), sep = ';', quote = '', row.names = NULL, stringsAsFactors=FALSE)
 		
+		print(f)
+		print(dim(data[is.na(data$FOB.Value..US..),]))
+	}
+
+	
 	
 	# remove all " as they mess with columns
 	for (f in keys){
