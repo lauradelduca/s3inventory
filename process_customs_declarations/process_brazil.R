@@ -132,11 +132,6 @@ for (yy in 2015:2017){
 		# remove this manually
 		print(tail(data))
 		
-
-		# 2015, 16 cotton is too much -> go over 'trasesei' integration
-		# (not a problem for 2017 as this is all newly downloaded)
-		
-		
 		# files were downloaded separately but names match
 		# use column names of the first files, remove special characters if needed, and assign to all
 		# setting encoding of whole file to utf8: 
@@ -151,6 +146,20 @@ for (yy in 2015:2017){
 
 	# append all data stored in list of data frames in J
 	D <- do.call(rbind, J)
+	
+	# 2015, 2016: keys with 'trasesei...' contain updated cotton data, D needs to be updated
+	# (not a problem for 2017 as this is all newly downloaded)
+	
+	if ((yy == 2015) | (yy == 2016)){
+	
+		# combine all cotton files into one (keys that have trasesei)
+		
+		# delete all rows where product_hs is in the vector of producths from cotton file
+		
+		# rbind D and cotton file, first names(cotton) <- names(D)
+	
+	
+	}
 	
 	
 	# in all columns check again that ; is replaced with .
