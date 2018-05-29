@@ -3,9 +3,6 @@
 
 ## Brazil has originals for dashboard 2015-2017, with read-only and csvs
 
-## careful to check if dashboard 2015 cotton is added twice
-## sum of last three files is 975148.956 tons, comtrade is 951038
-
 ## Laura Del Duca
 
 
@@ -153,7 +150,7 @@ for (yy in 2015:2017){
 	if ((yy == 2015) | (yy == 2016)){
 	
 		# combine all cotton files into one (keys that have trasesei)
-		
+		cottonkeys <- keys[grepl('brazil201.cotton', keys)]
 		# delete all rows where product_hs is in the vector of producths from cotton file
 		
 		# rbind D and cotton file, first names(cotton) <- names(D)
