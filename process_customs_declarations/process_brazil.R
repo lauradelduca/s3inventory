@@ -59,7 +59,7 @@ for (yy in 2015:2017){
 	orig <- get_bucket_df(bucket = 'trase-storage', prefix = paste0('data/1-TRADE/CD/EXPORT/BRAZIL/DATAMYNE/DASHBOARD/', yy))	
 	keys <- subset(orig, grepl("ORIGINALS/.*.csv$", Key) )
 	keys <- as.vector(keys$Key)
-	assign(paste0('brazil_originals_', yy, '_keys'), keys)
+	assign(paste0('brazil_originals_', yy, '_keys'), keys)		# necessary?
 
 	## test which file has ; problem
 	## for (f in keys){
@@ -144,17 +144,42 @@ for (yy in 2015:2017){
 	# append all data stored in list of data frames in J
 	D <- do.call(rbind, J)
 	
-	# 2015, 2016: keys with 'trasesei...' contain updated cotton data, D needs to be updated
-	# (not a problem for 2017 as this is all newly downloaded)
+	
+	# 2015, 2016: keys with ''brazil201.cotton'' contain updated cotton data, D needs to be updated
+	# (not 2017 as this is all newly downloaded)
 	
 	if ((yy == 2015) | (yy == 2016)){
 	
-		# combine all cotton files into one (keys that have trasesei)
+		# combine all cotton files into one (keys that have 'brazil201.cotton')
 		cottonkeys <- keys[grepl('brazil201.cotton', keys)]
-		# delete all rows where product_hs is in the vector of producths from cotton file
 		
-		# rbind D and cotton file, first names(cotton) <- names(D)
+		K <- list()									# create an empty list to store the data of each file
+		p = 1
+		
+		for (f in cottonkeys){
+		
+			obj <- get_object(object = f, bucket = 'trase-storage')
+			data <- read.csv(text = rawToChar(obj), sep = ';', quote = '', row.names = NULL, stringsAsFactors=FALSE)
+		
+			data <- data[,1:12]											# delete empty columns
+		
+			k <- which( apply(data, 1, function(x) all(is.na(x))) )		# remove all empty rows
+			if(length(k)>0) data<- data[-k,]
+		
+			names(data) <- names(D)										# use column names of D
+		
+			K[[p]] <- data												# add the data to the list
+			p <- p + 1
+		}
+
+		cottondata <- do.call(rbind, K)				# append all data stored in list of data frames in K
 	
+		# delete all rows where Product.HS is in the vector of Product.HS from cotton file
+		cottoncodes <- as.vector(unique(as.numeric(cottondata$Product.HS)))
+		D <- D[!(as.numeric(D$Product.HS) %in% cottoncodes),]
+		
+		# rbind D and cotton file
+		D <- rbind(D, cottondata)
 	
 	}
 	
