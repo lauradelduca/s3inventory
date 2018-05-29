@@ -159,7 +159,7 @@ for (yy in 2015:2017){
 	
 	# just for testing... save a copy locally
 	write.table(	D, 
-					paste0(current_folder, '/', 'CD_BRAZIL_DASHBOARD_', yy, '_TEST_withoutcotton.csv'), 
+					paste0(current_folder, '/', 'CD_BRAZIL_DASHBOARD_', yy, '_TEST.csv'), 
 					quote = FALSE, 
 					row.names = FALSE, 
 					dec = '.', 
