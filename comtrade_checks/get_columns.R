@@ -60,16 +60,10 @@ for (f in as.vector(CD$file)){
 		
 	if (grepl("data/1-TRADE/CD/EXPORT/BRAZIL/DATAMYNE/DASHBOARD/", f)){
 	
-		CD$hs_column[CD$file == f] <- hs_column <- 'PRODUCT_HS'
-		CD$price_column[CD$file == f] <- price_column <- 'FOB_VALUE_USD'
-		CD$weight_column[CD$file == f] <- weight_column <- 'NET_WEIGHT'
-		
-		if (grepl('/TEST/CD_BRAZIL_', f)){
-			CD$hs_column[CD$file == f] <- hs_column <- 'Product.HS'
-			CD$price_column[CD$file == f] <- price_column <- 'FOB.Value..US..'
-			CD$weight_column[CD$file == f] <- weight_column <- 'Net.Weight'
-		}
-		
+		CD$hs_column[CD$file == f] <- hs_column <- 'Product.HS'
+		CD$price_column[CD$file == f] <- price_column <- 'FOB.Value..US..'
+		CD$weight_column[CD$file == f] <- weight_column <- 'Net.Weight'
+				
 		release <- c('BEEF', 'CHICKEN', 'COCOA', 'COFFEE', 'CORN', 'COTTON', 'LEATHER', 
 					'TIMBER', 'PALM OIL', 'WOOD PULP', 'SOYBEANS', 'SUGAR CANE')
 		CD$comtrade_country[CD$file == f] <- 'Brazil'
