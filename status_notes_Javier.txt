@@ -1,0 +1,217 @@
+# notes 2018-05-23
+
+so far, only 
+brazil dashboard 2015-2017
+argentina 2010-2017 (all) 
+originals are read only, need to correct
+
+priority countries:
+Argentina process_argentina.R 2013-2017
+Brazil
+Paraguay (mintrade), process_paraguay.R 2007-2018 (2018 not for upload)
+
+others:
+Costa Rica, process_costarica.R 2013-2017
+Ecuador, process_ecuador.R 2013-2017
+Peru, process_ecuador.R 2012, 2013-2015, 2016-2017
+Uruguay, process_uruguay.R 2013-2017
+
+
+comtrade comparison 2017 consistently has greater variance, as comparison is with comtrade 2016
+(comtrade data is available up to 2016)
+
+
+--- ARGENTINA 
+2013 - 2017  (2012?)
+process_argentina.R
+
+it's clear that for some commodities total_quantity1, for others cantidad estadistica is better
+
+## Weight is defined by the field "Cantidad Estadstica"
+## We have detected mistakes in weight values, given that
+
+## i) units change and are not always kilograms
+## ii) sometimes the reporters report tones instead of kilograms. To detect these cases divide FOB values and weight, and see which records have "wrong" prices per kilogram (values about 1000 times larger/smaller than the majority of the records)
+
+
+2013
+
+ok: leather and shrimps
+chicken: ok when applying 1 unidad of hs 010511 = 475kg (beef animal unit)
+average weight of one live animal is 2kg
+
+beef: kilo, deco, unid, all non kilos are live animals, applied 475 to both so far, but will only raise total weight, so not a solution
+try beef 0.30 or 0.32, or maybe that's to de-bone
+
+soy: 1 liter of soy oil is 0.92 kilograms of soy
+
+timber:
+440729 from cubic meter to ton conversion factor 0.7 
+1 cubic meter is 0.7 tons, so 1 cubic meter is 700 kg
+but result in both weight columns is about double
+
+164195.8 metros cubicos + 0.23 kg correspond to 54875kg comtrade
+which would be a conversion factor of  0.3342033
+
+
+     TOTAL.Quantity.1 Measure.Unit.1..Quantity.1. Cantidad.Estadística Unidad.Estadística TOTAL.FOB.Value..US.. FOB.per.Unit..Quantity1.
+163467            24.00              METROS CUBICOS                24.00     METROS CUBICOS             57,600.00                 2,400.00
+163780           200.00                      METROS                 4.00     METROS CUBICOS              2,400.00                    12.00
+187574             1.00                    UNIDADES                 1.00     METROS CUBICOS                 35.00                    35.00
+243882             0.00                    UNIDADES                 0.23         KILOGRAMOS                 10.00                     0.00
+271506             1.55              METROS CUBICOS                 1.55     METROS CUBICOS                232.50                   150.00
+275663             4.40              METROS CUBICOS                16.68     METROS CUBICOS             11,445.19                 2,601.18
+275664            12.28              METROS CUBICOS                16.68     METROS CUBICOS             34,395.17                 2,800.91
+275665             0.03              METROS CUBICOS                 0.06     METROS CUBICOS                  1.00                    33.33
+275666             0.03              METROS CUBICOS                 0.06     METROS CUBICOS                  1.00                    33.33
+316514             1.33              METROS CUBICOS                 1.33     METROS CUBICOS             21,155.35                15,906.28
+394426         1,000.00                      METROS                 2.88     METROS CUBICOS              5,500.00                     5.50
+394427           450.00                      METROS                 2.88     METROS CUBICOS              1,800.00                     4.00
+394428            18.00            METROS CUADRADOS                 0.66     METROS CUBICOS 
+
+all but 3rd, 4th is 440729
+
+
+want to try using the other weights column
+
+
+    commodity TEST/CD_ARGENTINA_2013.csv tons Cantidad.Estadística  comtrade_tons_2013 trase_per_comtrade
+1        BEEF                   586524.41396             647287.1        269894.987    2.1731578658777  desco (unid), kilo, unid
+2     CHICKEN                   235215.99450             398193.5        367782.465    0.6395519549851  		  kilo, unid
+3        CORN  test 2nd          90802.69471             24093022      20200819.739    0.0044950004942  		  kilo
+4      COTTON  test 2nd           4097.87847             98872.31         83896.074    0.0488446988592  desco (kilo or ton!), kilo
+5     LEATHER  use 1st          109446.63755             184181.8        112433.086    0.9734379927097		  kilo
+6      TIMBER                        1.71262              0.07201            54.875    0.0312094760820		  kilo, 	  metros cubicos (metros, metros cuadrados, metros cubicos, unid)
+7   WOOD PULP  test 2nd              0.05555             185283.6        196532.084    0.0000002826511		  kilo
+8     SHRIMPS  use 1st           88383.29671             198703.8         91288.683    0.9681736421808  desco (kilo), kilo
+9    SOYBEANS  test 2nd          16430.04254             39459697      34121384.963    0.0004815174577  desco (kilo, tons, unid!), kilo
+10 SUGAR CANE  test 2nd          13050.39125               318521        281996.329    0.0462785855982  desco, kilo,    litros (desco/litros: kilo, litros, unidad)
+
+> sum(as.numeric(gsub(',', '', data_chicken$TOTAL.Quantity.1[data_chicken$Unidad.Estadística == 'UNIDADES'])))/1000
+[1] 286.275
+> sum(as.numeric(gsub(',', '', data_chicken$TOTAL.Quantity.1[data_chicken$Unidad.Estadística == 'KILOGRAMOS'])))/1000
+[1] 234929.7
+
+367782.465 - 234929.7 
+= 132852.8 tons is what 286275 unidades of 010511 chicken should correspond to
+
+that's
+132852.8/286275
+=  0.4640741 tons per unidad
+
+>>>>  so one unidad of live animal is 464kg, so fine to use 475kg/unidad
+
+
+
+
+> as.numeric(sort(unique(hs$code_value[hs$com_name == 'BEEF'])))
+ [1]  10210  10221  10229  10290  20110  20120  20130  20210  20220  20230  20610  20621  20622  20629  21020  50400 160250
+> as.numeric(sort(unique(hs$code_value[hs$com_name == 'CHICKEN'])))
+[1]  10511  10591  10594  20711  20712  20713  20714  20741 160232
+> as.numeric(sort(unique(hs$code_value[hs$com_name == 'CORN'])))
+[1] 100510 100590 110220 110313 110423 110812 151521 151529 230210
+> as.numeric(sort(unique(hs$code_value[hs$com_name == 'COTTON'])))
+ [1] 120721 120729 140420 151221 151229 230610 470610 520100 520210 520291 520299 520300
+> as.numeric(sort(unique(hs$code_value[hs$com_name == 'LEATHER'])))
+ [1] 410120 410150 410190 410411 410419 410441 410449 410711 410712 410719 410791 410792 410799
+> as.numeric(sort(unique(hs$code_value[hs$com_name == 'TIMBER'])))
+ [1] 440311 440312 440321 440322 440325 440326 440341 440349 440410 440420 440711 440721 440722 440725 440726 440727 440728 440729
+> as.numeric(sort(unique(hs$code_value[hs$com_name == 'WOOD PULP'])))
+ [1] 470100 470200 470311 470319 470321 470329 470411 470419 470421 470429 470500
+> as.numeric(sort(unique(hs$code_value[hs$com_name == 'SHRIMPS'])))
+[1] 30616 30617 30635 30636 30695
+> as.numeric(sort(unique(hs$code_value[hs$com_name == 'SOYBEANS'])))
+[1] 120100 120110 120190 120810 150710 150790 210310 230400
+> as.numeric(sort(unique(hs$code_value[hs$com_name == 'SUGAR CANE'])))
+ [1] 121292 121293 170111 170113 170114 170191 170199 170310 220710 220720
+
+
+ 
+ 
+
+--- BRAZIL ---
+## Brazil has originals for dashboard 2015-2017, with read-only and csvs
+## then go on to figure out third party...
+
+## make sure that dashboard 2015 cotton is not added twice
+remove commas in weight
+
+2005-2009 only soybeans
+2010 only soybeans and beef
+2011 only soybeans and beef, beef 0.88
+2012 only soybeans and beef, beef 0.87
+2013 only soybeans and beef, beef 0.88
+2014 only soybeans and beef, beef 0.87
+2015 dashboard coffee 0.88, soybeans 0.88, sugar cane 0.87	
+2015 third party only soybeans and beef, beef 0.88
+2016 third party only soybeans and beef, beef 0.89
+2017 dashboard comparison with comtrade 2016, timber 10.78
+need to figure out timber, as number seems much higher (10x) than other years
+redownloaded and processed timber, seems all ok but sums to 10x
+
+cotton: 120721 120729 140420 151221 151229 230610 470610 520100 520210 520291 520299 520300
+timber: 440311 440312 440321 440322 440325 440326 440341 440349 440410 440420 440711 440721 440722 440725 440726 440727 440728 440729
+
+
+--- PARAGUAY (MINTRADE)
+2007 - 2018 (2018 not to be included in upload, still approximation)
+process_paraguay.R
+
+2007 leather 0.82, soybeans 0.73
+2008 corn 0.74, soybeans 0.77
+2010 timber 0.83
+2011 timber 0.86
+2012 timber 0.78
+2013 beef 0.74, corn 0.86, leather 0.73, 
+timber 0.52, soybeans 0.57, sugar cane 0.51 !!
+2014 timber 0.85
+
+
+--- COSTA RICA ---
+2013 - 2017
+process_costarica.R
+
+2016 shrimps (0.77 ratio):
+three units: caja, carton, bultos, but all have net weight
+all are caja, except for one carton and one bultos
+the bultos one stands out with a very small weight
+bultos means bulge, undetermined volume
+bultos is also the only shipment by air, not sea, so maybe weight is valid
+both 2016 shrimps and the comtrade16 records are only one hs code, and just don't sum up
+
+2016 sugar cane (0.89 ratio):
+multiple units, types of transport, but all have net kg
+> unique(data_sugarcane$MEASURE_UNIT_1_QUANTITY_1)
+[1] CAJA           BULTOS         BOLSA          ROLLO          GRANEL         GRANEL LIQUIDO SACO 
+weights are varying a lot, all separators seem good
+two records with weight == 0, value == 0 but number of items 1 and 4
+
+
+--- ECUADOR --- 
+2013 - 2017
+process_ecuador.R
+look into higher palm oil values
+
+
+--- PERU ---
+2012, 2013 - 2015, 2016 - 2017
+process_peru.R
+
+2013-2015 redownloaded reduced number of columns, only what's needed to upload
+
+2012 no leather, timber
+2013 chicken 1.22 ratio, palm oil 1.17 ratio
+2014 chicken 0.73
+2016 palm oil 1.12
+
+
+--- URUGUAY ---
+2013 - 2017
+process_uruguay.R
+
+some files had incorrect column names so re-downloaded 2013-2017
+drop 2012 as too problematic/not available for download
+
+wood pulp 0.81 for 2013
+soy beans 1.12 for 2014
+soy beans 1.24 for 2016
