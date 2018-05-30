@@ -422,11 +422,11 @@ for (yy in 2015:2017){
 	
 }
 
-## 2015-2017 third party separate
+## 2015-2017 new_brazil_data
 for (yy in 2015:2017){
 	
-	# load csv originals keys for all years, store in vector 'brazil_originals_YEAR_keys'
-	orig <- get_bucket_df(bucket = 'trase-storage', prefix = paste0('data/1-TRADE/CD/EXPORT/BRAZIL/DATAMYNE/THIRD_PARTY_SEPARATE/', yy))	
+	# load csv originals keys for all years
+	orig <- get_bucket_df(bucket = 'trase-storage', prefix = paste0('data/1-TRADE/CD/EXPORT/BRAZIL/DATAMYNE/new_brazil_data/', yy))	
 	keys <- subset(orig, grepl("ORIGINALS/.*.csv$", Key) )
 	keys <- as.vector(keys$Key)
 	
@@ -504,7 +504,7 @@ for (yy in 2015:2017){
 	
 	# just for testing... save a copy locally
 	write.table(	D, 
-					paste0(current_folder, '/', 'CD_BRAZIL_THIRD_PARTY_SEPARATE_', yy, '_TEST.csv'), 
+					paste0(current_folder, '/', 'CD_BRAZIL_new_brazil_data_', yy, '_TEST.csv'), 
 					quote = FALSE, 
 					row.names = FALSE, 
 					dec = '.', 
@@ -517,7 +517,7 @@ for (yy in 2015:2017){
 	# upload the object to S3
 	put_object(	file = rawConnectionValue(zz), 
 				bucket = 'trase-storage', 
-				object = paste0('data/1-TRADE/CD/EXPORT/BRAZIL/DATAMYNE/THIRD_PARTY_SEPARATE/', yy, '/TEST/CD_BRAZIL_', yy, '.csv') )
+				object = paste0('data/1-TRADE/CD/EXPORT/BRAZIL/DATAMYNE/new_brazil_data/', yy, '/TEST/CD_BRAZIL_', yy, '.csv') )
 	# close the connection
 	close(zz)
 	
