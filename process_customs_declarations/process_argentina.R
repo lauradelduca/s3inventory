@@ -41,7 +41,7 @@ require(aws.s3)
 options(scipen=99999999)
 
 setwd('C:/Users/laura.delduca/Desktop/code')
-current_folder <- '0523'
+current_folder <- '0531'
 script_folder <- 's3inventory/comtrade_checks'
 
 source('R_aws.s3_credentials.R')					# load AWS S3 credentials
@@ -50,11 +50,10 @@ source('R_aws.s3_credentials.R')					# load AWS S3 credentials
 ## 2013 - 2017 SICEX2.5
 for (yy in 2013:2017){
 	
-	# load csv originals keys for all years, store in vector 'argentina_originals_YEAR_keys'
+	# load csv originals keys for all years
 	orig <- get_bucket_df(bucket = 'trase-storage', prefix = paste0('data/1-TRADE/CD/EXPORT/ARGENTINA/', yy))	
 	keys <- subset(orig, grepl("ORIGINALS/.*.csv$", Key) )
 	keys <- as.vector(keys$Key)
-	assign(paste0('argentina_originals_', yy, '_keys'), keys)
 	
 	# create an empty list to store the data of each file
 	J <- list()
