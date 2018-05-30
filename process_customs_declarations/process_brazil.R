@@ -253,14 +253,21 @@ for (yy in 2005:2016){
 	}
 	
 	
-	
 	## nometrica and metrica need to be rbinded separately and then rbinded those too
+	## otherwise can't fix column names in same step
+	
+	# nometrica keys
+	nometrica_keys <- keys[grepl('nometrica', keys)]
+	# metrica keys
+	metrica_keys <- keys[!(keys %in% nometrica_keys)]
+	
+	## first metrica
 	
 	# create an empty list to store the data of each file
 	J <- list()
 	i = 1
 	
-	for (f in keys){
+	for (f in metrica_keys){
 		
 		obj <- get_object(object = f, bucket = 'trase-storage')
 		data <- read.csv(text = rawToChar(obj), sep = ';', quote = '', row.names = NULL, stringsAsFactors=FALSE)
@@ -290,7 +297,50 @@ for (yy in 2005:2016){
 	}
 
 	# append all data stored in list of data frames in J
-	D <- do.call(rbind, J)
+	metrica_D <- do.call(rbind, J)
+	
+	
+	## now nometrica
+	
+	# create an empty list to store the data of each file
+	J <- list()
+	i = 1
+	
+	for (f in nometrica_keys){
+		
+		obj <- get_object(object = f, bucket = 'trase-storage')
+		data <- read.csv(text = rawToChar(obj), sep = ';', quote = '', row.names = NULL, stringsAsFactors=FALSE)
+		
+		# make sure the files look correct, and numbers of columns match, to use same names
+		print(f)
+		print(data[1:3,])
+		print(ncol(data))
+		
+		# remove all empty rows: get index of all rows that have NAs across all columns and remove
+		k <- which( apply(data, 1, function(x) all(is.na(x))) )
+		if(length(k)>0) data<- data[-k,]
+		
+		# use column names of the first files, remove special characters if needed, and assign to all
+		# setting encoding of whole file to utf8: 
+		# fread with encoding = 'UTF-8' option is not sufficient so correcting colnames manually
+		# correct Metrica
+		if (i==1){
+			setnames(data, old = c('Métrica'), new = c('Metrica'))
+			nn <- names(data)
+		}
+		if (i>1)   names(data) <- nn
+		
+		# add the data to the list
+		J[[i]] <- data
+		i <- i + 1
+	}
+
+	# append all data stored in list of data frames in J
+	nometrica_D <- do.call(rbind, J)
+	
+	
+	## then rbind nometrica and metrica
+	D <- rbind(metrica_D, nometrica_D)	
 	
 	
 	# in all columns check again that ; is replaced with .
