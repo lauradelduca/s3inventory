@@ -17,15 +17,20 @@ for (cc in countries){
 		obj <- get_object(object = f, bucket = 'trase-storage')
 		data <- read.csv(text = rawToChar(obj), sep = ';', quote = '', row.names = NULL)
 			
-		if (grepl("ORIGINALS/CD_PARAGUAY_", f)){ data$hs6 <- as.integer(substr(gsub('\\.', '', data$NCM, perl=TRUE), 0, 6)) }
+		# if (grepl("ORIGINALS/CD_PARAGUAY_", f)){ data$hs6 <- as.integer(substr(gsub('\\.', '', data$NCM, perl=TRUE), 0, 6)) }
 		
-		if ((cc == 'PARAGUAY') | (cc == 'BRAZIL') ){
-			data[, CD$weight_column[CD$file == f] ] <- as.character(data[, CD$weight_column[CD$file == f] ])
-			for (i in 1:nrow(data)){
-				data[, CD$weight_column[CD$file == f] ][i] <- gsub(',', '', data[, CD$weight_column[CD$file == f] ][i])
-			}
-			data[, CD$weight_column[CD$file == f] ] <- as.numeric(data[, CD$weight_column[CD$file == f] ])
-		}		
+		if (grepl('BRAZIL', f)){ 
+			data[, CD$hs_column[CD$file == f] ] <- formatC(data[, CD$hs_column[CD$file == f] ], width = 8, format = "d", flag = "0") 
+			data[, CD$hs_column[CD$file == f] ] <- as.integer(substr(data[, CD$hs_column[CD$file == f] ], 0, 6))
+		}
+		
+		# if ((cc == 'PARAGUAY') | (cc == 'BRAZIL') ){
+			# data[, CD$weight_column[CD$file == f] ] <- as.character(data[, CD$weight_column[CD$file == f] ])
+			# for (i in 1:nrow(data)){
+				# data[, CD$weight_column[CD$file == f] ][i] <- gsub(',', '', data[, CD$weight_column[CD$file == f] ][i])
+			# }
+			# data[, CD$weight_column[CD$file == f] ] <- as.numeric(data[, CD$weight_column[CD$file == f] ])
+		# }		
 		
 		# # comment from here
 		# if (grepl('ARGENTINA', f)){
