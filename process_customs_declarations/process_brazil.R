@@ -1,5 +1,5 @@
 ## Preprocessing of Brazil customs declarations trade data from Datamyne, 2015-2017 dashboard, 2005-2016 third party
-## third_party_separate 2015-2017, 2015-2017 new_brazil_data
+## third_party_separate 2015-2017
 ## Brazil has originals with read-only and csvs
 
 ## Laura Del Duca
@@ -417,107 +417,6 @@ for (yy in 2015:2017){
 	put_object(	file = rawConnectionValue(zz), 
 				bucket = 'trase-storage', 
 				object = paste0('data/1-TRADE/CD/EXPORT/BRAZIL/DATAMYNE/THIRD_PARTY_SEPARATE/', yy, '/TEST/CD_BRAZIL_', yy, '.csv') )
-	# close the connection
-	close(zz)
-	
-}
-
-## 2015-2017 new_brazil_data
-for (yy in 2015:2017){
-	
-	# load csv originals keys for all years
-	orig <- get_bucket_df(bucket = 'trase-storage', prefix = paste0('data/1-TRADE/CD/EXPORT/BRAZIL/DATAMYNE/new_brazil_data/', yy))	
-	keys <- subset(orig, grepl("ORIGINALS/.*.csv$", Key) )
-	keys <- as.vector(keys$Key)
-	
-	# remove all " as they mess with columns, and check for ; again
-	for (f in keys){
-	
-		obj <- get_object(object = f, bucket = 'trase-storage')
-		data <- read.csv(text = rawToChar(obj), sep = ';', quote = '', row.names = NULL, stringsAsFactors=FALSE)
-		
-		data <- data.frame(lapply(data, function(x) {gsub('"', '', x)}))
-		data <- data.frame(lapply(data, function(x) {gsub(";", ".", x)}))
-	
-		# write table to S3:
-		# write to an in-memory raw connection
-		zz <- rawConnection(raw(0), "r+")
-		write.table(data, zz, quote = FALSE, row.names = FALSE, dec = '.', sep = ';')
-		# upload the object to S3
-		put_object(	file = rawConnectionValue(zz), 
-					bucket = 'trase-storage', 
-					object = paste0(f) )
-		# close the connection
-		close(zz)
-	}
-	
-	
-	# create an empty list to store the data of each file
-	J <- list()
-	i = 1
-	
-	for (f in keys){
-		
-		obj <- get_object(object = f, bucket = 'trase-storage')
-		data <- read.csv(text = rawToChar(obj), sep = ';', quote = '', row.names = NULL, stringsAsFactors=FALSE)
-		
-		# make sure the files look correct, and numbers of columns match, to use same names
-		print(f)
-		print(data[1:3,])
-		print(ncol(data))
-		
-		# remove all empty rows: get index of all rows that have NAs across all columns and remove
-		k <- which( apply(data, 1, function(x) all(is.na(x))) )
-		if(length(k)>0) data<- data[-k,]
-		
-		# use column names of the first files, remove special characters if needed, and assign to all
-		# setting encoding of whole file to utf8: 
-		# fread with encoding = 'UTF-8' option is not sufficient so correcting colnames manually
-		if (i==1)  nn <- names(data)
-		if (i>1)   names(data) <- nn
-		
-		# add the data to the list
-		J[[i]] <- data
-		i <- i + 1
-	}
-
-	# append all data stored in list of data frames in J
-	D <- do.call(rbind, J)
-	
-	
-	# in all columns check again that ; is replaced with .
-	D <- data.frame(lapply(D, function(x) {gsub(";", ".", x)}))
-	
-	# remove commas from numeric columns
-	D$QTDE.PROD.BAL.EXP <- as.numeric(gsub(",", "", D$QTDE.PROD.BAL.EXP))
-	D$QTDE.EST.MERC.BAL.EXP <- as.numeric(gsub(",", "", D$QTDE.EST.MERC.BAL.EXP))	
-	D$VMLE.DOLAR.Unid.BAL.EXP <- as.numeric(gsub(",", "", D$VMLE.DOLAR.Unid.BAL.EXP))
-	D$VMLE.DOLAR.BAL.EXP <- as.numeric(gsub(",", "", D$VMLE.DOLAR.BAL.EXP))
-	D$PESO.LIQ.MERC.BAL.EXP <- as.numeric(gsub(",", "", D$PESO.LIQ.MERC.BAL.EXP))
-	
-	# make sure HS column is even number of digits, here 8
-	D$COD.SUBITEM.NCM <- as.numeric(as.character(D$COD.SUBITEM.NCM))
-	D$COD.SUBITEM.NCM <- AT.add.leading.zeros(D$COD.SUBITEM.NCM, digits = 8)
-	# create 6-digit HS column from Product.HS
-	D$HS6 <- substr(D$COD.SUBITEM.NCM, 1, 6)
-	
-	
-	# just for testing... save a copy locally
-	write.table(	D, 
-					paste0(current_folder, '/', 'CD_BRAZIL_new_brazil_data_', yy, '_TEST.csv'), 
-					quote = FALSE, 
-					row.names = FALSE, 
-					dec = '.', 
-					sep = ';')
-
-	# write table to S3:
-	# write to an in-memory raw connection
-	zz <- rawConnection(raw(0), "r+")
-	write.table(D, zz, quote = FALSE, row.names = FALSE, dec = '.', sep = ';')
-	# upload the object to S3
-	put_object(	file = rawConnectionValue(zz), 
-				bucket = 'trase-storage', 
-				object = paste0('data/1-TRADE/CD/EXPORT/BRAZIL/DATAMYNE/new_brazil_data/', yy, '/TEST/CD_BRAZIL_', yy, '.csv') )
 	# close the connection
 	close(zz)
 	
