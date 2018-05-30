@@ -1,7 +1,7 @@
 # notes 2018-05-30
 
 so far, only 
-brazil dashboard 2015-2017 third party 2005-2016 separate 2015-2017
+brazil dashboard 2015-2017 third party 2005-2017
 argentina 2010-2017 (all) 
 originals are read only, need to correct
 
@@ -130,6 +130,8 @@ that's
  
 
 --- BRAZIL ---
+dashboard 2015-2017, third party 2005-2017
+process_brazil.R
 ## Brazil has originals with read-only and csvs
 
 2005-2009 only soybeans
@@ -142,7 +144,7 @@ that's
 2015 third party only soybeans and beef, beef 0.88
 2016 third party only soybeans and beef, beef 0.89
 2017 dashboard comparison with comtrade 2016, timber 10.78
-need to figure out timber, as number seems much higher (10x) than other years
+timber number seems much higher (10x) than other years
 redownloaded and processed timber, seems all ok but sums to 10x
 
 cotton: 120721 120729 140420 151221 151229 230610 470610 520100 520210 520291 520299 520300

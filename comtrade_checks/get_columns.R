@@ -55,7 +55,6 @@ for (f in as.vector(CD$file)){
 			
 		release <- c('CHICKEN', 'COFFEE', 'CORN', 'LEATHER', 'TIMBER', 'SOYBEANS')
 		CD$comtrade_country[CD$file == f] <- 'Bolivia (Plurinational State of)'
-		
 	}
 		
 	if (grepl("data/1-TRADE/CD/EXPORT/BRAZIL/DATAMYNE/DASHBOARD/", f)){
@@ -67,7 +66,6 @@ for (f in as.vector(CD$file)){
 		release <- c('BEEF', 'CHICKEN', 'COCOA', 'COFFEE', 'CORN', 'COTTON', 'LEATHER', 
 					'TIMBER', 'PALM OIL', 'WOOD PULP', 'SOYBEANS', 'SUGAR CANE')
 		CD$comtrade_country[CD$file == f] <- 'Brazil'
-		
 	}
 		
 	if (grepl("data/1-TRADE/CD/EXPORT/BRAZIL/DATAMYNE/THIRD_PARTY", f)){
@@ -76,16 +74,9 @@ for (f in as.vector(CD$file)){
 		CD$price_column[CD$file == f] <- price_column <- 'VMLE.DOLAR.BAL.EXP'
 		CD$weight_column[CD$file == f] <- weight_column <- 'PESO.LIQ.MERC.BAL.EXP'
 		
-		if ((grepl('THIRD_PARTY/2015/CD', f)) | grepl('THIRD_PARTY/2016/CD', f)){
-			CD$hs_column[CD$file == f] <- hs_column <- 'COD_SUBITEM_NCM'
-			CD$price_column[CD$file == f] <- price_column <- 'VMLE_DOLAR_BAL_EXP'
-			CD$weight_column[CD$file == f] <- weight_column <- 'PESO_LIQ_MERC_BAL_EXP'
-		}
-		
 		release <- c('BEEF', 'CHICKEN', 'COCOA', 'COFFEE', 'CORN', 'COTTON', 'LEATHER', 
 					'TIMBER', 'PALM OIL', 'WOOD PULP', 'SOYBEANS', 'SUGAR CANE')
 		CD$comtrade_country[CD$file == f] <- 'Brazil'
-		
 	}
 
 		
