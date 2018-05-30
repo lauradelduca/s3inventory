@@ -1,5 +1,4 @@
-## Preprocessing of Brazil customs declarations trade data from Datamyne, 2015-2017 dashboard, 2005-2016 third party
-## third_party_separate 2015-2017
+## Preprocessing of Brazil customs declarations trade data from Datamyne, 2015-2017 dashboard, 2005-2017 third party
 ## Brazil has originals with read-only and csvs
 
 ## Laura Del Duca
@@ -219,12 +218,8 @@ for (yy in 2015:2017){
 }
 
 
-## 2005-2016 third party
-
-## change back to 2005
-
-
-for (yy in 2015:2017){
+## 2005-2017 third party
+for (yy in 2005:2017){
 	
 	# load csv originals keys for all years
 	orig <- get_bucket_df(bucket = 'trase-storage', prefix = paste0('data/1-TRADE/CD/EXPORT/BRAZIL/DATAMYNE/THIRD_PARTY/', yy))	
