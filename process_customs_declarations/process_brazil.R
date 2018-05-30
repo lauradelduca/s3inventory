@@ -220,9 +220,13 @@ for (yy in 2015:2017){
 
 
 ## 2005-2016 third party
-for (yy in 2005:2016){
+
+## change back to 2005
+
+
+for (yy in 2015:2017){
 	
-	# load csv originals keys for all years, store in vector 'brazil_originals_YEAR_keys'
+	# load csv originals keys for all years
 	orig <- get_bucket_df(bucket = 'trase-storage', prefix = paste0('data/1-TRADE/CD/EXPORT/BRAZIL/DATAMYNE/THIRD_PARTY/', yy))	
 	keys <- subset(orig, grepl("ORIGINALS/.*.csv$", Key) )
 	keys <- as.vector(keys$Key)
@@ -340,8 +344,9 @@ for (yy in 2005:2016){
 	
 	
 	## then rbind nometrica and metrica
-	D <- rbind(metrica_D, nometrica_D)	
-	
+	if ((yy == 2015) | (yy == 2016)){ D <- rbind(metrica_D, nometrica_D) }
+	if (yy < 2015) { D <- metrica_D }
+	if (yy == 2017) { D <- nometrica_D }
 	
 	# in all columns check again that ; is replaced with .
 	D <- data.frame(lapply(D, function(x) {gsub(";", ".", x)}))
