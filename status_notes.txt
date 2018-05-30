@@ -6,8 +6,8 @@ argentina 2010-2017 (all)
 originals are read only, need to correct
 
 priority countries:
-Argentina process_argentina.R 2013-2017 (add 2010-2012)
-Brazil process_brazil.R dashboard 2015-2017, third party 2005-2016, separate 2015-2017, new 2015-2017
+Argentina, process_argentina.R 2013-2017 (add 2010-2012)
+Brazil, process_brazil.R dashboard 2015-2017, third party 2005-2017
 Paraguay (mintrade), process_paraguay.R 2007-2018 (2018 not for upload)
 
 others:

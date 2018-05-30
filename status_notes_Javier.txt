@@ -1,8 +1,13 @@
-# notes 2018-05-29
+# notes 2018-05-30
+
+so far
+brazil dashboard 2015-2017 third party 2005-2017
+argentina 2010-2017 (all) 
+originals are read only, need to correct
 
 priority countries:
-Argentina process_argentina.R 2013-2017
-Brazil
+Argentina, process_argentina.R 2013-2017 (add 2010-2012)
+Brazil, process_brazil.R dashboard 2015-2017, third party 2005-2017
 Paraguay (mintrade), process_paraguay.R 2007-2018 (2018 not for upload)
 
 others:
@@ -14,9 +19,30 @@ Uruguay, process_uruguay.R 2013-2017
 
 comtrade comparison 2017 consistently has greater variance, as comparison is with comtrade 2016
 (comtrade data is available up to 2016)
+ 
+
+--- BRAZIL ---
+dashboard 2015-2017, third party 2005-2017
+process_brazil.R
+
+2005-2009 only soybeans
+2010 only soybeans and beef
+2011 only soybeans and beef, beef 0.88
+2012 only soybeans and beef, beef 0.87
+2013 only soybeans and beef, beef 0.88
+2014 only soybeans and beef, beef 0.87
+2015 dashboard coffee 0.88, soybeans 0.88, sugar cane 0.87	
+2015 third party only soybeans and beef, beef 0.88
+2016 third party only soybeans and beef, beef 0.89
+2017 dashboard comparison with comtrade 2016, timber 10.78
+timber number seems much higher (10x) than other years
+redownloaded and processed timber, seems all ok but sums to 10x
+
+cotton: 120721 120729 140420 151221 151229 230610 470610 520100 520210 520291 520299 520300
+timber: 440311 440312 440321 440322 440325 440326 440341 440349 440410 440420 440711 440721 440722 440725 440726 440727 440728 440729
 
 
---- PARAGUAY (MINTRADE)
+--- PARAGUAY (MINTRADE) ---
 2007 - 2018 (2018 not to be included in upload, still approximation)
 process_paraguay.R
 
