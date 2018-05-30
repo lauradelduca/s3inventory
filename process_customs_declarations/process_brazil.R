@@ -1,7 +1,6 @@
 ## Preprocessing of Brazil customs declarations trade data from Datamyne, 2015-2017 dashboard, 2005-2016 third party
 ## third_party_separate 2015-2017, 2015-2017 new_brazil_data
-
-## Brazil has originals for dashboard 2015-2017, with read-only and csvs
+## Brazil has originals with read-only and csvs
 
 ## Laura Del Duca
 
@@ -390,8 +389,8 @@ for (yy in 2015:2017){
 	
 	# remove commas from numeric columns
 	D$QTDE.PROD.BAL.EXP <- as.numeric(gsub(",", "", D$QTDE.PROD.BAL.EXP))
-	D$VMLE.DOLAR.Unid.BAL.EXP <- as.numeric(gsub(",", "", D$VMLE.DOLAR.Unid.BAL.EXP))	
-	D$QTDE.EST.MERC.BAL.EXP <- as.numeric(gsub(",", "", D$QTDE.EST.MERC.BAL.EXP))
+	D$QTDE.EST.MERC.BAL.EXP <- as.numeric(gsub(",", "", D$QTDE.EST.MERC.BAL.EXP))	
+	D$VMLE.DOLAR.Unid.BAL.EXP <- as.numeric(gsub(",", "", D$VMLE.DOLAR.Unid.BAL.EXP))
 	D$VMLE.DOLAR.BAL.EXP <- as.numeric(gsub(",", "", D$VMLE.DOLAR.BAL.EXP))
 	D$PESO.LIQ.MERC.BAL.EXP <- as.numeric(gsub(",", "", D$PESO.LIQ.MERC.BAL.EXP))
 	
@@ -423,12 +422,11 @@ for (yy in 2015:2017){
 	
 }
 
-
-## 2015-2017 new_brazil_data
+## 2015-2017 third party separate
 for (yy in 2015:2017){
 	
 	# load csv originals keys for all years, store in vector 'brazil_originals_YEAR_keys'
-	orig <- get_bucket_df(bucket = 'trase-storage', prefix = paste0('data/1-TRADE/CD/EXPORT/BRAZIL/DATAMYNE/THIRD_PARTY/', yy))	
+	orig <- get_bucket_df(bucket = 'trase-storage', prefix = paste0('data/1-TRADE/CD/EXPORT/BRAZIL/DATAMYNE/THIRD_PARTY_SEPARATE/', yy))	
 	keys <- subset(orig, grepl("ORIGINALS/.*.csv$", Key) )
 	keys <- as.vector(keys$Key)
 	
@@ -492,8 +490,8 @@ for (yy in 2015:2017){
 	
 	# remove commas from numeric columns
 	D$QTDE.PROD.BAL.EXP <- as.numeric(gsub(",", "", D$QTDE.PROD.BAL.EXP))
-	D$VMLE.DOLAR.Unid.BAL.EXP <- as.numeric(gsub(",", "", D$VMLE.DOLAR.Unid.BAL.EXP))	
-	D$QTDE.EST.MERC.BAL.EXP <- as.numeric(gsub(",", "", D$QTDE.EST.MERC.BAL.EXP))
+	D$QTDE.EST.MERC.BAL.EXP <- as.numeric(gsub(",", "", D$QTDE.EST.MERC.BAL.EXP))	
+	D$VMLE.DOLAR.Unid.BAL.EXP <- as.numeric(gsub(",", "", D$VMLE.DOLAR.Unid.BAL.EXP))
 	D$VMLE.DOLAR.BAL.EXP <- as.numeric(gsub(",", "", D$VMLE.DOLAR.BAL.EXP))
 	D$PESO.LIQ.MERC.BAL.EXP <- as.numeric(gsub(",", "", D$PESO.LIQ.MERC.BAL.EXP))
 	
@@ -506,7 +504,7 @@ for (yy in 2015:2017){
 	
 	# just for testing... save a copy locally
 	write.table(	D, 
-					paste0(current_folder, '/', 'CD_BRAZIL_THIRD_PARTY_', yy, '_TEST.csv'), 
+					paste0(current_folder, '/', 'CD_BRAZIL_THIRD_PARTY_SEPARATE_', yy, '_TEST.csv'), 
 					quote = FALSE, 
 					row.names = FALSE, 
 					dec = '.', 
@@ -519,7 +517,7 @@ for (yy in 2015:2017){
 	# upload the object to S3
 	put_object(	file = rawConnectionValue(zz), 
 				bucket = 'trase-storage', 
-				object = paste0('data/1-TRADE/CD/EXPORT/BRAZIL/DATAMYNE/THIRD_PARTY/', yy, '/TEST/CD_BRAZIL_', yy, '.csv') )
+				object = paste0('data/1-TRADE/CD/EXPORT/BRAZIL/DATAMYNE/THIRD_PARTY_SEPARATE/', yy, '/TEST/CD_BRAZIL_', yy, '.csv') )
 	# close the connection
 	close(zz)
 	
