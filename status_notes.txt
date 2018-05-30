@@ -1,13 +1,13 @@
 # notes 2018-05-30
 
 so far, only 
-brazil dashboard 2015-2017
+brazil dashboard 2015-2017 third party 2005-2016 separate 2015-2017 newdata 2015-2017
 argentina 2010-2017 (all) 
 originals are read only, need to correct
 
 priority countries:
-Argentina process_argentina.R 2013-2017
-Brazil
+Argentina process_argentina.R 2013-2017 (add 2010-2012)
+Brazil process_brazil.R dashboard 2015-2017, third party 2005-2016, separate 2015-2017, new 2015-2017
 Paraguay (mintrade), process_paraguay.R 2007-2018 (2018 not for upload)
 
 others:
@@ -130,11 +130,7 @@ that's
  
 
 --- BRAZIL ---
-## Brazil has originals for dashboard 2015-2017, with read-only and csvs
-## then go on to figure out third party...
-
-## make sure that dashboard 2015 cotton is not added twice
-remove commas in weight
+## Brazil has originals with read-only and csvs
 
 2005-2009 only soybeans
 2010 only soybeans and beef
