@@ -158,11 +158,12 @@ obj <- get_object(object = f, bucket = 'trase-storage')
 data <- read.csv(text = rawToChar(obj), sep = ';', quote = '', row.names = NULL)
 
 head(data)
+# HS code columns get imported as numerics without leading zeros
 
-# check for HS code type and leading zeros
-class(data$Harmonized.Code.Product.English)
-data[1:20,]
-
+# # check for HS code type and leading zeros
+# class(data$Harmonized.Code.Product.English)		# integer
+# data[30:50,]
+# class(data$Product.Schedule.B.Code)				# numeric
 
 # create new column, 'fob_per_kg' (divide FOB values and weight)
 data$fob_per_kg <- data$TOTAL.FOB.Value..US.. / data$Cantidad.Estadistica
@@ -174,11 +175,12 @@ data <- arrange(data, data$Product.Schedule.B.Code, data$fob_per_kg)
 
 data[1:20,]
 
+
 # look at data for each commodity separately
 
 # load relevant HS6 codes from commodity dictionary
 # this loads codes (as vector) for beef, chicken, corn, cotton, leather, timber, woodpulp, shrimps, soy, sugarcane
-# codes are loaded as type numeric without leading zeros
+# codes are loaded as type numeric without leading zeros, like columns in data
 source(paste0(script_folder, '/', 'get_hs_codes.R'))
 
 data_beef <- data[as.numeric(data$Harmonized.Code.Product.English) %in% beef,]
@@ -192,11 +194,33 @@ data_shrimps <- data[as.numeric(data$Harmonized.Code.Product.English) %in% shrim
 data_soy <- data[as.numeric(data$Harmonized.Code.Product.English) %in% soy,]
 data_sugarcane <- data[as.numeric(data$Harmonized.Code.Product.English) %in% sugarcane,]
 
-# HS6 column in data: Harmonized.Code.Product.English (no leading zeros)
-class(data$Harmonized.Code.Product.English)  	# integer
+dim(data_beef)			# [1] 124998     32
+dim(data_chicken)		# [1] 9202   32
+dim(data_corn)			# [1] 10687    32
+dim(data_cotton)		# [1] 1078   32
+dim(data_leather)		# [1] 16725    32
+dim(data_timber)		# [1] 13 32
+dim(data_woodpulp)		# [1] 1753   32
+dim(data_shrimps)		# [1] 7180   32
+dim(data_soy)			# [1] 8965   32
+dim(data_sugarcane)		# [1] 1132   32
 
+
+
+# commodity		/2013/SICEX25/CD_ARGENTINA_2013.csv tons	comtrade_tons_2013	trase_per_comtrade
+# BEEF			647287.0704		269894.987		2.398292305
+# CHICKEN		398193.4621		367782.465		1.082687458		ok
+# CORN			24093021.7		20200819.74		1.192675447		ok
+# COTTON		98872.31381		83896.074		1.178509424		ok
+# LEATHER		184181.849		112433.086		1.638146346
+# TIMBER		0.07201			54.875			0.001312255
+# WOOD PULP		185283.577		196532.084		0.942765035		ok
+# SHRIMPS		198703.7861		91288.683		2.176653004
+# SOYBEANS		39459696.57		34121384.96		1.156450613		ok
+# SUGAR CANE	318520.9519		281996.329		1.129521626		ok
 
 
 # check min/maxes for each hs code
+# order to check: timber, shrimps, leather, beef
 
-
+# data_timber

@@ -34,6 +34,7 @@ it's clear that for some commodities total_quantity1, for others cantidad estadi
 ## ii) sometimes the reporters report tones instead of kilograms. To detect these cases divide FOB values and weight, and see which records have "wrong" prices per kilogram (values about 1000 times larger/smaller than the majority of the records)
 
 
+
 2013
 
 ok: leather and shrimps
