@@ -269,7 +269,7 @@ sum(data_timber$conversion_700) - 20587 + 29.41		# sums to 5125.41 kg, comtrade 
 
 
 
-### data_shrimps
+### data_shrimps (that's for 2015 actually...)
 
 # sort by HS code, then by fob_per_kg
 data_shrimps <- arrange(data_shrimps, data_shrimps$Product.Schedule.B.Code, data_shrimps$fob_per_kg)
@@ -290,7 +290,16 @@ data_shrimps[,c('Product.Schedule.B.Code',
 				
 unique(data_shrimps$Unidad.Estadistica)		# [1] KILOGRAMOS  DESCONOCIDA
 
+# maybe where weight column is 0 or unidad estadistica is deconocida
+# should use total.quantity.1 column instead
 
+# note: where Unidad.Estadistica == 'DESCONOCIDA', Measure.Unit.1..Quantity.1. == 'KILOGRAMOS'
+
+# test: 
+sum(data_shrimps[data_shrimps$Unidad.Estadistica == 'KILOGRAMOS',]$Cantidad.Estadistica)	# 198703786 kg
+sum(data_shrimps[data_shrimps$Unidad.Estadistica == 'DESCONOCIDA',]$TOTAL.Quantity.1)		# 1445156 kg
+# sums to 200148942 kg, 200148.942 tons, comtrade reports 120790.285 tons
+# better to take 198703786 kg, 198703.786 tons
 
 
 
