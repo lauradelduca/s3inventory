@@ -141,3 +141,19 @@ gc()
 ## test new files with comtrade_check.R weight_table
 ## correct folder structure on aws
 
+
+
+### correcting Argentina files:
+
+## Weight is defined by the field "Cantidad Estadstica"
+## We have detected mistakes in weight values, given that
+
+## i) units change and are not always kilograms
+## ii) sometimes the reporters report tones instead of kilograms. To detect these cases divide FOB values and weight, and see which records have "wrong" prices per kilogram (values about 1000 times larger/smaller than the majority of the records)
+
+
+f <- 'data/1-TRADE/CD/EXPORT/ARGENTINA/2013/SICEX25/CD_ARGENTINA_2013.csv'
+
+obj <- get_object(object = f, bucket = 'trase-storage')
+data <- read.csv(text = rawToChar(obj), sep = ';', quote = '', row.names = NULL)
+
