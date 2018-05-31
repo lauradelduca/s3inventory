@@ -225,10 +225,10 @@ dim(data_sugarcane)		# [1] 1132   32
 # CHICKEN		398193.4621		367782.465		1.082687458		ok
 # CORN			24093021.7		20200819.74		1.192675447		ok
 # COTTON		98872.31381		83896.074		1.178509424		ok
-# LEATHER		184181.849		112433.086		1.638146346
-# TIMBER		0.07201			54.875			0.001312255		ok, to update in processing
+# LEATHER		184181.849		112433.086		1.638146346		ok, to correct in processing
+# TIMBER		0.07201			54.875			0.001312255		ok, to correct in processing
 # WOOD PULP		185283.577		196532.084		0.942765035		ok
-# SHRIMPS		198703.7861		91288.683		2.176653004
+# SHRIMPS		198703.7861		91288.683		2.176653004		ok, to correct in processing
 # SOYBEANS		39459696.57		34121384.96		1.156450613		ok
 # SUGAR CANE	318520.9519		281996.329		1.129521626		ok
 
@@ -371,10 +371,26 @@ data_beef <- arrange(data_beef, data_beef$Product.Schedule.B.Code, data_beef$fob
 dim(data_beef)
 head(data_beef)
 
+sum(data_beef$TOTAL.Quantity.1)			# 586524414 kg, 586524.414 tons, comtrade sums to 269894.987 tons
+sum(data_beef$Cantidad.Estadistica)		# 647287070 kg, 647287.070 tons
 
-## leather result:
-## no idea why but again, total.quantity.1 seems to be the column to go with
-## go on with beef for now
+unique(data_beef$Unidad.Estadistica)	# UNIDADES    DESCONOCIDA KILOGRAMOS 
+
+nrow(data_beef[data_beef$Unidad.Estadistica == 'UNIDADES',])		# 63
+nrow(data_beef[data_beef$Unidad.Estadistica == 'DESCONOCIDA',])		# 5
+nrow(data_beef[data_beef$Unidad.Estadistica == 'KILOGRAMOS',])		# 124930
+
+sum(data_beef[data_beef$Unidad.Estadistica == 'DESCONOCIDA',]$TOTAL.Quantity.1)			# 7 kg
+sum(data_beef[data_beef$Unidad.Estadistica == 'DESCONOCIDA',]$Cantidad.Estadistica)
+
+sum(data_beef[data_beef$Unidad.Estadistica == 'UNIDADES',]$TOTAL.Quantity.1)			# 302 kg
+sum(data_beef[data_beef$Unidad.Estadistica == 'UNIDADES',]$Cantidad.Estadistica)		# 445 kg
+
+# focus on the 'KILOGRAMOS'
+
+
+
+
 
 
 
