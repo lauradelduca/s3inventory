@@ -279,6 +279,16 @@ data_shrimps[,c('Product.Schedule.B.Code',
 				'Cantidad.Estadistica', 
 				'Unidad.Estadistica', 
 				'fob_per_kg')][1:60,]
+				
+sum(data_shrimps$Cantidad.Estadistica)															# 198703786 kg, 198703.786 tons
+unique(data_shrimps$Unidad.Estadistica)		# [1] KILOGRAMOS  DESCONOCIDA
+
+nrow(data_shrimps[data_shrimps$'Unidad.Estadistica' == 'KILOGRAMOS',])							# 7032
+sum(data_shrimps[data_shrimps$'Unidad.Estadistica' == 'KILOGRAMOS',]$Cantidad.Estadistica)		# 198703786 kg, 198703.786 tons
+
+nrow(data_shrimps[data_shrimps$'Unidad.Estadistica' != 'KILOGRAMOS',])							# 148
+sum(data_shrimps[data_shrimps$'Unidad.Estadistica' != 'KILOGRAMOS',]$Cantidad.Estadistica)		# 0 kg
+
 
 data_shrimps[,c('Product.Schedule.B.Code', 
 				'Measure.Unit.1..Quantity.1.', 
@@ -287,10 +297,8 @@ data_shrimps[,c('Product.Schedule.B.Code',
 				'Unidad.Estadistica', 
 				'fob_per_kg')][data_shrimps$'Unidad.Estadistica' != 'KILOGRAMOS',][1:60,]
 				
-				
-unique(data_shrimps$Unidad.Estadistica)		# [1] KILOGRAMOS  DESCONOCIDA
 
-# maybe where weight column is 0 or unidad estadistica is deconocida
+# maybe where weight column is 0 or unidad estadistica is desconocida
 # should use total.quantity.1 column instead
 
 # note: where Unidad.Estadistica == 'DESCONOCIDA', Measure.Unit.1..Quantity.1. == 'KILOGRAMOS'
