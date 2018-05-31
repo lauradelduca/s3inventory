@@ -170,7 +170,7 @@ data$fob_per_kg <- data$TOTAL.FOB.Value..US.. / data$Cantidad.Estadistica
 
 head(data)
 
-# now sort by HS code, then by fob_per_kg
+# sort by HS code, then by fob_per_kg
 data <- arrange(data, data$Product.Schedule.B.Code, data$fob_per_kg)
 
 data[1:20,]
@@ -223,4 +223,16 @@ dim(data_sugarcane)		# [1] 1132   32
 # check min/maxes for each hs code
 # order to check: timber, shrimps, leather, beef
 
-# data_timber
+
+### data_timber
+
+# sort by HS code, then by fob_per_kg
+data_timber <- arrange(data_timber, data_timber$Product.Schedule.B.Code, data_timber$fob_per_kg)
+data_timber
+
+# does not seem to be tons misreported as kg
+# but except for first row, units are 'metros cubicos'
+# conversion of 'metros cubicos' to kg?
+# suspect pattern of mostly metros cubicos unit across the years, low comtrade ratios are a pattern
+
+
