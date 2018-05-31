@@ -44,7 +44,8 @@ setwd('C:/Users/laura.delduca/Desktop/code')
 current_folder <- '0531'
 script_folder <- 's3inventory/comtrade_checks'
 
-source('R_aws.s3_credentials.R')					# load AWS S3 credentials
+source('R_aws.s3_credentials.R')						# load AWS S3 credentials
+source(paste0(script_folder, '/', 'get_hs_codes.R'))	# load HS codes needed for weight corrections
 
 
 ## 2013 - 2017 SICEX2.5
@@ -111,6 +112,15 @@ for (yy in 2013:2017){
 	D$Product.Schedule.B.Code <- as.numeric(as.character(D$Product.Schedule.B.Code))
 	D$Product.Schedule.B.Code <- AT.add.leading.zeros(D$Product.Schedule.B.Code, digits = 10)
 
+	
+	## add weight corrections
+	D$corrected_net_weight_kg <- D$Cantidad.Estadistica
+
+	# timber: get from cantidad column with correct conversion where necessary
+	# shrimps: get from total.quantity1 column
+	
+	
+	
 	
 	# just for testing... save a copy locally
 	write.table(	D, 
@@ -269,7 +279,7 @@ sum(data_timber$conversion_700) - 20587 + 29.41		# sums to 5125.41 kg, comtrade 
 
 
 
-### data_shrimps (that's for 2015 actually...)
+### data_shrimps (2013)
 
 # sort by HS code, then by fob_per_kg
 data_shrimps <- arrange(data_shrimps, data_shrimps$Product.Schedule.B.Code, data_shrimps$fob_per_kg)
@@ -312,12 +322,30 @@ sum(data_shrimps[data_shrimps$Unidad.Estadistica == 'DESCONOCIDA',]$TOTAL.Quanti
 
 source(paste0(script_folder, '/', 'unit_check_helper_argentina.R'))
 
-detect_unusual_units(data_shrimps[data_shrimps$'Unidad.Estadistica' == 'KILOGRAMOS',])
+table_units_off <- detect_unusual_units(data_shrimps[data_shrimps$'Unidad.Estadistica' == 'KILOGRAMOS',])
 
 
+sum(table_units_off$Cantidad.Estadistica)		#  847713.2 kg
+
+# note: fob_per_kg in these cases is always much smaller than mean/median
+# price seems very low, so maybe reported 1000 kg but intended 1kg? but that's vice-versa...
+# would sum to 847.7132 kg
+# 198703786 - 847713.2 + 847.7132 = 197856921 kg, 197856.921 tons, still far...
+
+## data_shrimps result
+## not getting there
+## TOTAL.Quantity.1 seems to be an ok/betterish/messy approximation:
+sum(data_shrimps$TOTAL.Quantity.1)		# 88383297 kg, 88383.297 tons
+## is this true across the years? yes
+## so for shrimp, if ok, get weights from other column
 
 
 
 
 # next steps:
 # in process script, include a 'corrected_net_weight_kg' column
+
+# timber: get from cantidad column with correct conversion where necessary
+# shrimps: get from total.quantity1 column
+#
+#
