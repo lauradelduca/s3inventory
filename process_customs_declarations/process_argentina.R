@@ -235,4 +235,14 @@ data_timber
 # conversion of 'metros cubicos' to kg?
 # suspect pattern of mostly metros cubicos unit across the years, low comtrade ratios are a pattern
 
+# try conversion factor of 0.7 from cubic meter to ton, or 700 from cubic meter to kg (for 440729)
+# 1 cubic meter is 0.7 tons, so 1 cubic meter is 700 kg
 
+data_timber$conversion_700 <- data_timber$Cantidad.Estadistica
+data_timber$conversion_700 <- data_timber$conversion_700 * 700
+
+sum(data_timber$conversion_700) - 161 + 0.23		# sums to 50246.23 kg, comtrade reports 54.875 tons, ok
+
+## data_timber result:
+## for data, if code is in timber and Unidad.Estadistica == 'METROS CUBICOS'
+## weight in kg is Cantidad.Estadistica * 700
