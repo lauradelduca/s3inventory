@@ -341,10 +341,20 @@ sum(data_shrimps$TOTAL.Quantity.1)		# 88383297 kg, 88383.297 tons
 
 
 
-# next steps:
+
+### data_leather
+
+# sort by HS code, then by fob_per_kg
+data_leather <- arrange(data_leather, data_leather$Product.Schedule.B.Code, data_leather$fob_per_kg)
+dim(data_leather)
+head(data_leather)
+
+
+
+
 # in process script, include a 'corrected_net_weight_kg' column
 
 # timber: get from cantidad column with correct conversion where necessary
 # shrimps: get from total.quantity1 column
-#
-#
+# leather:
+# beef:
