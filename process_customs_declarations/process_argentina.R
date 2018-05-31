@@ -243,6 +243,30 @@ data_timber$conversion_700 <- data_timber$conversion_700 * 700
 
 sum(data_timber$conversion_700) - 161 + 0.23		# sums to 50246.23 kg, comtrade reports 54.875 tons, ok
 
+
+# check result with 2014: # no timber codes
+# compare with 2015
+
+data_2013 <- data
+f <- 'data/1-TRADE/CD/EXPORT/ARGENTINA/2015/SICEX25/CD_ARGENTINA_2015.csv'
+obj <- get_object(object = f, bucket = 'trase-storage')
+data <- read.csv(text = rawToChar(obj), sep = ';', quote = '', row.names = NULL)
+data_2015 <- data
+
+data_timber <- data[as.numeric(data$Harmonized.Code.Product.English) %in% timber,]
+dim(data_timber)	# [1]  3 31
+data_timber <- arrange(data_timber, data_timber$Product.Schedule.B.Code)
+data_timber
+
+data_timber$conversion_700 <- data_timber$Cantidad.Estadistica
+data_timber$conversion_700 <- data_timber$conversion_700 * 700
+sum(data_timber$conversion_700) - 20587 + 29.41		# sums to 5125.41 kg, comtrade reports 4.29 tons, ok
+
+
 ## data_timber result:
-## for data, if code is in timber and Unidad.Estadistica == 'METROS CUBICOS'
+## for data, if code is in timber (440729?) and Unidad.Estadistica == 'METROS CUBICOS'
 ## weight in kg is Cantidad.Estadistica * 700
+
+
+# next steps:
+# in process script, include a 'corrected_net_weight_kg' column
