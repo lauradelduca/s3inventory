@@ -165,8 +165,15 @@ data$fob_per_kg <- data$TOTAL.FOB.Value..US.. / data$Cantidad.Estadistica
 head(data)
 
 # now sort by HS code, then by fob_per_kg
+data <- arrange(data, data$Product.Schedule.B.Code, data$fob_per_kg)
 
-# look at data for each commodity and check min/maxes for each hs code
+data[1:20,]
 
+# look at data for each commodity separately
+
+
+
+
+# check min/maxes for each hs code
 
 
