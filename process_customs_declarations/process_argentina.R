@@ -159,6 +159,11 @@ data <- read.csv(text = rawToChar(obj), sep = ';', quote = '', row.names = NULL)
 
 head(data)
 
+# check for HS code type and leading zeros
+class(data$Harmonized.Code.Product.English)
+data[1:20,]
+
+
 # create new column, 'fob_per_kg' (divide FOB values and weight)
 data$fob_per_kg <- data$TOTAL.FOB.Value..US.. / data$Cantidad.Estadistica
 
@@ -171,10 +176,24 @@ data[1:20,]
 
 # look at data for each commodity separately
 
-# load relevant HS codes from commodity dictionary
-# this loads codes for beef, chicken, corn, cotton, leather, timber, woodpulp, shrimps, soy, sugarcane
+# load relevant HS6 codes from commodity dictionary
+# this loads codes (as vector) for beef, chicken, corn, cotton, leather, timber, woodpulp, shrimps, soy, sugarcane
 # codes are loaded as type numeric without leading zeros
 source(paste0(script_folder, '/', 'get_hs_codes.R'))
+
+data_beef <- data[as.numeric(data$Harmonized.Code.Product.English) %in% beef,]
+data_chicken <- data[as.numeric(data$Harmonized.Code.Product.English) %in% chicken,]
+data_corn <- data[as.numeric(data$Harmonized.Code.Product.English) %in% corn,]
+data_cotton <- data[as.numeric(data$Harmonized.Code.Product.English) %in% cotton,]
+data_leather <- data[as.numeric(data$Harmonized.Code.Product.English) %in% leather,]
+data_timber <- data[as.numeric(data$Harmonized.Code.Product.English) %in% timber,]
+data_woodpulp <- data[as.numeric(data$Harmonized.Code.Product.English) %in% woodpulp,]
+data_shrimps <- data[as.numeric(data$Harmonized.Code.Product.English) %in% shrimps,]
+data_soy <- data[as.numeric(data$Harmonized.Code.Product.English) %in% soy,]
+data_sugarcane <- data[as.numeric(data$Harmonized.Code.Product.English) %in% sugarcane,]
+
+# HS6 column in data: Harmonized.Code.Product.English (no leading zeros)
+class(data$Harmonized.Code.Product.English)  	# integer
 
 
 
