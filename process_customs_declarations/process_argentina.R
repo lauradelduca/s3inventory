@@ -300,6 +300,9 @@ sum(data_shrimps[data_shrimps$Unidad.Estadistica == 'KILOGRAMOS',]$Cantidad.Esta
 sum(data_shrimps[data_shrimps$Unidad.Estadistica == 'DESCONOCIDA',]$TOTAL.Quantity.1)		# 1445156 kg
 # sums to 200148942 kg, 200148.942 tons, comtrade reports 120790.285 tons
 # better to take 198703786 kg, 198703.786 tons
+## -> this should be the total weight for shrimps, rerun comtrade checks for this weight column
+## or not
+## check the ton/kg ratio fob/weight then
 
 
 
