@@ -363,10 +363,24 @@ head(data_leather)
 
 
 
+### data_beef
+
+
+# sort by HS code, then by fob_per_kg
+data_beef <- arrange(data_beef, data_beef$Product.Schedule.B.Code, data_beef$fob_per_kg)
+dim(data_beef)
+head(data_beef)
+
+
+## leather result:
+## no idea why but again, total.quantity.1 seems to be the column to go with
+## go on with beef for now
+
+
 
 # in process script, include a 'corrected_net_weight_kg' column
 
 # timber: get from cantidad column with correct conversion where necessary
-# shrimps: get from total.quantity1 column
-# leather:
+# shrimps: get from total.quantity.1 column
+# leather: get from total.quantity.1 column
 # beef:
