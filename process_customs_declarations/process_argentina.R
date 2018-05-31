@@ -213,7 +213,7 @@ dim(data_sugarcane)		# [1] 1132   32
 # CORN			24093021.7		20200819.74		1.192675447		ok
 # COTTON		98872.31381		83896.074		1.178509424		ok
 # LEATHER		184181.849		112433.086		1.638146346
-# TIMBER		0.07201			54.875			0.001312255
+# TIMBER		0.07201			54.875			0.001312255		ok, to update in processing
 # WOOD PULP		185283.577		196532.084		0.942765035		ok
 # SHRIMPS		198703.7861		91288.683		2.176653004
 # SOYBEANS		39459696.57		34121384.96		1.156450613		ok
@@ -244,7 +244,7 @@ data_timber$conversion_700 <- data_timber$conversion_700 * 700
 sum(data_timber$conversion_700) - 161 + 0.23		# sums to 50246.23 kg, comtrade reports 54.875 tons, ok
 
 
-# check result with 2014: # no timber codes
+# check result with 2014: no timber codes, 0 for comtrade as well
 # compare with 2015
 
 data_2013 <- data
@@ -266,6 +266,32 @@ sum(data_timber$conversion_700) - 20587 + 29.41		# sums to 5125.41 kg, comtrade 
 ## data_timber result:
 ## for data, if code is in timber (440729?) and Unidad.Estadistica == 'METROS CUBICOS'
 ## weight in kg is Cantidad.Estadistica * 700
+
+
+
+### data_shrimps
+
+# sort by HS code, then by fob_per_kg
+data_shrimps <- arrange(data_shrimps, data_shrimps$Product.Schedule.B.Code, data_shrimps$fob_per_kg)
+
+data_shrimps[,c('Product.Schedule.B.Code', 
+				'Measure.Unit.1..Quantity.1.', 
+				'Cantidad.Estadistica', 
+				'Unidad.Estadistica', 
+				'fob_per_kg')][1:60,]
+
+data_shrimps[,c('Product.Schedule.B.Code', 
+				'Measure.Unit.1..Quantity.1.', 
+				'TOTAL.Quantity.1',  
+				'Cantidad.Estadistica', 
+				'Unidad.Estadistica', 
+				'fob_per_kg')][data_shrimps$'Unidad.Estadistica' != 'KILOGRAMOS',][1:60,]
+				
+				
+unique(data_shrimps$Unidad.Estadistica)		# [1] KILOGRAMOS  DESCONOCIDA
+
+
+
 
 
 # next steps:
