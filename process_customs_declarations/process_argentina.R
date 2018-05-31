@@ -119,6 +119,10 @@ for (yy in 2013:2017){
 	D$corrected_net_weight_kg[(D$Harmonized.Code.Product.English == 440729) && (D$Unidad.Estadistica == 'METROS CUBICOS')] <- D$Cantidad.Estadistica * 700
 	# shrimps: get from total.quantity.1 column
 	D$corrected_net_weight_kg[D$Harmonized.Code.Product.English %in% shrimps] <- D$TOTAL.Quantity.1
+	# leather: get from total.quantity.1 column
+	D$corrected_net_weight_kg[D$Harmonized.Code.Product.English %in% leather] <- D$TOTAL.Quantity.1
+	
+	
 	
 	
 	# just for testing... save a copy locally
@@ -344,10 +348,18 @@ sum(data_shrimps$TOTAL.Quantity.1)		# 88383297 kg, 88383.297 tons
 
 ### data_leather
 
+
 # sort by HS code, then by fob_per_kg
 data_leather <- arrange(data_leather, data_leather$Product.Schedule.B.Code, data_leather$fob_per_kg)
 dim(data_leather)
 head(data_leather)
+
+
+## leather result:
+## no idea why but again, total.quantity.1 seems to be the column to go with
+## go on with beef for now
+
+
 
 
 
