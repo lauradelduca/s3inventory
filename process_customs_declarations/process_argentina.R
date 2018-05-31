@@ -171,6 +171,10 @@ data[1:20,]
 
 # look at data for each commodity separately
 
+# load relevant HS codes from commodity dictionary
+# this loads codes for beef, chicken, corn, cotton, leather, timber, woodpulp, shrimps, soy, sugarcane
+# codes are loaded as type numeric without leading zeros
+source(paste0(script_folder, '/', 'get_hs_codes.R'))
 
 
 
