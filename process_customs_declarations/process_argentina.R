@@ -157,3 +157,16 @@ f <- 'data/1-TRADE/CD/EXPORT/ARGENTINA/2013/SICEX25/CD_ARGENTINA_2013.csv'
 obj <- get_object(object = f, bucket = 'trase-storage')
 data <- read.csv(text = rawToChar(obj), sep = ';', quote = '', row.names = NULL)
 
+head(data)
+
+# create new column, 'fob_per_kg' (divide FOB values and weight)
+data$fob_per_kg <- data$TOTAL.FOB.Value..US.. / data$Cantidad.Estadistica
+
+head(data)
+
+# now sort by HS code, then by fob_per_kg
+
+# look at data for each commodity and check min/maxes for each hs code
+
+
+
