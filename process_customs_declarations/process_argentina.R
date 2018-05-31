@@ -290,6 +290,7 @@ nrow(data_shrimps[data_shrimps$'Unidad.Estadistica' != 'KILOGRAMOS',])							# 1
 sum(data_shrimps[data_shrimps$'Unidad.Estadistica' != 'KILOGRAMOS',]$Cantidad.Estadistica)		# 0 kg
 
 
+
 data_shrimps[,c('Product.Schedule.B.Code', 
 				'Measure.Unit.1..Quantity.1.', 
 				'TOTAL.Quantity.1',  
@@ -297,20 +298,22 @@ data_shrimps[,c('Product.Schedule.B.Code',
 				'Unidad.Estadistica', 
 				'fob_per_kg')][data_shrimps$'Unidad.Estadistica' != 'KILOGRAMOS',][1:60,]
 				
-
-# maybe where weight column is 0 or unidad estadistica is desconocida
-# should use total.quantity.1 column instead
-
+# maybe where weight column is 0 or unidad estadistica is desconocida should use total.quantity.1 column instead
 # note: where Unidad.Estadistica == 'DESCONOCIDA', Measure.Unit.1..Quantity.1. == 'KILOGRAMOS'
 
 # test: 
 sum(data_shrimps[data_shrimps$Unidad.Estadistica == 'KILOGRAMOS',]$Cantidad.Estadistica)	# 198703786 kg
 sum(data_shrimps[data_shrimps$Unidad.Estadistica == 'DESCONOCIDA',]$TOTAL.Quantity.1)		# 1445156 kg
 # sums to 200148942 kg, 200148.942 tons, comtrade reports 120790.285 tons
-# better to take 198703786 kg, 198703.786 tons
-## -> this should be the total weight for shrimps, rerun comtrade checks for this weight column
-## or not
-## check the ton/kg ratio fob/weight then
+# no, even one column too much
+
+
+# check the ton/kg ratio fob/weight then
+
+
+
+
+
 
 
 
