@@ -115,11 +115,10 @@ for (yy in 2013:2017){
 	
 	## add weight corrections
 	D$corrected_net_weight_kg <- D$Cantidad.Estadistica
-
 	# timber: get from cantidad column with correct conversion where necessary
-	# shrimps: get from total.quantity1 column
-	
-	
+	D$corrected_net_weight_kg[(D$Harmonized.Code.Product.English == 440729) && (D$Unidad.Estadistica == 'METROS CUBICOS')] <- D$Cantidad.Estadistica * 700
+	# shrimps: get from total.quantity.1 column
+	D$corrected_net_weight_kg[D$Harmonized.Code.Product.English %in% shrimps] <- D$TOTAL.Quantity.1
 	
 	
 	# just for testing... save a copy locally
@@ -337,7 +336,7 @@ sum(table_units_off$Cantidad.Estadistica)		#  847713.2 kg
 ## TOTAL.Quantity.1 seems to be an ok/betterish/messy approximation:
 sum(data_shrimps$TOTAL.Quantity.1)		# 88383297 kg, 88383.297 tons
 ## is this true across the years? yes
-## so for shrimp, if ok, get weights from other column
+## so for shrimp, if ok, get weights from other column, but reason not clear
 
 
 
