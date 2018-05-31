@@ -310,7 +310,7 @@ sum(data_shrimps[data_shrimps$Unidad.Estadistica == 'DESCONOCIDA',]$TOTAL.Quanti
 
 # check the ton/kg ratio fob/weight then
 
-source(unit_check_helper_argentina.R)
+source(paste0(script_folder, '/', 'unit_check_helper_argentina.R'))
 
 detect_unusual_units(data_shrimps[data_shrimps$'Unidad.Estadistica' == 'KILOGRAMOS',])
 

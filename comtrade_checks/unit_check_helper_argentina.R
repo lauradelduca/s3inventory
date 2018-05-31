@@ -24,5 +24,5 @@ detect_unusual_units <- function(table){
 	table_of_unusual_ratios <- table[(table$fob_per_kg < table$mean_fob_per_kg * 0.007 ) | (table$fob_per_kg > table$mean_fob_per_kg * 700) |
 									(table$fob_per_kg < table$median_fob_per_kg * 0.007 ) | (table$fob_per_kg > table$median_fob_per_kg * 700) ,]
 	
-	return(table_of_unusual_ratios)
+	return(paste0('table_of_unusual_ratios with ',nrow(table_of_unusual_ratios), ' rows'))
 }
