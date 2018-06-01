@@ -8,7 +8,7 @@
 # creates table selecting all rows where fob_per_kg is <> median(or mean)*700 to detect misreported tons/kgs
 
 
-table <- data_shrimps[data_shrimps$'Unidad.Estadistica' == 'KILOGRAMOS',]
+#table <- data_shrimps[data_shrimps$'Unidad.Estadistica' == 'KILOGRAMOS',]
 
 
 detect_unusual_units <- function(table){

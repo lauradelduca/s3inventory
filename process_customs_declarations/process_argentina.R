@@ -397,9 +397,72 @@ sum(test$TOTAL.Quantity.1)			# 20380085 kg, 20380.085 tons
 ## CD_ARGENTINA_YEAR_comtrade_by_code (YEAR: 2013-2017)
 ## CD_ARGENTINA_YEAR_comtrade_by_commodity (commodity: the 10 commodities for Argentina)
 
+f <- 'data/1-TRADE/CD/EXPORT/ARGENTINA/2013/SICEX25/CD_ARGENTINA_2013.csv'
+obj <- get_object(object = f, bucket = 'trase-storage')
+data <- read.csv(text = rawToChar(obj), sep = ';', quote = '', row.names = NULL)
+
+data$fob_per_kg <- data$TOTAL.FOB.Value..US.. / data$Cantidad.Estadistica
 
 
+data_beef <- data[as.numeric(data$Harmonized.Code.Product.English) %in% beef,]
+data_beef <- data_beef[,c(	'Year',
+							'Product.Schedule.B.Code',
+							'Harmonized.Code.Product.English',
+							'Harmonized.Code.Description.English', 
+							'TOTAL.Quantity.1', 
+							'Measure.Unit.1..Quantity.1.', 
+							'Cantidad.Estadistica', 
+							'Unidad.Estadistica', 
+							'TOTAL.FOB.Value..US..',
+							'fob_per_kg')]
+data_beef <- arrange(data_beef, data_beef$Product.Schedule.B.Code, data_beef$Cantidad.Estadistica)
 
+
+# HS code: 20230 BONELESS BEEF-BOVINE-. FROZEN., comtrade is 59326.866 tons
+data_beef <- data_beef[data_beef$Harmonized.Code.Product.English == 20230,]
+
+sum(data_beef$Cantidad.Estadistica)		# 130810.315 tons
+sum(data_beef$TOTAL.Quantity.1)			# 120960.609 tons
+
+unique(data_beef$Unidad.Estadistica)			# KILOGRAMOS
+unique(data_beef$Measure.Unit.1..Quantity.1.)	# KILOGRAMOS
+
+source(paste0(script_folder, '/', 'unit_check_helper_argentina.R'))
+units <- detect_unusual_units(data_beef)
+# moves in the wrong direction, numbers are on the smaller side
+sum(units$Cantidad.Estadistica)		# 57825.87 kg
+
+
+# HS code: 20130 BONELESS BEEF-BOVINE-. FROZEN., comtrade is 65671.603 tons
+data_beef <- data_beef[data_beef$Harmonized.Code.Product.English == 20130,]
+
+sum(data_beef$Cantidad.Estadistica)		# 136044.966 tons
+sum(data_beef$TOTAL.Quantity.1)			# 133394.648 tons
+
+unique(data_beef$Unidad.Estadistica)			# KILOGRAMOS
+unique(data_beef$Measure.Unit.1..Quantity.1.)	# KILOGRAMOS
+
+source(paste0(script_folder, '/', 'unit_check_helper_argentina.R'))
+units <- detect_unusual_units(data_beef)
+# moves in the wrong direction, numbers are on the smaller side
+
+
+# is that always double the comtrade? beef total across the years suggests it
+# test this for other years
+
+
+# HS code: 20130 BONELESS BEEF-BOVINE-. FROZEN., comtrade is 50401.625 tons
+data_beef <- data_beef[data_beef$Harmonized.Code.Product.English == 20629,]
+
+sum(data_beef$Cantidad.Estadistica)		# 141676.128 tons
+sum(data_beef$TOTAL.Quantity.1)			# 127746.259 tons
+
+unique(data_beef$Unidad.Estadistica)			# KILOGRAMOS
+unique(data_beef$Measure.Unit.1..Quantity.1.)	# KILOGRAMOS
+
+
+# maybe reported is 1 not kg but live animal, so divide by 475 to get to kg
+# 1 animal unit is 475kg
 
 
 
