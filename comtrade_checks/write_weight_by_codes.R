@@ -11,6 +11,8 @@ for (cc in countries){
 	
 	for (f in CD$file[CD$country == cc]){
 	
+		# f <- 'data/1-TRADE/CD/EXPORT/ARGENTINA/2013/SICEX25/CD_ARGENTINA_2013.csv'
+	
 		obj <- get_object(object = f, bucket = 'trase-storage')
 		data <- read.csv(text = rawToChar(obj), sep = ';', quote = '', row.names = NULL)
 			
@@ -27,6 +29,15 @@ for (cc in countries){
 						'Cantidad.Estadistica')]
 		
 		# aggregate by long HS code
+		data <- aggregate(	data$Cantidad.Estadistica, 
+							by = list(	Year = data$Year,
+										Product.Schedule.B.Code = data$Product.Schedule.B.Code,
+										Harmonized.Code.Product.English = data$Harmonized.Code.Product.English,
+										Harmonized.Code.Description.English = data$Harmonized.Code.Description.English), 
+							FUN = sum, 
+							na.rm = TRUE)
+							
+		setnames(data, old = c('x'), new = c('net_weight_kg'))
 		
 		# filter correct comtrade file by country etc
 		
