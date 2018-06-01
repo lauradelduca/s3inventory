@@ -90,7 +90,78 @@ for (cc in countries){
 		result_soy <- result[as.numeric(result$HS6) %in% soy,]
 		result_sugarcane <- result[as.numeric(result$HS6) %in% sugarcane,]
 		
-		# write them if nrow>0, with leading zeros
+		
+		# write them if (nrow > 0), with leading zeros
+		if (nrow(result_beef) > 0){
+					write.table(result_beef, 
+					paste0(current_folder, '/CD_', cc, '_', CD$year[CD$file == f], '_comtrade_by_code_beef', '.csv'), 
+					quote = FALSE, 
+					row.names = FALSE, 
+					dec = '.', 
+					sep = ';')}
+		if (nrow(result_chicken) > 0){
+					write.table(result_chicken, 
+					paste0(current_folder, '/CD_', cc, '_', CD$year[CD$file == f], '_comtrade_by_code_chicken', '.csv'), 
+					quote = FALSE, 
+					row.names = FALSE, 
+					dec = '.', 
+					sep = ';')}
+		if (nrow(result_corn) > 0){
+					write.table(result_corn, 
+					paste0(current_folder, '/CD_', cc, '_', CD$year[CD$file == f], '_comtrade_by_code_corn', '.csv'), 
+					quote = FALSE, 
+					row.names = FALSE, 
+					dec = '.', 
+					sep = ';')}
+		if (nrow(result_cotton) > 0){
+					write.table(result_cotton, 
+					paste0(current_folder, '/CD_', cc, '_', CD$year[CD$file == f], '_comtrade_by_code_cotton', '.csv'), 
+					quote = FALSE, 
+					row.names = FALSE, 
+					dec = '.', 
+					sep = ';')}
+		if (nrow(result_leather) > 0){
+					write.table(result_leather, 
+					paste0(current_folder, '/CD_', cc, '_', CD$year[CD$file == f], '_comtrade_by_code_leather', '.csv'), 
+					quote = FALSE, 
+					row.names = FALSE, 
+					dec = '.', 
+					sep = ';')}
+		if (nrow(result_timber) > 0){
+					write.table(result_timber, 
+					paste0(current_folder, '/CD_', cc, '_', CD$year[CD$file == f], '_comtrade_by_code_timber', '.csv'), 
+					quote = FALSE, 
+					row.names = FALSE, 
+					dec = '.', 
+					sep = ';')}
+		if (nrow(result_woodpulp) > 0){
+					write.table(result_woodpulp, 
+					paste0(current_folder, '/CD_', cc, '_', CD$year[CD$file == f], '_comtrade_by_code_woodpulp', '.csv'), 
+					quote = FALSE, 
+					row.names = FALSE, 
+					dec = '.', 
+					sep = ';')}
+		if (nrow(result_shrimps) > 0){
+					write.table(result_shrimps, 
+					paste0(current_folder, '/CD_', cc, '_', CD$year[CD$file == f], '_comtrade_by_code_shrimps', '.csv'), 
+					quote = FALSE, 
+					row.names = FALSE, 
+					dec = '.', 
+					sep = ';')}
+		if (nrow(result_soy) > 0){
+					write.table(result_soy, 
+					paste0(current_folder, '/CD_', cc, '_', CD$year[CD$file == f], '_comtrade_by_code_soy', '.csv'), 
+					quote = FALSE, 
+					row.names = FALSE, 
+					dec = '.', 
+					sep = ';')}
+		if (nrow(result_sugarcane) > 0){
+					write.table(result_sugarcane, 
+					paste0(current_folder, '/CD_', cc, '_', CD$year[CD$file == f], '_comtrade_by_code_sugarcane', '.csv'), 
+					quote = FALSE, 
+					row.names = FALSE, 
+					dec = '.', 
+					sep = ';')}
 				
 		}	
 	}	
