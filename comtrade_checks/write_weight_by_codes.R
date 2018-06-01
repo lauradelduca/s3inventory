@@ -80,15 +80,44 @@ for (cc in countries){
 		# vectors of codes are loaded if run in comtrade_check.R
 		# filter resulting table for codes 
 		result_beef <- result[as.numeric(result$HS6) %in% beef,]
+		sum_net_weight_kg <- sum(result_beef$net_weight_kg)
+		result_beef$perc_net_weight <- result_beef$net_weight_kg / sum_net_weight_kg
+		
 		result_chicken <- result[as.numeric(result$HS6) %in% chicken,]
+		sum_net_weight_kg <- sum(result_chicken$net_weight_kg)
+		result_chicken$perc_net_weight <- result_chicken$net_weight_kg / sum_net_weight_kg
+		
 		result_corn <- result[as.numeric(result$HS6) %in% corn,]
+		sum_net_weight_kg <- sum(result_corn$net_weight_kg)
+		result_corn$perc_net_weight <- result_corn$net_weight_kg / sum_net_weight_kg
+		
 		result_cotton <- result[as.numeric(result$HS6) %in% cotton,]
+		sum_net_weight_kg <- sum(result_cotton$net_weight_kg)
+		result_cotton$perc_net_weight <- result_cotton$net_weight_kg / sum_net_weight_kg
+		
 		result_leather <- result[as.numeric(result$HS6) %in% leather,]
+		sum_net_weight_kg <- sum(result_leather$net_weight_kg)
+		result_leather$perc_net_weight <- result_leather$net_weight_kg / sum_net_weight_kg
+		
 		result_timber <- result[as.numeric(result$HS6) %in% timber,]
+		sum_net_weight_kg <- sum(result_timber$net_weight_kg)
+		result_timber$perc_net_weight <- result_timber$net_weight_kg / sum_net_weight_kg
+	
 		result_woodpulp <- result[as.numeric(result$HS6) %in% woodpulp,]
+		sum_net_weight_kg <- sum(result_woodpulp$net_weight_kg)
+		result_woodpulp$perc_net_weight <- result_woodpulp$net_weight_kg / sum_net_weight_kg
+		
 		result_shrimps <- result[as.numeric(result$HS6) %in% shrimps,]
+		sum_net_weight_kg <- sum(result_shrimps$net_weight_kg)
+		result_shrimps$perc_net_weight <- result_shrimps$net_weight_kg / sum_net_weight_kg
+		
 		result_soy <- result[as.numeric(result$HS6) %in% soy,]
+		sum_net_weight_kg <- sum(result_soy$net_weight_kg)
+		result_soy$perc_net_weight <- result_soy$net_weight_kg / sum_net_weight_kg
+		
 		result_sugarcane <- result[as.numeric(result$HS6) %in% sugarcane,]
+		sum_net_weight_kg <- sum(result_sugarcane$net_weight_kg)
+		result_sugarcane$perc_net_weight <- result_sugarcane$net_weight_kg / sum_net_weight_kg
 		
 		
 		# write them if (nrow > 0), with leading zeros
