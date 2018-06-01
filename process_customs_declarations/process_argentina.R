@@ -344,10 +344,7 @@ sum(data_shrimps$TOTAL.Quantity.1)		# 88383297 kg, 88383.297 tons
 
 
 
-
-
 ### data_leather
-
 
 # sort by HS code, then by fob_per_kg
 data_leather <- arrange(data_leather, data_leather$Product.Schedule.B.Code, data_leather$fob_per_kg)
@@ -356,11 +353,7 @@ head(data_leather)
 
 
 ## leather result:
-## no idea why but again, total.quantity.1 seems to be the column to go with
-## go on with beef for now
-
-
-
+## again, total.quantity.1 seems to be the column to go with -- go on with beef for now
 
 
 ### data_beef
@@ -400,7 +393,13 @@ sum(test$TOTAL.Quantity.1)			# 20380085 kg, 20380.085 tons
 # no...
 
 
-# try beef 0.30 or 0.32, or maybe that's to de-bone
+## check by HS6, summary tables:
+## CD_ARGENTINA_YEAR_comtrade_by_code (YEAR: 2013-2017)
+## CD_ARGENTINA_YEAR_comtrade_by_commodity (commodity: the 10 commodities for Argentina)
+
+
+
+
 
 
 
