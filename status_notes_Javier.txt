@@ -1,28 +1,22 @@
-# notes 2018-05-30
+# notes 2018-06-01
 
-so far
-brazil dashboard 2015-2017 third party 2005-2017
-argentina 2010-2017 (all) 
-originals are read only, need to correct
-
-priority countries:
-Argentina, process_argentina.R 2013-2017 (add 2010-2012)
+Argentina, process_argentina.R 2013-2017
 Brazil, process_brazil.R dashboard 2015-2017, third party 2005-2017
 Paraguay (mintrade), process_paraguay.R 2007-2018 (2018 not for upload)
-
-others:
 Costa Rica, process_costarica.R 2013-2017
 Ecuador, process_ecuador.R 2013-2017
 Peru, process_ecuador.R 2012, 2013-2015, 2016-2017
 Uruguay, process_uruguay.R 2013-2017
 
+COMTRADE comparison for 2017 shows greater variance as comparison is with COMTRADE 2016
 
-comtrade comparison 2017 consistently has greater variance, as comparison is with comtrade 2016
-(comtrade data is available up to 2016)
- 
 
---- BRAZIL ---
-dashboard 2015-2017, third party 2005-2017
+--- ARGENTINA 2013 - 2017
+process_argentina.R
+# see notes in process_argentina.R etc.
+
+
+--- BRAZIL dashboard 2015-2017, third party 2005-2017
 process_brazil.R
 
 2005-2009 only soybeans
@@ -35,15 +29,10 @@ process_brazil.R
 2015 third party only soybeans and beef, beef 0.88
 2016 third party only soybeans and beef, beef 0.89
 2017 dashboard comparison with comtrade 2016, timber 10.78
-timber number seems much higher (10x) than other years
-redownloaded and processed timber, seems all ok but sums to 10x
-
-cotton: 120721 120729 140420 151221 151229 230610 470610 520100 520210 520291 520299 520300
-timber: 440311 440312 440321 440322 440325 440326 440341 440349 440410 440420 440711 440721 440722 440725 440726 440727 440728 440729
+timber seems much higher (10x) than other years
 
 
---- PARAGUAY (MINTRADE) ---
-2007 - 2018 (2018 not to be included in upload, still approximation)
+--- PARAGUAY (MINTRADE) 2007 - 2018 (2018 not for upload, still approximation)
 process_paraguay.R
 
 2007 leather 0.82, soybeans 0.73
@@ -56,8 +45,7 @@ timber 0.52, soybeans 0.57, sugar cane 0.51 !!
 2014 timber 0.85
 
 
---- COSTA RICA ---
-2013 - 2017
+--- COSTA RICA 2013 - 2017
 process_costarica.R
 
 2016 shrimps (0.77 ratio):
@@ -72,20 +60,17 @@ both 2016 shrimps and the comtrade16 records are only one hs code, and just don'
 multiple units, types of transport, but all have net kg
 > unique(data_sugarcane$MEASURE_UNIT_1_QUANTITY_1)
 [1] CAJA           BULTOS         BOLSA          ROLLO          GRANEL         GRANEL LIQUIDO SACO 
-weights are varying a lot, all separators seem good
+weights are varying a lot
 two records with weight == 0, value == 0 but number of items 1 and 4
 
 
---- ECUADOR --- 
-2013 - 2017
+--- ECUADOR 2013 - 2017
 process_ecuador.R
-look into higher palm oil values
+higher palm oil values
 
 
---- PERU ---
-2012, 2013 - 2015, 2016 - 2017
+--- PERU 2012, 2013 - 2015, 2016 - 2017
 process_peru.R
-
 2013-2015 redownloaded reduced number of columns, only what's needed to upload
 
 2012 no leather, timber
@@ -94,10 +79,8 @@ process_peru.R
 2016 palm oil 1.12
 
 
---- URUGUAY ---
-2013 - 2017
+--- URUGUAY 2013 - 2017
 process_uruguay.R
-
 some files had incorrect column names so re-downloaded 2013-2017
 drop 2012 as too problematic/not available for download
 
