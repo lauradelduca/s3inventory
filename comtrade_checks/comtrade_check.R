@@ -34,8 +34,7 @@ cc <- 'ARGENTINA'
 
 source(paste0(script_folder, '/', 'write_weight_check_files.R'))			# write weight checks files
 
-# create new file:
-# code by code comparison of total weight of our file and comtrade
+source(paste0(script_folder, '/', 'write_weight_by_codes.R'))				# write weights by codes files
 
 
 source(paste0(script_folder, '/', 'write_unit_check_files.R'))				# write unit checks files
