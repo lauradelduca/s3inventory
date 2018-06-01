@@ -22,17 +22,13 @@ for (cc in countries){
 		}
 		
 		# chose only relevant columns
-		data <- data[,c('Year', 
-						'Product.Schedule.B.Code',
-						'Harmonized.Code.Product.English',
+		data <- data[,c('Harmonized.Code.Product.English',
 						'Harmonized.Code.Description.English',
 						'Cantidad.Estadistica')]
 		
 		# aggregate by long HS code
 		data <- aggregate(	data$Cantidad.Estadistica, 
-							by = list(	year = data$Year,
-										commodity = data$Product.Schedule.B.Code,
-										HS6 = data$Harmonized.Code.Product.English,
+							by = list(	HS6 = data$Harmonized.Code.Product.English,
 										description = data$Harmonized.Code.Description.English), 
 							FUN = sum, 
 							na.rm = TRUE)
@@ -59,27 +55,27 @@ for (cc in countries){
 		
 		comtrade <- comtrade[comtrade$country == CD$comtrade_country[CD$file == f],]
 		comtrade <- comtrade[, c('commodity', 'comtrade_weight')]
-		setnames(comtrade, old = c('comtrade_weight'), new = c('comtrade_weight_kg'))
+		setnames(comtrade, old = c('commodity', 'comtrade_weight'), new = c('HS6', 'comtrade_weight_kg'))
 		
 		# merge the two files by short hs code
+		result <- merge(data, comtrade, by = 'HS6')
 		
 		# add file/comtrade ratio column
-		
-		# reorganize the weights to be next to each other maybe
+		result$ratio <- result$net_weight_kg / result$comtrade_weight_kg
 		
 		# write file, will be one per file
+		write.table(result, 
+					paste0(current_folder, '/CD_', cc, '_', CD$year[CD$file == f], '_comtrade_by_code', '.csv'), 
+					quote = FALSE, 
+					row.names = FALSE, 
+					dec = '.', 
+					sep = ';')
 		
 		# one more thing that will be useful is having one file per commodity
 		# so create vectors of codes
 		# filter resulting table for codes 
-		# write them
-		
-
+		# write them, with leading zeros
 				
-			comtrade <- comtrade[comtrade$country == CD$comtrade_country[CD$file == f],  ]
-				
-			weights_table$comtrade[i] <- sum(as.numeric( comtrade$comtrade_weight )) / 1000
-			weights_table$deviation[i] <- weights_table$new_column[i] / weights_table$comtrade[i]
 		}
 		
 	}
