@@ -75,10 +75,22 @@ for (cc in countries){
 					dec = '.', 
 					sep = ';')
 		
+		
 		# one more thing that will be useful is having one file per commodity
-		# so create vectors of codes
+		# vectors of codes are loaded if run in comtrade_check.R
 		# filter resulting table for codes 
-		# write them, with leading zeros
+		result_beef <- result[as.numeric(result$HS6) %in% beef,]
+		result_chicken <- result[as.numeric(result$HS6) %in% chicken,]
+		result_corn <- result[as.numeric(result$HS6) %in% corn,]
+		result_cotton <- result[as.numeric(result$HS6) %in% cotton,]
+		result_leather <- result[as.numeric(result$HS6) %in% leather,]
+		result_timber <- result[as.numeric(result$HS6) %in% timber,]
+		result_woodpulp <- result[as.numeric(result$HS6) %in% woodpulp,]
+		result_shrimps <- result[as.numeric(result$HS6) %in% shrimps,]
+		result_soy <- result[as.numeric(result$HS6) %in% soy,]
+		result_sugarcane <- result[as.numeric(result$HS6) %in% sugarcane,]
+		
+		# write them if nrow>0, with leading zeros
 				
 		}	
 	}	
