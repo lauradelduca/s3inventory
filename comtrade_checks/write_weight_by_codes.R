@@ -16,10 +16,10 @@ for (cc in countries){
 		obj <- get_object(object = f, bucket = 'trase-storage')
 		data <- read.csv(text = rawToChar(obj), sep = ';', quote = '', row.names = NULL)
 			
-		if (grepl('BRAZIL', f)){ 
-			data[, CD$hs_column[CD$file == f] ] <- formatC(data[, CD$hs_column[CD$file == f] ], width = 8, format = "d", flag = "0") 
-			data[, CD$hs_column[CD$file == f] ] <- as.integer(substr(data[, CD$hs_column[CD$file == f] ], 0, 6))
-		}
+		# if (grepl('BRAZIL', f)){ 
+			# data[, CD$hs_column[CD$file == f] ] <- formatC(data[, CD$hs_column[CD$file == f] ], width = 8, format = "d", flag = "0") 
+			# data[, CD$hs_column[CD$file == f] ] <- as.integer(substr(data[, CD$hs_column[CD$file == f] ], 0, 6))
+		# }
 		
 		# chose only relevant columns
 		data <- data[,c('Harmonized.Code.Product.English',
@@ -63,6 +63,10 @@ for (cc in countries){
 		# add file/comtrade ratio column
 		result$ratio <- result$net_weight_kg / result$comtrade_weight_kg
 		
+		# add leading zeros to HS6
+		result$HS6 <- as.numeric(as.character(result$HS6))
+		result$HS6 <- AT.add.leading.zeros(result$HS6, digits = 6)
+		
 		# write file, will be one per file
 		write.table(result, 
 					paste0(current_folder, '/CD_', cc, '_', CD$year[CD$file == f], '_comtrade_by_code', '.csv'), 
@@ -76,9 +80,6 @@ for (cc in countries){
 		# filter resulting table for codes 
 		# write them, with leading zeros
 				
-		}
-		
-	}
-	
-	write.table(weights_table, paste0(current_folder, '/', 'CD_weights_', cc, '.csv'), quote = FALSE, row.names = FALSE, dec = '.', sep = ';')
+		}	
+	}	
 }
