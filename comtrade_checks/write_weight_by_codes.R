@@ -6,12 +6,19 @@
 ## needs AWS S3 1-TRADE/CD/Export content loaded into dataframe CD
 ## needs HS codes loaded from get_hs_codes.R
 
+yy <- 2013
 
-for (cc in countries){
+files <- c('data/1-TRADE/CD/EXPORT/ARGENTINA/2013/SICEX25/CD_ARGENTINA_2013.csv', 
+'data/1-TRADE/CD/EXPORT/ARGENTINA/2014/SICEX25/CD_ARGENTINA_2014.csv',
+'data/1-TRADE/CD/EXPORT/ARGENTINA/2015/SICEX25/CD_ARGENTINA_2015.csv',
+'data/1-TRADE/CD/EXPORT/ARGENTINA/2016/SICEX25/CD_ARGENTINA_2016.csv',
+'data/1-TRADE/CD/EXPORT/ARGENTINA/2017/SICEX25/CD_ARGENTINA_2017.csv')
+
+#for (cc in countries){
 	
 	for (f in files){
 	
-		# f <- 'data/1-TRADE/CD/EXPORT/ARGENTINA/2013/SICEX25/CD_ARGENTINA_2013.csv'
+		
 	
 		obj <- get_object(object = f, bucket = 'trase-storage')
 		data <- read.csv(text = rawToChar(obj), sep = ';', quote = '', row.names = NULL)
@@ -38,22 +45,23 @@ for (cc in countries){
 		# filter correct comtrade file by country
 		# comtrade_weight is in kg
 		
-		if (CD$year[CD$file == f] == 2005){ comtrade <- comtrade05 }
-		if (CD$year[CD$file == f] == 2006){ comtrade <- comtrade06 }
-		if (CD$year[CD$file == f] == 2007){ comtrade <- comtrade07 }
-		if (CD$year[CD$file == f] == 2008){ comtrade <- comtrade08 }
-		if (CD$year[CD$file == f] == 2009){ comtrade <- comtrade09 }
-		if (CD$year[CD$file == f] == 2010){ comtrade <- comtrade10 }
-		if (CD$year[CD$file == f] == 2011){ comtrade <- comtrade11 }
-		if (CD$year[CD$file == f] == 2012){ comtrade <- comtrade12 }
-		if (CD$year[CD$file == f] == 2013){ comtrade <- comtrade13 }
-		if (CD$year[CD$file == f] == 2014){ comtrade <- comtrade14 }
-		if (CD$year[CD$file == f] == 2015){ comtrade <- comtrade15 }
-		if (CD$year[CD$file == f] == 2016){ comtrade <- comtrade16 }
-		if (CD$year[CD$file == f] == 2017){ comtrade <- comtrade16 }
-		if (CD$year[CD$file == f] == 2018){ comtrade <- comtrade16 }
+		if (yy == 2005){ comtrade <- comtrade05 }
+		if (yy == 2006){ comtrade <- comtrade06 }
+		if (yy == 2007){ comtrade <- comtrade07 }
+		if (yy == 2008){ comtrade <- comtrade08 }
+		if (yy == 2009){ comtrade <- comtrade09 }
+		if (yy == 2010){ comtrade <- comtrade10 }
+		if (yy == 2011){ comtrade <- comtrade11 }
+		if (yy == 2012){ comtrade <- comtrade12 }
+		if (yy == 2013){ comtrade <- comtrade13 }
+		if (yy == 2014){ comtrade <- comtrade14 }
+		if (yy == 2015){ comtrade <- comtrade15 }
+		if (yy == 2016){ comtrade <- comtrade16 }
+		if (yy == 2017){ comtrade <- comtrade16 }
+		if (yy == 2018){ comtrade <- comtrade16 }
 		
-		comtrade <- comtrade[comtrade$country == CD$comtrade_country[CD$file == f],]
+		#comtrade <- comtrade[comtrade$country == CD$comtrade_country[CD$file == f],]
+		comtrade <- comtrade[comtrade$country == 'Argentina',]
 		comtrade <- comtrade[, c('commodity', 'comtrade_weight')]
 		setnames(comtrade, old = c('commodity', 'comtrade_weight'), new = c('HS6', 'comtrade_weight_kg'))
 		
@@ -69,7 +77,7 @@ for (cc in countries){
 		
 		# write file, will be one per file
 		write.table(result, 
-					paste0(current_folder, '/CD_', cc, '_', CD$year[CD$file == f], '_comtrade_by_code', '.csv'), 
+					paste0(current_folder, '/CD_', cc, '_', yy, '_comtrade_by_code', '.csv'), 
 					quote = FALSE, 
 					row.names = FALSE, 
 					dec = '.', 
@@ -123,75 +131,76 @@ for (cc in countries){
 		# write them if (nrow > 0), with leading zeros
 		if (nrow(result_beef) > 0){
 					write.table(result_beef, 
-					paste0(current_folder, '/CD_', cc, '_', CD$year[CD$file == f], '_comtrade_by_code_beef', '.csv'), 
+					paste0(current_folder, '/CD_', cc, '_', yy, '_comtrade_by_code_beef', '.csv'), 
 					quote = FALSE, 
 					row.names = FALSE, 
 					dec = '.', 
 					sep = ';')}
 		if (nrow(result_chicken) > 0){
 					write.table(result_chicken, 
-					paste0(current_folder, '/CD_', cc, '_', CD$year[CD$file == f], '_comtrade_by_code_chicken', '.csv'), 
+					paste0(current_folder, '/CD_', cc, '_', yy, '_comtrade_by_code_chicken', '.csv'), 
 					quote = FALSE, 
 					row.names = FALSE, 
 					dec = '.', 
 					sep = ';')}
 		if (nrow(result_corn) > 0){
 					write.table(result_corn, 
-					paste0(current_folder, '/CD_', cc, '_', CD$year[CD$file == f], '_comtrade_by_code_corn', '.csv'), 
+					paste0(current_folder, '/CD_', cc, '_', yy, '_comtrade_by_code_corn', '.csv'), 
 					quote = FALSE, 
 					row.names = FALSE, 
 					dec = '.', 
 					sep = ';')}
 		if (nrow(result_cotton) > 0){
 					write.table(result_cotton, 
-					paste0(current_folder, '/CD_', cc, '_', CD$year[CD$file == f], '_comtrade_by_code_cotton', '.csv'), 
+					paste0(current_folder, '/CD_', cc, '_', yy, '_comtrade_by_code_cotton', '.csv'), 
 					quote = FALSE, 
 					row.names = FALSE, 
 					dec = '.', 
 					sep = ';')}
 		if (nrow(result_leather) > 0){
 					write.table(result_leather, 
-					paste0(current_folder, '/CD_', cc, '_', CD$year[CD$file == f], '_comtrade_by_code_leather', '.csv'), 
+					paste0(current_folder, '/CD_', cc, '_', yy, '_comtrade_by_code_leather', '.csv'), 
 					quote = FALSE, 
 					row.names = FALSE, 
 					dec = '.', 
 					sep = ';')}
 		if (nrow(result_timber) > 0){
 					write.table(result_timber, 
-					paste0(current_folder, '/CD_', cc, '_', CD$year[CD$file == f], '_comtrade_by_code_timber', '.csv'), 
+					paste0(current_folder, '/CD_', cc, '_', yy, '_comtrade_by_code_timber', '.csv'), 
 					quote = FALSE, 
 					row.names = FALSE, 
 					dec = '.', 
 					sep = ';')}
 		if (nrow(result_woodpulp) > 0){
 					write.table(result_woodpulp, 
-					paste0(current_folder, '/CD_', cc, '_', CD$year[CD$file == f], '_comtrade_by_code_woodpulp', '.csv'), 
+					paste0(current_folder, '/CD_', cc, '_', yy, '_comtrade_by_code_woodpulp', '.csv'), 
 					quote = FALSE, 
 					row.names = FALSE, 
 					dec = '.', 
 					sep = ';')}
 		if (nrow(result_shrimps) > 0){
 					write.table(result_shrimps, 
-					paste0(current_folder, '/CD_', cc, '_', CD$year[CD$file == f], '_comtrade_by_code_shrimps', '.csv'), 
+					paste0(current_folder, '/CD_', cc, '_', yy, '_comtrade_by_code_shrimps', '.csv'), 
 					quote = FALSE, 
 					row.names = FALSE, 
 					dec = '.', 
 					sep = ';')}
 		if (nrow(result_soy) > 0){
 					write.table(result_soy, 
-					paste0(current_folder, '/CD_', cc, '_', CD$year[CD$file == f], '_comtrade_by_code_soy', '.csv'), 
+					paste0(current_folder, '/CD_', cc, '_', yy, '_comtrade_by_code_soy', '.csv'), 
 					quote = FALSE, 
 					row.names = FALSE, 
 					dec = '.', 
 					sep = ';')}
 		if (nrow(result_sugarcane) > 0){
 					write.table(result_sugarcane, 
-					paste0(current_folder, '/CD_', cc, '_', CD$year[CD$file == f], '_comtrade_by_code_sugarcane', '.csv'), 
+					paste0(current_folder, '/CD_', cc, '_', yy, '_comtrade_by_code_sugarcane', '.csv'), 
 					quote = FALSE, 
 					row.names = FALSE, 
 					dec = '.', 
 					sep = ';')}
 				
 		
+		yy <- yy + 1
 	}
-}
+#}
