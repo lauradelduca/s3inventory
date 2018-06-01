@@ -9,7 +9,7 @@
 
 for (cc in countries){
 	
-	for (f in CD$file[CD$country == cc]){
+	for (f in files){
 	
 		# f <- 'data/1-TRADE/CD/EXPORT/ARGENTINA/2013/SICEX25/CD_ARGENTINA_2013.csv'
 	
@@ -192,6 +192,6 @@ for (cc in countries){
 					dec = '.', 
 					sep = ';')}
 				
-		}	
-	}	
+		
+	}
 }
