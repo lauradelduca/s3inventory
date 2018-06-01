@@ -387,10 +387,20 @@ sum(data_beef[data_beef$Unidad.Estadistica == 'UNIDADES',]$TOTAL.Quantity.1)			#
 sum(data_beef[data_beef$Unidad.Estadistica == 'UNIDADES',]$Cantidad.Estadistica)		# 445 kg
 
 # focus on the 'KILOGRAMOS'
+data_beef[data_beef$Unidad.Estadistica == 'KILOGRAMOS',][1:20,]
+
+nrow(data_beef[(data_beef$Unidad.Estadistica == 'KILOGRAMOS') & (data_beef$Measure.Unit.1..Quantity.1. != 'KILOGRAMOS'),])		# 2306
+
+data_beef[(data_beef$Unidad.Estadistica == 'KILOGRAMOS') & (data_beef$Measure.Unit.1..Quantity.1. != 'KILOGRAMOS'),][1:20,]
+
+test <- data_beef[(data_beef$Unidad.Estadistica == 'KILOGRAMOS') & (data_beef$Measure.Unit.1..Quantity.1. != 'KILOGRAMOS'),]
+
+sum(test$Cantidad.Estadistica)		# 29375476 kg, 29375.476 tons
+sum(test$TOTAL.Quantity.1)			# 20380085 kg, 20380.085 tons
+# no...
 
 
-
-
+# try beef 0.30 or 0.32, or maybe that's to de-bone
 
 
 
