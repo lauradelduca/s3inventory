@@ -30,20 +30,36 @@ for (cc in countries){
 		
 		# aggregate by long HS code
 		data <- aggregate(	data$Cantidad.Estadistica, 
-							by = list(	Year = data$Year,
-										Product.Schedule.B.Code = data$Product.Schedule.B.Code,
-										Harmonized.Code.Product.English = data$Harmonized.Code.Product.English,
-										Harmonized.Code.Description.English = data$Harmonized.Code.Description.English), 
+							by = list(	year = data$Year,
+										commodity = data$Product.Schedule.B.Code,
+										HS6 = data$Harmonized.Code.Product.English,
+										description = data$Harmonized.Code.Description.English), 
 							FUN = sum, 
 							na.rm = TRUE)
 							
 		setnames(data, old = c('x'), new = c('net_weight_kg'))
 		
-		# filter correct comtrade file by country etc
+		# filter correct comtrade file by country
+		# comtrade_weight is in kg
 		
-		# keep only relevant columns
+		if (CD$year[CD$file == f] == 2005){ comtrade <- comtrade05 }
+		if (CD$year[CD$file == f] == 2006){ comtrade <- comtrade06 }
+		if (CD$year[CD$file == f] == 2007){ comtrade <- comtrade07 }
+		if (CD$year[CD$file == f] == 2008){ comtrade <- comtrade08 }
+		if (CD$year[CD$file == f] == 2009){ comtrade <- comtrade09 }
+		if (CD$year[CD$file == f] == 2010){ comtrade <- comtrade10 }
+		if (CD$year[CD$file == f] == 2011){ comtrade <- comtrade11 }
+		if (CD$year[CD$file == f] == 2012){ comtrade <- comtrade12 }
+		if (CD$year[CD$file == f] == 2013){ comtrade <- comtrade13 }
+		if (CD$year[CD$file == f] == 2014){ comtrade <- comtrade14 }
+		if (CD$year[CD$file == f] == 2015){ comtrade <- comtrade15 }
+		if (CD$year[CD$file == f] == 2016){ comtrade <- comtrade16 }
+		if (CD$year[CD$file == f] == 2017){ comtrade <- comtrade16 }
+		if (CD$year[CD$file == f] == 2018){ comtrade <- comtrade16 }
 		
-		# rename columns if needed
+		comtrade <- comtrade[comtrade$country == CD$comtrade_country[CD$file == f],]
+		comtrade <- comtrade[, c('commodity', 'comtrade_weight')]
+		setnames(comtrade, old = c('comtrade_weight'), new = c('comtrade_weight_kg'))
 		
 		# merge the two files by short hs code
 		
@@ -58,30 +74,13 @@ for (cc in countries){
 		# filter resulting table for codes 
 		# write them
 		
-			if (CD$year[CD$file == f] == 2005){ comtrade <- comtrade05 }
-			if (CD$year[CD$file == f] == 2006){ comtrade <- comtrade06 }
-			if (CD$year[CD$file == f] == 2007){ comtrade <- comtrade07 }
-			if (CD$year[CD$file == f] == 2008){ comtrade <- comtrade08 }
-			if (CD$year[CD$file == f] == 2009){ comtrade <- comtrade09 }
-			if (CD$year[CD$file == f] == 2010){ comtrade <- comtrade10 }
-			if (CD$year[CD$file == f] == 2011){ comtrade <- comtrade11 }
-			if (CD$year[CD$file == f] == 2012){ comtrade <- comtrade12 }
-			if (CD$year[CD$file == f] == 2013){ comtrade <- comtrade13 }
-			if (CD$year[CD$file == f] == 2014){ comtrade <- comtrade14 }
-			if (CD$year[CD$file == f] == 2015){ comtrade <- comtrade15 }
-			if (CD$year[CD$file == f] == 2016){ comtrade <- comtrade16 }
-			if (CD$year[CD$file == f] == 2017){ comtrade <- comtrade16 }
-			if (CD$year[CD$file == f] == 2018){ comtrade <- comtrade16 }
+
 				
 			comtrade <- comtrade[comtrade$country == CD$comtrade_country[CD$file == f],  ]
 				
 			weights_table$comtrade[i] <- sum(as.numeric( comtrade$comtrade_weight )) / 1000
 			weights_table$deviation[i] <- weights_table$new_column[i] / weights_table$comtrade[i]
 		}
-		
-		year <- CD$year[CD$file == f]
-		if (CD$year[CD$file == f] == 2017){ year <- 2016 }
-		if (CD$year[CD$file == f] == 2018){ year <- 2016 }
 		
 	}
 	
