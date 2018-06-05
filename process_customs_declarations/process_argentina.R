@@ -41,7 +41,7 @@ require(aws.s3)
 options(scipen=99999999)
 
 setwd('C:/Users/laura.delduca/Desktop/code')
-current_folder <- '0531'
+current_folder <- '0605'
 script_folder <- 's3inventory/comtrade_checks'
 
 source('R_aws.s3_credentials.R')						# load AWS S3 credentials
@@ -112,17 +112,17 @@ for (yy in 2013:2017){
 	D$Product.Schedule.B.Code <- as.numeric(as.character(D$Product.Schedule.B.Code))
 	D$Product.Schedule.B.Code <- AT.add.leading.zeros(D$Product.Schedule.B.Code, digits = 10)
 
+	## test keeping only records where Freight != 0
+	D <- D[D$Freight != 0,]
 	
-	## add weight corrections
-	D$corrected_net_weight_kg <- D$Cantidad.Estadistica
-	# timber: get from cantidad column with correct conversion where necessary
-	D$corrected_net_weight_kg[(D$Harmonized.Code.Product.English == 440729) && (D$Unidad.Estadistica == 'METROS CUBICOS')] <- D$Cantidad.Estadistica * 700
-	# shrimps: get from total.quantity.1 column
-	D$corrected_net_weight_kg[D$Harmonized.Code.Product.English %in% shrimps] <- D$TOTAL.Quantity.1
-	# leather: get from total.quantity.1 column
-	D$corrected_net_weight_kg[D$Harmonized.Code.Product.English %in% leather] <- D$TOTAL.Quantity.1
-	
-	
+	# ## add weight corrections
+	# D$corrected_net_weight_kg <- D$Cantidad.Estadistica
+	# # timber: get from cantidad column with correct conversion where necessary
+	# D$corrected_net_weight_kg[(D$Harmonized.Code.Product.English == 440729) && (D$Unidad.Estadistica == 'METROS CUBICOS')] <- D$Cantidad.Estadistica * 700
+	# # shrimps: get from total.quantity.1 column
+	# D$corrected_net_weight_kg[D$Harmonized.Code.Product.English %in% shrimps] <- D$TOTAL.Quantity.1
+	# # leather: get from total.quantity.1 column
+	# D$corrected_net_weight_kg[D$Harmonized.Code.Product.English %in% leather] <- D$TOTAL.Quantity.1
 	
 	
 	# just for testing... save a copy locally
@@ -140,7 +140,7 @@ for (yy in 2013:2017){
 	# upload the object to S3
 	put_object(	file = rawConnectionValue(zz), 
 				bucket = 'trase-storage', 
-				object = paste0('data/1-TRADE/CD/EXPORT/ARGENTINA/', yy, '/SICEX25/TEST/CD_ARGENTINA_', yy, '.csv') )
+				object = paste0('data/1-TRADE/CD/EXPORT/ARGENTINA/', yy, '/SICEX25/FREIGHT0/CD_ARGENTINA_', yy, '.csv') )
 	# close the connection
 	close(zz)
 	
@@ -153,6 +153,25 @@ gc()
 
 ## test new files with comtrade_check.R weight_table
 ## correct folder structure on aws
+
+
+### test Javier's freight column hypothesis
+
+f <- 'data/1-TRADE/CD/EXPORT/ARGENTINA/2016/SICEX25/CD_ARGENTINA_2016.csv'
+
+obj <- get_object(object = f, bucket = 'trase-storage')
+data <- read.csv(text = rawToChar(obj), sep = ';', quote = '', row.names = NULL)
+
+# take only Freight == 0
+test <- data[data$Freight != 0,]
+
+# 020230, should be 93 for 2016 not 158, comtrade 86 million
+
+sum(test$Cantidad.Estadistica[test$Harmonized.Code.Product.English == 020230])
+
+
+### result: rewrite Argentina files only keeping records where Freight != 0
+
 
 
 
