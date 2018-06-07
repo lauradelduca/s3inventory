@@ -1,4 +1,4 @@
-## Write total weight by HS6 code files
+## Write total weight by HS6 code files for Paraguay
 ## Laura Del Duca
 
 ## needs to have library aws.s3 and AWS S3 credentials loaded into R
@@ -14,20 +14,19 @@ files <- c('data/1-TRADE/CD/EXPORT/PARAGUAY/MINTRADE/2013/CD_PARAGUAY_2013.csv')
 	
 	for (f in files){
 	
-		
-	
 		obj <- get_object(object = f, bucket = 'trase-storage')
 		data <- read.csv(text = rawToChar(obj), sep = ';', quote = '', row.names = NULL)
 		
 		# chose only relevant columns
-		data <- data[,c('Harmonized.Code.Product.English',
-						'Harmonized.Code.Description.English',
-						'Cantidad.Estadistica')]
+		data <- data[,c('HS6', 'Producto', 'Kilo.Neto')]
 		
-		# aggregate by long HS code
-		data <- aggregate(	data$Cantidad.Estadistica, 
-							by = list(	HS6 = data$Harmonized.Code.Product.English,
-										description = data$Harmonized.Code.Description.English), 
+		# respond to warning integer overflow in soy and corn
+		data$Kilo.Neto <- as.numeric(data$Kilo.Neto)
+		
+		# aggregate by HS code
+		data <- aggregate(	data$Kilo.Neto, 
+							by = list(	HS6 = data$HS6,
+										description = data$Producto), 
 							FUN = sum, 
 							na.rm = TRUE)
 							
