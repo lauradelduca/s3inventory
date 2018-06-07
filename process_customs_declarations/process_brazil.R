@@ -440,9 +440,34 @@ for (f in keys){
 # result:
 # "data/1-TRADE/CD/EXPORT/BRAZIL/DATAMYNE/DASHBOARD/2015/CD_BRAZIL_2015.csv"
 # the infamous dashboard 2015 file contains both 2015 and 2016 data
-# take out all 2016 records:
 
-
-# are these to be added to 2016 file? 
+# are these records to be added to 2016 file? 
 # check if already included
+
+# 2016 records from 2015 file
+data2016 <- data[data$year==2016,]
+
+f <- "data/1-TRADE/CD/EXPORT/BRAZIL/DATAMYNE/DASHBOARD/2016/CD_BRAZIL_2016.csv"
+obj <- get_object(object = f, bucket = 'trase-storage')
+data <- read.csv(text = rawToChar(obj), sep = ';', quote = '', row.names = NULL, stringsAsFactors=FALSE)
+
+# result:
+# 2016 records from 2015 file seem to be already included in 2016 file
+
+# take out all 2016 records in 2015 file:
+
+f <- "data/1-TRADE/CD/EXPORT/BRAZIL/DATAMYNE/DASHBOARD/2015/CD_BRAZIL_2015.csv"
+obj <- get_object(object = f, bucket = 'trase-storage')
+data <- read.csv(text = rawToChar(obj), sep = ';', quote = '', row.names = NULL, stringsAsFactors=FALSE)
+		
+data <- data[str_sub(data$Date..Month., -4, -1) == 2015,]
+
+# write table to S3:
+# write to an in-memory raw connection
+zz <- rawConnection(raw(0), "r+")
+write.table(data, zz, quote = FALSE, row.names = FALSE, dec = '.', sep = ';')
+# upload the object to S3
+put_object(	file = rawConnectionValue(zz), bucket = 'trase-storage', object = paste0(f) )
+# close the connection
+close(zz)
 
