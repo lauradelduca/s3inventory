@@ -389,3 +389,12 @@ gc()
 
 ## test new files with comtrade_check.R weight_table
 ## correct folder structure on aws
+
+
+### test if dates in each file refer to correct year
+
+# loop through all CD_BRAZIL_ files on AWS
+# print small header for each file
+# for each file, do if f == that file, print unique date colume values
+# look into this to confirm it's ok
+
