@@ -105,5 +105,11 @@ gc()
 
 # checks to understand why 2013 has lower CD - COMTRADE ratios
 
+f <- 'data/1-TRADE/CD/EXPORT/PARAGUAY/MINTRADE/2013/CD_PARAGUAY_2013.csv'
+obj <- get_object(object = f, bucket = 'trase-storage')
+data <- read.csv(text = rawToChar(obj), sep = ';', quote = '', row.names = NULL, stringsAsFactors=FALSE)
 
+head(data)
+
+# need to output per code comparison
 
