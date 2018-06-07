@@ -437,5 +437,12 @@ for (f in keys){
 	
 }
 
+# result:
 # "data/1-TRADE/CD/EXPORT/BRAZIL/DATAMYNE/DASHBOARD/2015/CD_BRAZIL_2015.csv"
-# contains both 2015 and 2016 data
+# the infamous dashboard 2015 file contains both 2015 and 2016 data
+# take out all 2016 records:
+
+
+# are these to be added to 2016 file? 
+# check if already included
+
