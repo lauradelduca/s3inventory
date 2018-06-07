@@ -53,7 +53,7 @@ source('R_aws.s3_credentials.R')					# load AWS S3 credentials
 ## 2015 - 2017 dashboard
 for (yy in 2015:2017){
 	
-	# load csv originals keys for all years, store in vector 'brazil_originals_YEAR_keys'
+	# load csv originals keys for all years
 	orig <- get_bucket_df(bucket = 'trase-storage', prefix = paste0('data/1-TRADE/CD/EXPORT/BRAZIL/DATAMYNE/DASHBOARD/', yy))	
 	keys <- subset(orig, grepl("ORIGINALS/.*.csv$", Key) )
 	keys <- as.vector(keys$Key)
@@ -391,10 +391,44 @@ gc()
 ## correct folder structure on aws
 
 
+
+
 ### test if dates in each file refer to correct year
 
 # loop through all CD_BRAZIL_ files on AWS
 # print small header for each file
-# for each file, do if f == that file, print unique date colume values
+# for each file, do if f == that file, print unique date column values
 # look into this to confirm it's ok
 
+
+brazil_files <- get_bucket_df(bucket = 'trase-storage', prefix = 'data/1-TRADE/CD/EXPORT/BRAZIL/DATAMYNE/')	
+keys <- subset(brazil_files, grepl('CD_BRAZIL_20.{3}csv$', Key))
+keys <- as.vector(keys$Key)
+
+for (f in keys){
+	
+	obj <- get_object(object = f, bucket = 'trase-storage')
+	data <- read.csv(text = rawToChar(obj), sep = ';', quote = '', row.names = NULL, stringsAsFactors=FALSE)
+		
+	print(f)
+	print(data[1:2,])
+	
+	if (grepl('DASHBOARD', f)){
+		data$year <- str_sub(data$Date..Month., -4, -1)
+		print(unique(data$year))
+	}
+	
+	if (grepl('THIRD', f)){
+	
+	DIA.REGIS  DIA.DESEMB
+	}
+	
+	print('')
+	print('')
+	print('')
+	print('')
+	
+}
+
+# "data/1-TRADE/CD/EXPORT/BRAZIL/DATAMYNE/DASHBOARD/2015/CD_BRAZIL_2015.csv"
+# contains both 2015 and 2016 data
