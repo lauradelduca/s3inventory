@@ -28,7 +28,7 @@ require(aws.s3)
 options(scipen=99999999)
 
 setwd('C:/Users/laura.delduca/Desktop/code')
-current_folder <- '0522'
+current_folder <- '0607'
 script_folder <- 's3inventory/comtrade_checks'
 
 source('R_aws.s3_credentials.R')					# load AWS S3 credentials
@@ -101,3 +101,9 @@ gc()
 
 ## test new files with comtrade_check.R weight_table
 ## correct folder structure on aws
+
+
+# checks to understand why 2013 has lower CD - COMTRADE ratios
+
+
+
