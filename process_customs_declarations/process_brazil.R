@@ -414,13 +414,20 @@ for (f in keys){
 	print(data[1:2,])
 	
 	if (grepl('DASHBOARD', f)){
+		# for DASHBOARD, use column Date..Month.
 		data$year <- str_sub(data$Date..Month., -4, -1)
+		print(paste0('unique years'))
 		print(unique(data$year))
 	}
 	
 	if (grepl('THIRD', f)){
-	
-	DIA.REGIS  DIA.DESEMB
+		# for THIRD PARTY, use column DIA.DESEMB
+		data$year.REGIS <- str_sub(data$DIA.REGIS, -4, -1)
+		print(paste0('unique years DIA.REGIS'))
+		print(unique(data$year.REGIS))
+		data$year.DESEMB <- str_sub(data$DIA.DESEMB, -4, -1)
+		print(paste0('unique years DIA.DESEMB'))
+		print(unique(data$year.DESEMB))
 	}
 	
 	print('')
