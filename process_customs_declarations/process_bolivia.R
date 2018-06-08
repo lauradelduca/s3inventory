@@ -1,4 +1,5 @@
 ## Preprocessing of Bolivia customs declarations trade data 2013 - 2017 from SICEX2.5 (codes 01-99)
+## originals are read-only, ';' substituted, csv added
 ## Laura Del Duca
 
 
@@ -47,7 +48,7 @@ for (yy in 2013:2017){
 	for (f in keys){
 		
 		obj <- get_object(object = f, bucket = 'trase-storage')
-		data <- read.csv(text = rawToChar(obj), sep = ';', quote = '', row.names = NULL)
+		data <- read.csv(text = rawToChar(obj), sep = ';', quote = '', row.names = NULL, stringsAsFactors=FALSE)
 	
 		# make sure the files look correct, and numbers of columns match, to use same names
 		print(f)
@@ -59,9 +60,10 @@ for (yy in 2013:2017){
 		if(length(k)>0) data<- data[-k,]
 		
 		# use column names of the first files, remove special characters if needed, and assign to all
-		# setting encoding of whole file to utf8: 
-		# fread with encoding = 'UTF-8' option is not sufficient so correcting colnames manually
-		if (i==1)  nn <- names(data)
+		if (i==1){
+			setnames(data, old = c('Fecha.Validación', 'Validación'), new = c('Fecha.Validacion', 'Validacion'))
+			nn <- names(data)
+		}
 		if (i>1)   names(data) <- nn
 		
 		# add the data to the list
@@ -119,8 +121,3 @@ gc()
 
 ## test new files with comtrade_check.R weight_table
 ## correct folder structure on aws
-
-
-
-b13csv <- rename(b13csv, "Fecha Validacion"  = "Fecha Validación"  )
-b13csv <- rename(b13csv, "Validacion"  = "Validación"  )
