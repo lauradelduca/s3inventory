@@ -78,13 +78,21 @@ for (yy in 2013:2017){
 	# in all columns check again that ; is replaced with .
 	D <- data.frame(lapply(D, function(x) {gsub(";", ".", x)}))
 	
+	# test that all dates are for the correct year
+	print(unique(D$Year))
+	# this step revealed an issue common with Bolivia:
+	# open in text editor and remove quotes manually in 'INCLUSO G"' etc
+	# checking unique levels of the first column is useful for detecting misplaced newline characters
+	
+	
 	# remove commas from numeric columns
-	D$TOTAL.Quantity.1 <- as.numeric(gsub(",", "", D$TOTAL.Quantity.1))
-	D$TOTAL.FOB.Value..US.. <- as.numeric(gsub(",", "", D$TOTAL.FOB.Value..US..))
-	D$FOB.per.Unit..Quantity1. <- as.numeric(gsub(",", "", D$FOB.per.Unit..Quantity1.))
-	D$TOTAL.CIF.Value..US.. <- as.numeric(gsub(",", "", D$TOTAL.CIF.Value..US..))
-	D$TOTAL.Net.Weight..Kg. <- as.numeric(gsub(",", "", D$TOTAL.Net.Weight..Kg.))
-	D$TOTAL.Gross.Weight..Kg. <- as.numeric(gsub(",", "", D$TOTAL.Gross.Weight..Kg.))
+	D$Cambio <- as.numeric(as.character(gsub(",", "", D$Cambio)))
+	D$TOTAL.FOB.Value..US.. <- as.numeric(as.character(gsub(",", "", D$TOTAL.FOB.Value..US..)))
+	D$TOTAL.CIF.Value..US.. <- as.numeric(as.character(gsub(",", "", D$TOTAL.CIF.Value..US..)))
+	D$TOTAL.Net.Weight..Kg. <- as.numeric(as.character(gsub(",", "", D$TOTAL.Net.Weight..Kg.)))
+	D$TOTAL.Gross.Weight..Kg. <- as.numeric(as.character(gsub(",", "", D$TOTAL.Gross.Weight..Kg.)))
+	D$TOTAL.Quantity.1 <- as.numeric(as.character(gsub(",", "", D$TOTAL.Quantity.1)))
+	D$TOTAL.bundles <- as.numeric(as.character(gsub(",", "", D$TOTAL.bundles)))
 	
 	# make sure HS column is even number of digits, here 6
 	D$Harmonized.Code.Product.English <- as.numeric(as.character(D$Harmonized.Code.Product.English))
@@ -109,7 +117,7 @@ for (yy in 2013:2017){
 	# upload the object to S3
 	put_object(	file = rawConnectionValue(zz), 
 				bucket = 'trase-storage', 
-				object = paste0('data/1-TRADE/CD/EXPORT/BOLIVIA/', yy, '/SICEX25/TEST/CD_BOLIVIA_', yy, '.csv') )
+				object = paste0('data/1-TRADE/CD/EXPORT/BOLIVIA/', yy, '/SICEX25/CD_BOLIVIA_', yy, '.csv') )
 	# close the connection
 	close(zz)
 	
