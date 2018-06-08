@@ -1,4 +1,4 @@
-## Preprocessing of Bolivia customs declarations trade data 2013 - 2017 from SICEX2.5
+## Preprocessing of Bolivia customs declarations trade data 2013 - 2017 from SICEX2.5 (codes 01-99)
 ## Laura Del Duca
 
 
@@ -8,13 +8,6 @@
 ## for SICEX2.5:
 ## enable editing, go to data sheet, replace all ';' with '.'
 ## save data sheet as csv, with the same name as the xlsx original
-
-## for SICEX2.0:
-## enable editing, replace all ';' with '.'
-## save as csv, with the same name as the xlsx original
-## need to check which row contains column names and in which row the actual data starts
-## as this really is different for each file it is not efficient to automate:
-## delete rows above header manually
 
 ## upload both, xlsx and csv files, in an 'ORIGINALS' folder in the appropriate location on S3
 ## there are various possibilities for interacting with S3: through the site, command line, 'S3 browser' software, ...
@@ -42,11 +35,10 @@ source('R_aws.s3_credentials.R')					# load AWS S3 credentials
 
 for (yy in 2013:2017){
 	
-	# load csv originals keys for all years, store in vector 'uruguay_originals_YEAR_keys'
-	orig <- get_bucket_df(	bucket = 'trase-storage', prefix = paste0('data/1-TRADE/CD/EXPORT/URUGUAY/', yy))	
+	# load csv originals keys for all years
+	orig <- get_bucket_df(	bucket = 'trase-storage', prefix = paste0('data/1-TRADE/CD/EXPORT/BOLIVIA/', yy))	
 	keys <- subset(orig, grepl("ORIGINALS/.*.csv$", Key) )
 	keys <- as.vector(keys$Key)
-	assign(paste0('uruguay_originals_', yy, '_keys'), keys)
 	
 	# create an empty list to store the data of each file
 	J <- list()
@@ -102,7 +94,7 @@ for (yy in 2013:2017){
 	
 	# just for testing... save a copy locally
 	write.table(	D, 
-					paste0(current_folder, '/', 'CD_URUGUAY_', yy, '_TEST.csv'), 
+					paste0(current_folder, '/', 'CD_BOLIVIA_', yy, '_TEST.csv'), 
 					quote = FALSE, 
 					row.names = FALSE, 
 					dec = '.', 
@@ -115,7 +107,7 @@ for (yy in 2013:2017){
 	# upload the object to S3
 	put_object(	file = rawConnectionValue(zz), 
 				bucket = 'trase-storage', 
-				object = paste0('data/1-TRADE/CD/EXPORT/URUGUAY/', yy, '/SICEX25/TEST/CD_URUGUAY_', yy, '.csv') )
+				object = paste0('data/1-TRADE/CD/EXPORT/BOLIVIA/', yy, '/SICEX25/TEST/CD_BOLIVIA_', yy, '.csv') )
 	# close the connection
 	close(zz)
 	
