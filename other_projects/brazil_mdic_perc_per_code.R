@@ -26,8 +26,8 @@ keys <- get_bucket_df(bucket = 'trase-storage', prefix = 'data/1-TRADE/CD/EXPORT
 
 for (yy in 1997:2004){
 	
-	keys <- subset(keys, grepl(yy, Key))
-	f <- as.vector(keys$Key)
+	f <- subset(keys, grepl(yy, Key))
+	f <- as.vector(f$Key)
 	
 	obj <- get_object(object = f, bucket = 'trase-storage')
 	data <- read.csv(text = rawToChar(obj), sep = ';', quote = '', row.names = NULL, stringsAsFactors=FALSE)
@@ -52,6 +52,8 @@ for (yy in 1997:2004){
 	
 	total_kg <- sum(data$kg)
 	data$perc <- (data$kg / total_kg) * 100
+	
+	data <- data[order(-data$kg),]
 	
 	
 	# just for testing... save a copy locally
