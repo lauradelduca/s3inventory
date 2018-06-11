@@ -58,10 +58,7 @@ for (yy in 2013:2017){
 		if(length(k)>0) data<- data[-k,]
 		
 		# use column names of the first files, remove special characters if needed, and assign to all
-		if (i==1){
-			setnames(data, old = c('Fecha.Validación', 'Validación'), new = c('Fecha.Validacion', 'Validacion'))
-			nn <- names(data)
-		}
+		if (i==1)  nn <- names(data)
 		if (i>1)   names(data) <- nn
 		
 		# add the data to the list
@@ -84,13 +81,14 @@ for (yy in 2013:2017){
 	
 	
 	# remove commas from numeric columns
-	D$Cambio <- as.numeric(as.character(gsub(",", "", D$Cambio)))
+	D$TOTAL.Quantity.1 <- as.numeric(as.character(gsub(",", "", D$TOTAL.Quantity.1)))
 	D$TOTAL.FOB.Value..US.. <- as.numeric(as.character(gsub(",", "", D$TOTAL.FOB.Value..US..)))
+	D$FOB.per.Unit..Quantity1. <- as.numeric(as.character(gsub(",", "", D$FOB.per.Unit..Quantity1.)))
 	D$TOTAL.CIF.Value..US.. <- as.numeric(as.character(gsub(",", "", D$TOTAL.CIF.Value..US..)))
 	D$TOTAL.Net.Weight..Kg. <- as.numeric(as.character(gsub(",", "", D$TOTAL.Net.Weight..Kg.)))
-	D$TOTAL.Gross.Weight..Kg. <- as.numeric(as.character(gsub(",", "", D$TOTAL.Gross.Weight..Kg.)))
-	D$TOTAL.Quantity.1 <- as.numeric(as.character(gsub(",", "", D$TOTAL.Quantity.1)))
-	D$TOTAL.bundles <- as.numeric(as.character(gsub(",", "", D$TOTAL.bundles)))
+	D$Freight <- as.numeric(as.character(gsub(",", "", D$Freight)))
+	D$Insurance <- as.numeric(as.character(gsub(",", "", D$Insurance)))
+	D$Acceptance <- as.numeric(as.character(gsub(",", "", D$Acceptance)))
 	
 	# make sure HS column is even number of digits, here 6
 	D$Harmonized.Code.Product.English <- as.numeric(as.character(D$Harmonized.Code.Product.English))
@@ -102,7 +100,7 @@ for (yy in 2013:2017){
 	
 	# just for testing... save a copy locally
 	write.table(	D, 
-					paste0(current_folder, '/', 'CD_BOLIVIA_', yy, '_TEST.csv'), 
+					paste0(current_folder, '/', 'CD_CHILE_', yy, '_TEST.csv'), 
 					quote = FALSE, 
 					row.names = FALSE, 
 					dec = '.', 
@@ -115,7 +113,7 @@ for (yy in 2013:2017){
 	# upload the object to S3
 	put_object(	file = rawConnectionValue(zz), 
 				bucket = 'trase-storage', 
-				object = paste0('data/1-TRADE/CD/EXPORT/BOLIVIA/', yy, '/SICEX25/CD_BOLIVIA_', yy, '.csv') )
+				object = paste0('data/1-TRADE/CD/EXPORT/CHILE/', yy, '/SICEX25/CD_CHILE_', yy, '.csv') )
 	# close the connection
 	close(zz)
 	
