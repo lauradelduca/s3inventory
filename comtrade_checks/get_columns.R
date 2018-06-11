@@ -80,6 +80,26 @@ for (f in as.vector(CD$file)){
 		CD$comtrade_country[CD$file == f] <- 'Brazil'
 	}
 
+	if (CD$country[CD$file == f] == 'CHILE'){
+	
+		if (grepl("SICEX25", f)){
+			CD$hs_column[CD$file == f] <- hs_column <- 'Harmonized.Code.Product.English'
+			CD$price_column[CD$file == f] <- price_column <- 'TOTAL.FOB.Value..US..'
+			CD$weight_column[CD$file == f] <- weight_column <- 'TOTAL.Net.Weight..Kg.'
+		} else{
+			CD$hs_column[CD$file == f] <- hs_column <- 'HARMONIZED_CODE_PRODUCT_ENGLISH'
+			CD$price_column[CD$file == f] <- price_column <- 'TOTAL_FOB_VALUE_US'
+			CD$weight_column[CD$file == f] <- weight_column <- 'TOTAL_NET_WEIGHT_KG'
+		}
+		
+		# so far not for release
+		#release <- c('BEEF', 'CHICKEN', 'COCOA', 'COFFEE', 'CORN', 'LEATHER', 
+		#			'TIMBER', 'PALM OIL', 'WOOD PULP', 'SHRIMPS', 'SUGAR CANE')
+		# Chile not yet included in current COMTRADE zoom files, need to reproduce including Chile
+		#CD$comtrade_country[CD$file == f] <- c('Chile')
+		
+	}
+		
 		
 	if (CD$country[CD$file == f] == 'COLOMBIA'){
 	

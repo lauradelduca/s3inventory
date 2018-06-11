@@ -1,5 +1,7 @@
 ## Preprocessing of Chile customs declarations trade data 2013 - 2017 from SICEX2.5 (codes 01-99)
 ## originals are read-only, ';' substituted, csv added
+## Chile is not included in current COMTRADE zoom files, need to reproduce including Chile
+## therefore comtrade_check.R and weight tables haven't been run yet
 ## Laura Del Duca
 
 
