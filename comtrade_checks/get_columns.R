@@ -87,9 +87,9 @@ for (f in as.vector(CD$file)){
 			CD$price_column[CD$file == f] <- price_column <- 'TOTAL.FOB.Value..US..'
 			CD$weight_column[CD$file == f] <- weight_column <- 'TOTAL.Net.Weight..Kg.'
 		} else{
-			CD$hs_column[CD$file == f] <- hs_column <- 'HARMONIZED_CODE_PRODUCT_ENGLISH'
-			CD$price_column[CD$file == f] <- price_column <- 'TOTAL_FOB_VALUE_US'
-			CD$weight_column[CD$file == f] <- weight_column <- 'TOTAL_NET_WEIGHT_KG'
+			CD$hs_column[CD$file == f] <- hs_column <- 'Harmonized CodeProduct English'
+			CD$price_column[CD$file == f] <- price_column <- 'TOTAL FOB Value US'
+			CD$weight_column[CD$file == f] <- weight_column <- 'TOTAL Net Weight Kg'
 		}
 		
 		# so far not for release
