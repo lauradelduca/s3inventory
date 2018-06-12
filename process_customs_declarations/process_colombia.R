@@ -36,7 +36,7 @@ source('R_aws.s3_credentials.R')					# load AWS S3 credentials
 
 for (yy in 2013:2017){
 	
-	orig <- get_bucket_df(	bucket = 'trase-storage', prefix = paste0('data/1-TRADE/CD/EXPORT/CHILE/', yy))	
+	orig <- get_bucket_df(	bucket = 'trase-storage', prefix = paste0('data/1-TRADE/CD/EXPORT/COLOMBIA/', yy))	
 	keys <- subset(orig, grepl("ORIGINALS/.*.csv$", Key) )
 	keys <- as.vector(keys$Key)
 	
@@ -100,7 +100,7 @@ for (yy in 2013:2017){
 	
 	# just for testing... save a copy locally
 	write.table(	D, 
-					paste0(current_folder, '/', 'CD_CHILE_', yy, '_TEST.csv'), 
+					paste0(current_folder, '/', 'CD_COLOMBIA_', yy, '_TEST.csv'), 
 					quote = FALSE, 
 					row.names = FALSE, 
 					dec = '.', 
@@ -113,7 +113,7 @@ for (yy in 2013:2017){
 	# upload the object to S3
 	put_object(	file = rawConnectionValue(zz), 
 				bucket = 'trase-storage', 
-				object = paste0('data/1-TRADE/CD/EXPORT/CHILE/', yy, '/SICEX25/CD_CHILE_', yy, '.csv') )
+				object = paste0('data/1-TRADE/CD/EXPORT/COLOMBIA/', yy, '/SICEX25/CD_COLOMBIA_', yy, '.csv') )
 	# close the connection
 	close(zz)
 	
