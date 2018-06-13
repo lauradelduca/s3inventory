@@ -1,4 +1,4 @@
-## Preprocessing of Venezuela customs declarations trade data 2013 - 2017 from SICEX2.5 (codes 01-99)
+## Preprocessing of Panama customs declarations trade data 2013 - 2017 from SICEX2.5 (codes 01-99)
 ## originals are read-only, ';' substituted, csv added
 ## Laura Del Duca
 
@@ -36,7 +36,7 @@ source('R_aws.s3_credentials.R')					# load AWS S3 credentials
 
 for (yy in 2013:2017){
 	
-	orig <- get_bucket_df(	bucket = 'trase-storage', prefix = paste0('data/1-TRADE/CD/EXPORT/VENEZUELA/', yy))	
+	orig <- get_bucket_df(	bucket = 'trase-storage', prefix = paste0('data/1-TRADE/CD/EXPORT/PANAMA/', yy))	
 	keys <- subset(orig, grepl("ORIGINALS/.*.csv$", Key) )
 	keys <- as.vector(keys$Key)
 	
@@ -81,15 +81,21 @@ for (yy in 2013:2017){
 	
 	
 	# remove commas from numeric columns
+	D$TOTAL.Quantity.1 <- as.numeric(as.character(gsub(",", "", D$TOTAL.Quantity.1)))
 	D$TOTAL.FOB.Value..US.. <- as.numeric(as.character(gsub(",", "", D$TOTAL.FOB.Value..US..)))
-	D$Total.FOB.Value..Bolivares. <- as.numeric(as.character(gsub(",", "", D$Total.FOB.Value..Bolivares.)))
+	D$FOB.per.Unit..Quantity1. <- as.numeric(as.character(gsub(",", "", D$FOB.per.Unit..Quantity1.)))
+	D$TOTAL.CIF.Value..US.. <- as.numeric(as.character(gsub(",", "", D$TOTAL.CIF.Value..US..)))
 	D$TOTAL.Net.Weight..Kg. <- as.numeric(as.character(gsub(",", "", D$TOTAL.Net.Weight..Kg.)))
 	D$TOTAL.Gross.Weight..Kg. <- as.numeric(as.character(gsub(",", "", D$TOTAL.Gross.Weight..Kg.)))
-	D$Exchange.Rate <- as.numeric(as.character(gsub(",", "", D$Exchange.Rate)))
-
+	D$Freight <- as.numeric(as.character(gsub(",", "", D$Freight)))
+	D$Insurance <- as.numeric(as.character(gsub(",", "", D$Insurance)))
+	D$Value.costs <- as.numeric(as.character(gsub(",", "", D$Value.costs)))
+	D$Added.Value <- as.numeric(as.character(gsub(",", "", D$Added.Value)))
+	D$Value.COP. <- as.numeric(as.character(gsub(",", "", D$Value.COP.)))
+	
 	# make sure HS column is even number of digits, here 6
-	D$Harmonized.Code.Product.Spanish <- as.numeric(as.character(D$Harmonized.Code.Product.Spanish))
-	D$Harmonized.Code.Product.Spanish <- AT.add.leading.zeros(D$Harmonized.Code.Product.Spanish, digits = 6)
+	D$Harmonized.Code.Product.English <- as.numeric(as.character(D$Harmonized.Code.Product.English))
+	D$Harmonized.Code.Product.English <- AT.add.leading.zeros(D$Harmonized.Code.Product.English, digits = 6)
 	# this should be 10 digits:
 	D$Product.Schedule.B.Code <- as.numeric(as.character(D$Product.Schedule.B.Code))
 	D$Product.Schedule.B.Code <- AT.add.leading.zeros(D$Product.Schedule.B.Code, digits = 10)
@@ -97,7 +103,7 @@ for (yy in 2013:2017){
 	
 	# just for testing... save a copy locally
 	write.table(	D, 
-					paste0(current_folder, '/', 'CD_VENEZUELA_', yy, '_TEST.csv'), 
+					paste0(current_folder, '/', 'CD_PANAMA_', yy, '_TEST.csv'), 
 					quote = FALSE, 
 					row.names = FALSE, 
 					dec = '.', 
@@ -110,7 +116,7 @@ for (yy in 2013:2017){
 	# upload the object to S3
 	put_object(	file = rawConnectionValue(zz), 
 				bucket = 'trase-storage', 
-				object = paste0('data/1-TRADE/CD/EXPORT/VENEZUELA/', yy, '/SICEX25/CD_VENEZUELA_', yy, '.csv') )
+				object = paste0('data/1-TRADE/CD/EXPORT/PANAMA/', yy, '/SICEX25/CD_PANAMA_', yy, '.csv') )
 	# close the connection
 	close(zz)
 	
