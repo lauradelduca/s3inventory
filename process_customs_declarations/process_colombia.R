@@ -27,7 +27,7 @@ require(aws.s3)
 options(scipen=99999999)
 
 setwd('C:/Users/laura.delduca/Desktop/code')
-current_folder <- '0612'
+current_folder <- '0613'
 script_folder <- 's3inventory/comtrade_checks'
 
 source('R_aws.s3_credentials.R')					# load AWS S3 credentials
@@ -86,9 +86,12 @@ for (yy in 2013:2017){
 	D$FOB.per.Unit..Quantity1. <- as.numeric(as.character(gsub(",", "", D$FOB.per.Unit..Quantity1.)))
 	D$TOTAL.CIF.Value..US.. <- as.numeric(as.character(gsub(",", "", D$TOTAL.CIF.Value..US..)))
 	D$TOTAL.Net.Weight..Kg. <- as.numeric(as.character(gsub(",", "", D$TOTAL.Net.Weight..Kg.)))
+	D$TOTAL.Gross.Weight..Kg. <- as.numeric(as.character(gsub(",", "", D$TOTAL.Gross.Weight..Kg.)))
 	D$Freight <- as.numeric(as.character(gsub(",", "", D$Freight)))
 	D$Insurance <- as.numeric(as.character(gsub(",", "", D$Insurance)))
-	D$Acceptance <- as.numeric(as.character(gsub(",", "", D$Acceptance)))
+	D$Value.costs <- as.numeric(as.character(gsub(",", "", D$Value.costs)))
+	D$Added.Value <- as.numeric(as.character(gsub(",", "", D$Added.Value)))
+	D$Value.COP. <- as.numeric(as.character(gsub(",", "", D$Value.COP.)))
 	
 	# make sure HS column is even number of digits, here 6
 	D$Harmonized.Code.Product.English <- as.numeric(as.character(D$Harmonized.Code.Product.English))
