@@ -56,7 +56,7 @@ CD_content <- do.call(rbind, list(	argentina_content,
 									panama_content,
 									paraguay_content,
 									peru_content,
-									uruguay_content #,
+									uruguay_content,
 									venezuela_content	
 									))
 
