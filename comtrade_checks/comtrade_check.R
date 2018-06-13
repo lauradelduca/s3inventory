@@ -15,7 +15,7 @@ options(scipen=999)
 
 setwd('C:/Users/laura.delduca/Desktop/code')
 
-current_folder <- '0611'
+current_folder <- '0613'
 script_folder <- 's3inventory/comtrade_checks'
 
 source('R_aws.s3_credentials.R')											# load AWS S3 credentials
@@ -29,8 +29,8 @@ write.table(CD, paste0(current_folder, '/', 'CD_AWS.csv'), quote = FALSE, row.na
 countries <- unique(as.vector(CD$country))									# chose which countries to run
 # parked <- c('VENEZUELA', 'COLOMBIA', 'PANAMA', 'BOLIVIA', 'MEXICO', 'ARGENTINA', 'BRAZIL')
 # countries <- countries[!countries %in% parked]
-countries <- c('BOLIVIA')
-cc <- 'BOLIVIA'
+countries <- c('COLOMBIA')
+cc <- 'COLOMBIA'
 
 source(paste0(script_folder, '/', 'write_weight_check_files.R'))			# write weight checks files
 
