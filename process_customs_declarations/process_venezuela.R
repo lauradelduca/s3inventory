@@ -1,5 +1,6 @@
 ## Preprocessing of Venezuela customs declarations trade data 2013 - 2017 from SICEX2.5 (codes 01-99)
 ## originals are read-only, ';' substituted, csv added
+## for most years, Venezuela is not in comtrade data, no checks here
 ## Laura Del Duca
 
 
