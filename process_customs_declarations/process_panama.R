@@ -89,9 +89,12 @@ for (yy in 2013:2017){
 	D$TOTAL.Gross.Weight..Kg. <- as.numeric(as.character(gsub(",", "", D$TOTAL.Gross.Weight..Kg.)))
 	D$Freight <- as.numeric(as.character(gsub(",", "", D$Freight)))
 	D$Insurance <- as.numeric(as.character(gsub(",", "", D$Insurance)))
-	D$Value.costs <- as.numeric(as.character(gsub(",", "", D$Value.costs)))
-	D$Added.Value <- as.numeric(as.character(gsub(",", "", D$Added.Value)))
-	D$Value.COP. <- as.numeric(as.character(gsub(",", "", D$Value.COP.)))
+	D$Commercial.Quantity <- as.numeric(as.character(gsub(",", "", D$Commercial.Quantity)))
+	D$Calculated.Tax <- as.numeric(as.character(gsub(",", "", D$Calculated.Tax)))
+	D$Imp.Sel.Consum <- as.numeric(as.character(gsub(",", "", D$Imp.Sel.Consum)))
+	D$Icddp <- as.numeric(as.character(gsub(",", "", D$Icddp)))
+	D$Imp.Import <- as.numeric(as.character(gsub(",", "", D$Imp.Import)))
+	D$Imp.Total.Payment <- as.numeric(as.character(gsub(",", "", D$Imp.Total.Payment)))
 	
 	# make sure HS column is even number of digits, here 6
 	D$Harmonized.Code.Product.English <- as.numeric(as.character(D$Harmonized.Code.Product.English))
