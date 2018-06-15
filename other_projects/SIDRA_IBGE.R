@@ -77,18 +77,18 @@ herd <- get_sidra(x = 6669) #,
 
 
 # save cattle	  
-write.table(cattle, paste0(current_folder, '/', 'IBGE_1092_cattle', yy, '.csv'), quote = FALSE, 
+write.table(cattle, paste0(current_folder, '/', 'IBGE_1092_cattle_year.csv'), quote = FALSE, 
 			row.names = FALSE, dec = '.', sep = ';')
 
 zz <- rawConnection(raw(0), "r+")
 write.table(cattle, zz, quote = FALSE, row.names = FALSE, dec = '.', sep = ';')
 put_object(	file = rawConnectionValue(zz), bucket = 'trase-storage', 
-			object = paste0('data/2-PRODUCTION/STATISTICS/BRAZIL/IBGE/beef/beef_ _ .csv') )
+			object = paste0('data/2-PRODUCTION/STATISTICS/BRAZIL/IBGE/beef/beef_ _mun.csv') )
 close(zz)
 
 
 # save pigs
-write.table(pigs, paste0(current_folder, '/', 'IBGE_1092_pigs', yy, '.csv'), quote = FALSE, 
+write.table(pigs, paste0(current_folder, '/', 'IBGE_1092_pigs_year.csv'), quote = FALSE, 
 			row.names = FALSE, dec = '.', sep = ';')
 
 zz <- rawConnection(raw(0), "r+")
@@ -99,7 +99,7 @@ close(zz)
 
 
 # save chicken
-write.table(chicken, paste0(current_folder, '/', 'IBGE_1092_chicken', yy, '.csv'), quote = FALSE, 
+write.table(chicken, paste0(current_folder, '/', 'IBGE_1092_chicken_year_mun.csv'), quote = FALSE, 
 			row.names = FALSE, dec = '.', sep = ';')
 
 zz <- rawConnection(raw(0), "r+")
@@ -113,11 +113,11 @@ close(zz)
 write.table(herd, paste0(current_folder, '/', 'IBGE_1092_herd', yy, '.csv'), quote = FALSE, 
 			row.names = FALSE, dec = '.', sep = ';')
 
-zz <- rawConnection(raw(0), "r+")
-write.table(herd, zz, quote = FALSE, row.names = FALSE, dec = '.', sep = ';')
-put_object(	file = rawConnectionValue(zz), bucket = 'trase-storage', 
-			object = paste0('data/2-PRODUCTION/STATISTICS/BRAZIL/IBGE/herd/herd_ _ .csv') )
-close(zz)
+# zz <- rawConnection(raw(0), "r+")
+# write.table(herd, zz, quote = FALSE, row.names = FALSE, dec = '.', sep = ';')
+# put_object(	file = rawConnectionValue(zz), bucket = 'trase-storage', 
+			# object = paste0('data/2-PRODUCTION/STATISTICS/BRAZIL/IBGE/herd/herd_ _ .csv') )
+# close(zz)
 
 
 # clean up
