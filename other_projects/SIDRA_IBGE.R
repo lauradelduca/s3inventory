@@ -41,39 +41,39 @@ cattle <- get_sidra(x = 1092,
 
 		  
 # Table 1093 Animal kills per trimester along with carcass weights: pigs
-pigs <- get_sidra(x = 1093) #,
+pigs <- get_sidra(x = 1093,
           #variable = 63,
-          #period = c("last" = 12),
+          period = 'all',
           #geo = "City",
           #geo.filter = 5002407,
           #classific = "c315",
           #category = list(7169),
           #header = FALSE,
-          #format = 3)
+          format = 3)
 
 		  
 # Table 1094 Animal kills per trimester along with carcass weights: chicken
-chicken <- get_sidra(x = 1094) #,
+chicken <- get_sidra(x = 1094,
           #variable = 63,
-          #period = c("last" = 12),
+          period = 'all',
           #geo = "City",
           #geo.filter = 5002407,
           #classific = "c315",
           #category = list(7169),
           #header = FALSE,
-          #format = 3)
+          format = 3)
 
 		  
 # Table 6669 Slaughtered animals, by herd type
-herd <- get_sidra(x = 6669) #,
+herd <- get_sidra(x = 6669,
           #variable = 63,
-          #period = c("last" = 12),
+          period = 'all',
           #geo = "City",
           #geo.filter = 5002407,
           #classific = "c315",
           #category = list(7169),
           #header = FALSE,
-          #format = 3)  
+          format = 3)  
 
 
 # save cattle	  
