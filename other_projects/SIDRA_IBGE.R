@@ -35,30 +35,26 @@ source('R_aws.s3_credentials.R')					# load AWS S3 credentials
 # then once per State maybe, get IDs form csv downloaded in browser, seems geo.filter = 1:53
 # rbind all
 cattle <- get_sidra(x = 1092,
-          #variable = 63, #should be able to select variables here, not sure, integer vector
           period = 'all',
           geo = 'Brazil',
-          #classific = "c315",
-          #category = list(7169),
           format = 3)
+		  
 
-table_from_browser <- fread(paste0(current_folder, '/', 'tabela1092_all.csv'))
+table_from_browser <- fread(paste0(current_folder, '/', 'tabela1092_all.csv'), stringsAsFactors = FALSE)
 # > dim(table_from_browser)
 # [1] 685440      9
-codes <- as.vector(unique(table_from_browser[,5]))
+codes <- as.vector(unique(as.numeric(table_from_browser$CÃ³d.)))
 # the first in codes, 1, is for Brazil, so skip
 codes <- codes[-c(1)]
 
 # it seems like getting the same dimensions for each state/brazil is not an error
 for (i in codes){		
 	cattle_state <- get_sidra(x = 1092,
-          #variable = 63, #should be able to select variables here, not sure, integer vector
           period = 'all',
           geo = 'State',
           geo.filter = i,
-          #classific = "c315",
-          #category = list(7169),
           format = 3)
+	if (i == codes[1]){ names(cattle) <- names(cattle_state) }
 	cattle <- rbind(cattle, cattle_state)
 }
 
