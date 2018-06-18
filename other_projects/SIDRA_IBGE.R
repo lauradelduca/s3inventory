@@ -1,6 +1,4 @@
-## 2018-06-15 connecting to SIDRA IBGE from R
-
-## sidrar
+## 2018-06-15 download data from SIDRA IBGE using sidrar package
 
 install.packages("sidrar")
 
@@ -28,7 +26,12 @@ source('R_aws.s3_credentials.R')					# load AWS S3 credentials
 
 
 
-# Table 1092 Animal kills per trimester along with carcass weights: cattle
+### Table 1092 Animal kills per trimester along with carcass weights: cattle
+
+# api test: only works for up to 20000 records
+cattle_api <- get_sidra(api = 'http://api.sidra.ibge.gov.br/values/t/1092/n1/all/n3/all/v/allxp/p/all/c12716/all/c18/all/c12529/all')
+
+# get_sidra
 # issue: limit of 100000 records
 # issue: geo defaults to just the first argument
 # run once for geo = 'Brazil'
@@ -39,13 +42,11 @@ cattle <- get_sidra(x = 1092,
           geo = 'Brazil',
           format = 3)
 		  
-
 table_from_browser <- fread(paste0(current_folder, '/', 'tabela1092_all.csv'), stringsAsFactors = FALSE)
 # > dim(table_from_browser)
 # [1] 685440      9
 codes <- as.vector(unique(as.numeric(table_from_browser$CÃ³d.)))
-# the first in codes, 1, is for Brazil, so skip
-codes <- codes[-c(1)]
+codes <- codes[-c(1)] 		# the first in codes, 1, is for Brazil, so skip
 
 # it seems like getting the same dimensions for each state/brazil is not an error
 for (i in codes){		
@@ -58,9 +59,9 @@ for (i in codes){
 	cattle <- rbind(cattle, cattle_state)
 }
 
-		  
-# api test: only works for up to 20000 records
-cattle_api <- get_sidra(api = 'http://api.sidra.ibge.gov.br/values/t/1092/n1/all/n3/all/v/allxp/p/all/c12716/all/c18/all/c12529/all')
+dim(cattle)
+# > dim(cattle)
+# [1] 685440      9
 
 		  
 # Table 1093 Animal kills per trimester along with carcass weights: pigs
@@ -100,13 +101,13 @@ herd <- get_sidra(x = 6669,
 
 
 # save cattle	  
-write.table(cattle, paste0(current_folder, '/', 'IBGE_1092_cattle_1997_12018.csv'), quote = FALSE, 
+write.table(cattle, paste0(current_folder, '/', 'IBGE_1092_cattle_1997_1_2018.csv'), quote = FALSE, 
 			row.names = FALSE, dec = '.', sep = ';')
 
 zz <- rawConnection(raw(0), "r+")
 write.table(cattle, zz, quote = FALSE, row.names = FALSE, dec = '.', sep = ';')
 put_object(	file = rawConnectionValue(zz), bucket = 'trase-storage', 
-			object = paste0('data/2-PRODUCTION/STATISTICS/BRAZIL/IBGE/beef/beef_ _mun.csv') )
+			object = paste0('data/2-PRODUCTION/STATISTICS/BRAZIL/IBGE/beef/beef_1997_1_2018_mun.csv') )
 close(zz)
 
 
