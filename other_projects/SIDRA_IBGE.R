@@ -29,15 +29,15 @@ source('R_aws.s3_credentials.R')					# load AWS S3 credentials
 
 
 # Table 1092 Animal kills per trimester along with carcass weights: cattle
-cattle <- get_sidra(x = 1092) #,
-          #variable = 63,
-          #period = c("last" = 12),
+cattle <- get_sidra(x = 1092,
+          #variable = 63, #should be able to select variables here, not sure, integer vector
+          period = 'all',
           #geo = "City",
           #geo.filter = 5002407,
           #classific = "c315",
           #category = list(7169),
           #header = FALSE,
-          #format = 3)
+          format = 3)
 
 		  
 # Table 1093 Animal kills per trimester along with carcass weights: pigs
@@ -77,7 +77,7 @@ herd <- get_sidra(x = 6669) #,
 
 
 # save cattle	  
-write.table(cattle, paste0(current_folder, '/', 'IBGE_1092_cattle_year.csv'), quote = FALSE, 
+write.table(cattle, paste0(current_folder, '/', 'IBGE_1092_cattle_1997_12018.csv'), quote = FALSE, 
 			row.names = FALSE, dec = '.', sep = ';')
 
 zz <- rawConnection(raw(0), "r+")
