@@ -29,15 +29,22 @@ source('R_aws.s3_credentials.R')					# load AWS S3 credentials
 
 
 # Table 1092 Animal kills per trimester along with carcass weights: cattle
+# issue: limit of 100000 records
+# issue: geo defaults to just the first argument
+# run once for geo = 'Brazil'
+# then once per State maybe, get IDs form csv downloaded in browser, seems geo.filter = 1:53
+# rbind all
 cattle <- get_sidra(x = 1092,
           #variable = 63, #should be able to select variables here, not sure, integer vector
           period = 'all',
-          #geo = "City",
+          geo = c("Brazil"), #"State"),     # defaults to just the first argument?
           #geo.filter = 5002407,
           #classific = "c315",
           #category = list(7169),
-          #header = FALSE,
           format = 3)
+		  
+# api test: only works for up to 20000 records
+cattle_api <- get_sidra(api = 'http://api.sidra.ibge.gov.br/values/t/1092/n1/all/n3/all/v/allxp/p/all/c12716/all/c18/all/c12529/all')
 
 		  
 # Table 1093 Animal kills per trimester along with carcass weights: pigs
