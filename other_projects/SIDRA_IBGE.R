@@ -37,11 +37,31 @@ source('R_aws.s3_credentials.R')					# load AWS S3 credentials
 cattle <- get_sidra(x = 1092,
           #variable = 63, #should be able to select variables here, not sure, integer vector
           period = 'all',
-          geo = c("Brazil"), #"State"),     # defaults to just the first argument?
-          #geo.filter = 5002407,
+          geo = 'Brazil',
           #classific = "c315",
           #category = list(7169),
           format = 3)
+
+table_from_browser <- fread(paste0(current_folder, '/', 'tabela1092_all.csv'))
+# > dim(table_from_browser)
+# [1] 685440      9
+codes <- as.vector(unique(table_from_browser[,5]))
+# the first in codes, 1, is for Brazil, so skip
+codes <- codes[-c(1)]
+
+# it seems like getting the same dimensions for each state/brazil is not an error
+for (i in codes){		
+	cattle_state <- get_sidra(x = 1092,
+          #variable = 63, #should be able to select variables here, not sure, integer vector
+          period = 'all',
+          geo = 'State',
+          geo.filter = i,
+          #classific = "c315",
+          #category = list(7169),
+          format = 3)
+	cattle <- rbind(cattle, cattle_state)
+}
+
 		  
 # api test: only works for up to 20000 records
 cattle_api <- get_sidra(api = 'http://api.sidra.ibge.gov.br/values/t/1092/n1/all/n3/all/v/allxp/p/all/c12716/all/c18/all/c12529/all')
