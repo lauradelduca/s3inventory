@@ -65,6 +65,20 @@ dim(cattle)
 # [1] 685440      9
 
 
+# bring into wider format
+
+# the units are better attached to column names
+tapply(cattle$'Unidade de Medida', cattle$Variável, unique)
+
+
+cattle$Variável <- paste0(cattle$Variável, ' (', cattle$'Unidade de Medida', ')')
+cattle <- cattle[,-which(names(cattle) %in% c('Unidade de Medida'))]
+
+cattle <- spread(	data = cattle, 
+					key = Variável,
+					value = Valor)
+			
+
 # save cattle	  
 write.table(cattle, paste0(current_folder, '/', 'IBGE_1092_cattle_1997_1_2018.csv'), quote = FALSE, 
 			row.names = FALSE, dec = '.', sep = ';')
@@ -107,6 +121,22 @@ dim(pigs)
 # > dim(pigs)
 # [1] 110160      8
 
+
+# bring into wider format
+
+# the units are better attached to column names
+tapply(pigs$'Unidade de Medida', pigs$Variável, unique)
+# > tapply(pigs$'Unidade de Medida', pigs$Variável, unique)
+       # Animais abatidos   Número de informantes Peso total das carcaças 
+              # "Cabeças"              "Unidades"           "Quilogramas" 
+
+pigs$Variável <- paste0(pigs$Variável, ' (', pigs$'Unidade de Medida', ')')
+pigs <- pigs[,-which(names(pigs) %in% c('Unidade de Medida'))]
+
+pigs <- spread(	data = pigs, 
+				key = Variável,
+				value = Valor)
+			
 
 # save pigs
 write.table(pigs, paste0(current_folder, '/', 'IBGE_1093_pigs_1997_1_2018.csv'), quote = FALSE, 
