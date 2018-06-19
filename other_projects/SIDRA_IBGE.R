@@ -64,7 +64,9 @@ dim(cattle)
 # bring into wider format
 # the units are better attached to column names
 tapply(cattle$'Unidade de Medida', cattle$Variável, unique)
-
+       # Animais abatidos   Número de informantes Peso total das carcaças 
+              # "Cabeças"              "Unidades"           "Quilogramas"
+			  
 cattle$Variável <- paste0(cattle$Variável, ' (', cattle$'Unidade de Medida', ')')
 cattle <- cattle[,-which(names(cattle) %in% c('Unidade de Medida'))]
 
@@ -228,7 +230,7 @@ write.table(herd, paste0(current_folder, '/', 'IBGE_6669_beef_pigs_chicken_1_201
 			row.names = FALSE, dec = '.', sep = ';')
 
 zz <- rawConnection(raw(0), "r+")
-write.table(chicken, zz, quote = FALSE, row.names = FALSE, dec = '.', sep = ';')
+write.table(herd, zz, quote = FALSE, row.names = FALSE, dec = '.', sep = ';')
 put_object(	file = rawConnectionValue(zz), bucket = 'trase-storage', 
 			object = paste0('data/2-PRODUCTION/STATISTICS/BRAZIL/IBGE/herd_beef_pigs_chicken/herd_beef_pigs_chicken_1_2018.csv') )
 close(zz)
