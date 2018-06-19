@@ -92,7 +92,6 @@ table_from_browser <- fread(paste0(current_folder, '/', 'tabela1093_all.csv'), s
 codes <- as.vector(unique(as.numeric(table_from_browser$CÃ³d.)))
 codes <- codes[-c(1)] 		# the first in codes, 1, is for Brazil, so skip
 
-# it seems like getting the same dimensions for each state/Brazil is not an error
 for (i in codes){		
 	pigs_state <- get_sidra(x = 1093,
           period = 'all',
@@ -104,24 +103,63 @@ for (i in codes){
 }
 
 dim(pigs)
+# > dim(pigs)
+# [1] 110160      8
+
+
+# save pigs
+write.table(pigs, paste0(current_folder, '/', 'IBGE_1093_pigs_1997_1_2018.csv'), quote = FALSE, 
+			row.names = FALSE, dec = '.', sep = ';')
+
+zz <- rawConnection(raw(0), "r+")
+write.table(pigs, zz, quote = FALSE, row.names = FALSE, dec = '.', sep = ';')
+put_object(	file = rawConnectionValue(zz), bucket = 'trase-storage', 
+			object = paste0('data/2-PRODUCTION/STATISTICS/BRAZIL/IBGE/pigs/pigs_1997_1_2018.csv') )
+close(zz)
 
 
 
 
-
-
-
+### CHICKEN
 		  
-# Table 1094 Animal kills per trimester along with carcass weights: chicken
+# Table 1094 Animal kills per trimester along with carcass weights
+		  
 chicken <- get_sidra(x = 1094,
-          #variable = 63,
           period = 'all',
-          #geo = "City",
-          #geo.filter = 5002407,
-          #classific = "c315",
-          #category = list(7169),
-          #header = FALSE,
+          geo = 'Brazil',
           format = 3)
+		  
+table_from_browser <- fread(paste0(current_folder, '/', 'tabela1094_all.csv'), stringsAsFactors = FALSE)
+dim(table_from_browser)
+# > dim(table_from_browser)
+# [1] 110160      8
+codes <- as.vector(unique(as.numeric(table_from_browser$CÃ³d.)))
+codes <- codes[-c(1)] 		# the first in codes, 1, is for Brazil, so skip
+
+for (i in codes){		
+	chicken_state <- get_sidra(x = 1094,
+          period = 'all',
+          geo = 'State',
+          geo.filter = i,
+          format = 3)
+	if (i == codes[1]){ names(chicken) <- names(chicken_state) }
+	chicken <- rbind(chicken, chicken_state)
+}
+
+dim(chicken)
+
+
+
+# save chicken
+write.table(chicken, paste0(current_folder, '/', 'IBGE_1094_chicken_1997_1_2018.csv'), quote = FALSE, 
+			row.names = FALSE, dec = '.', sep = ';')
+
+zz <- rawConnection(raw(0), "r+")
+write.table(chicken, zz, quote = FALSE, row.names = FALSE, dec = '.', sep = ';')
+put_object(	file = rawConnectionValue(zz), bucket = 'trase-storage', 
+			object = paste0('data/2-PRODUCTION/STATISTICS/BRAZIL/IBGE/chicken/chicken_1997_1_2018.csv') )
+close(zz)
+
 
 		  
 # Table 6669 Slaughtered animals, by herd type
@@ -134,19 +172,6 @@ herd <- get_sidra(x = 6669,
           #category = list(7169),
           #header = FALSE,
           format = 3)  
-
-
-
-
-# save pigs
-write.table(pigs, paste0(current_folder, '/', 'IBGE_1092_pigs_year.csv'), quote = FALSE, 
-			row.names = FALSE, dec = '.', sep = ';')
-
-zz <- rawConnection(raw(0), "r+")
-write.table(pigs, zz, quote = FALSE, row.names = FALSE, dec = '.', sep = ';')
-put_object(	file = rawConnectionValue(zz), bucket = 'trase-storage', 
-			object = paste0('data/2-PRODUCTION/STATISTICS/BRAZIL/IBGE/pigs/pigs_ _ .csv') )
-close(zz)
 
 
 # save chicken
