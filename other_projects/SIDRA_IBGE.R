@@ -1,9 +1,8 @@
 ## 2018-06-15 download data from SIDRA IBGE using sidrar package
-
-install.packages("sidrar")
+## tables 1092, 1093, 1094, 6669
+## Laura Del Duca
 
 rm(list=ls(all=TRUE))
-
 
 require(stringr)
 require(gsubfn)
@@ -20,15 +19,12 @@ options(scipen=99999999)
 
 setwd('C:/Users/laura.delduca/Desktop/code')
 current_folder <- '0618'
-script_folder <- 's3inventory/comtrade_checks'
 
 source('R_aws.s3_credentials.R')					# load AWS S3 credentials
 
 
 
-### CATTLE
-
-# Table 1092 Animal kills per trimester along with carcass weights
+### CATTLE: Table 1092 Animal kills per trimester along with carcass weights
 
 # api test: only works for up to 20000 records
 #cattle_api <- get_sidra(api = 'http://api.sidra.ibge.gov.br/values/t/1092/n1/all/n3/all/v/allxp/p/all/c12716/all/c18/all/c12529/all')
@@ -49,7 +45,7 @@ table_from_browser <- fread(paste0(current_folder, '/', 'tabela1092_all.csv'), s
 codes <- as.vector(unique(as.numeric(table_from_browser$CÃ³d.)))
 codes <- codes[-c(1)] 		# the first in codes, 1, is for Brazil, so skip
 
-# it seems like getting the same dimensions for each state/Brazil is not an error
+# same dimensions for each state/Brazil don't seem to be an error
 for (i in codes){		
 	cattle_state <- get_sidra(x = 1092,
           period = 'all',
@@ -66,10 +62,8 @@ dim(cattle)
 
 
 # bring into wider format
-
 # the units are better attached to column names
 tapply(cattle$'Unidade de Medida', cattle$Variável, unique)
-
 
 cattle$Variável <- paste0(cattle$Variável, ' (', cattle$'Unidade de Medida', ')')
 cattle <- cattle[,-which(names(cattle) %in% c('Unidade de Medida'))]
@@ -91,10 +85,7 @@ close(zz)
 
 
 
-
-### PIGS
-		  
-# Table 1093 Animal kills per trimester along with carcass weights
+### PIGS: Table 1093 Animal kills per trimester along with carcass weights
 		  
 pigs <- get_sidra(x = 1093,
           period = 'all',
@@ -123,7 +114,6 @@ dim(pigs)
 
 
 # bring into wider format
-
 # the units are better attached to column names
 tapply(pigs$'Unidade de Medida', pigs$Variável, unique)
 # > tapply(pigs$'Unidade de Medida', pigs$Variável, unique)
@@ -137,7 +127,6 @@ pigs <- spread(	data = pigs,
 				key = Variável,
 				value = Valor)
 			
-
 # save pigs
 write.table(pigs, paste0(current_folder, '/', 'IBGE_1093_pigs_1997_1_2018.csv'), quote = FALSE, 
 			row.names = FALSE, dec = '.', sep = ';')
@@ -150,10 +139,7 @@ close(zz)
 
 
 
-
-### CHICKEN
-		  
-# Table 1094 Animal kills per trimester along with carcass weights
+### CHICKEN: Table 1094 Animal kills per trimester along with carcass weights
 		  
 chicken <- get_sidra(x = 1094,
           period = 'all',
@@ -182,7 +168,6 @@ for (i in codes){
 
 
 # bring into wider format
-
 # the units are better attached to column names
 tapply(chicken$'Unidade de Medida', chicken$Variável, unique)
 # > tapply(chicken$'Unidade de Medida', chicken$Variável, unique)
@@ -209,10 +194,7 @@ close(zz)
 
 
 
-
-### Summary table
-	  
-# Table 6669 Slaughtered animals, by herd type
+### Summary: Table 6669 Slaughtered animals, by herd type
 
 herd <- get_sidra(x = 6669,
           period = 'all',
@@ -224,12 +206,10 @@ table_from_browser <- fread(paste0(current_folder, '/', 'tabela6669_all.csv'), s
 dim(table_from_browser)
 # > dim(table_from_browser)
 # [1] 6 7
-
 # > dim(herd)
 # [1] 6 7
 
-# test the tidyr spread function here, bring long into wide format
-				
+# bring into wide format				
 # the units are better attached to column names
 tapply(herd$'Unidade de Medida', herd$Variável, unique)
        # Animais abatidos Peso total das carcaças 
