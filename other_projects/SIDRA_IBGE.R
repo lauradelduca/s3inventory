@@ -25,18 +25,18 @@ source('R_aws.s3_credentials.R')					# load AWS S3 credentials
 
 
 
+### CATTLE
 
-### Table 1092 Animal kills per trimester along with carcass weights: cattle
+# Table 1092 Animal kills per trimester along with carcass weights
 
 # api test: only works for up to 20000 records
-cattle_api <- get_sidra(api = 'http://api.sidra.ibge.gov.br/values/t/1092/n1/all/n3/all/v/allxp/p/all/c12716/all/c18/all/c12529/all')
+#cattle_api <- get_sidra(api = 'http://api.sidra.ibge.gov.br/values/t/1092/n1/all/n3/all/v/allxp/p/all/c12716/all/c18/all/c12529/all')
 
 # get_sidra
 # issue: limit of 100000 records
 # issue: geo defaults to just the first argument
-# run once for geo = 'Brazil'
-# then once per State maybe, get IDs form csv downloaded in browser, seems geo.filter = 1:53
-# rbind all
+# run once for geo = 'Brazil', then once per State, get IDs form csv downloaded in browser, rbind all
+
 cattle <- get_sidra(x = 1092,
           period = 'all',
           geo = 'Brazil',
@@ -48,7 +48,7 @@ table_from_browser <- fread(paste0(current_folder, '/', 'tabela1092_all.csv'), s
 codes <- as.vector(unique(as.numeric(table_from_browser$CÃ³d.)))
 codes <- codes[-c(1)] 		# the first in codes, 1, is for Brazil, so skip
 
-# it seems like getting the same dimensions for each state/brazil is not an error
+# it seems like getting the same dimensions for each state/Brazil is not an error
 for (i in codes){		
 	cattle_state <- get_sidra(x = 1092,
           period = 'all',
@@ -63,17 +63,53 @@ dim(cattle)
 # > dim(cattle)
 # [1] 685440      9
 
+
+# save cattle	  
+write.table(cattle, paste0(current_folder, '/', 'IBGE_1092_cattle_1997_1_2018.csv'), quote = FALSE, 
+			row.names = FALSE, dec = '.', sep = ';')
+
+zz <- rawConnection(raw(0), "r+")
+write.table(cattle, zz, quote = FALSE, row.names = FALSE, dec = '.', sep = ';')
+put_object(	file = rawConnectionValue(zz), bucket = 'trase-storage', 
+			object = paste0('data/2-PRODUCTION/STATISTICS/BRAZIL/IBGE/beef/beef_1997_1_2018.csv') )
+close(zz)
+
+
+
+
+### PIGS
 		  
-# Table 1093 Animal kills per trimester along with carcass weights: pigs
+# Table 1093 Animal kills per trimester along with carcass weights
+		  
 pigs <- get_sidra(x = 1093,
-          #variable = 63,
           period = 'all',
-          #geo = "City",
-          #geo.filter = 5002407,
-          #classific = "c315",
-          #category = list(7169),
-          #header = FALSE,
+          geo = 'Brazil',
           format = 3)
+		  
+table_from_browser <- fread(paste0(current_folder, '/', 'tabela1093_all.csv'), stringsAsFactors = FALSE)
+# > dim(table_from_browser)
+# [1] 110160      8
+codes <- as.vector(unique(as.numeric(table_from_browser$CÃ³d.)))
+codes <- codes[-c(1)] 		# the first in codes, 1, is for Brazil, so skip
+
+# it seems like getting the same dimensions for each state/Brazil is not an error
+for (i in codes){		
+	pigs_state <- get_sidra(x = 1093,
+          period = 'all',
+          geo = 'State',
+          geo.filter = i,
+          format = 3)
+	if (i == codes[1]){ names(pigs) <- names(pigs_state) }
+	pigs <- rbind(pigs, pigs_state)
+}
+
+dim(pigs)
+
+
+
+
+
+
 
 		  
 # Table 1094 Animal kills per trimester along with carcass weights: chicken
@@ -100,15 +136,6 @@ herd <- get_sidra(x = 6669,
           format = 3)  
 
 
-# save cattle	  
-write.table(cattle, paste0(current_folder, '/', 'IBGE_1092_cattle_1997_1_2018.csv'), quote = FALSE, 
-			row.names = FALSE, dec = '.', sep = ';')
-
-zz <- rawConnection(raw(0), "r+")
-write.table(cattle, zz, quote = FALSE, row.names = FALSE, dec = '.', sep = ';')
-put_object(	file = rawConnectionValue(zz), bucket = 'trase-storage', 
-			object = paste0('data/2-PRODUCTION/STATISTICS/BRAZIL/IBGE/beef/beef_1997_1_2018_mun.csv') )
-close(zz)
 
 
 # save pigs
