@@ -11,8 +11,9 @@ require(dplyr)
 require(readxl)
 require(data.table)
 require(libamtrack)
+require(tidyr)
 
-library(sidrar)
+require(sidrar)
 require(aws.s3)
 
 options(scipen=99999999)
@@ -181,6 +182,20 @@ dim(table_from_browser)
 # > dim(herd)
 # [1] 6 7
 
+# test the tidyr spread function here, bring long into wide format
+				
+# the units are better attached to column names
+tapply(herd$'Unidade de Medida', herd$Variável, unique)
+       # Animais abatidos Peso total das carcaças 
+          # "Mil cabeças"             "Toneladas" 
+
+herd$Variável <- paste0(herd$Variável, ' (', herd$'Unidade de Medida', ')')
+herd <- herd[,-which(names(herd) %in% c('Unidade de Medida'))]
+
+herd <- spread(	data = herd, 
+				key = Variável,
+				value = Valor)
+				
 
 # save herd
 write.table(herd, paste0(current_folder, '/', 'IBGE_6669_beef_pigs_chicken_1_2018.csv'), quote = FALSE, 
