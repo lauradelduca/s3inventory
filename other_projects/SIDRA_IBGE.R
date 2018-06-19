@@ -146,8 +146,8 @@ for (i in codes){
 	chicken <- rbind(chicken, chicken_state)
 }
 
-dim(chicken)
-
+# > dim(chicken)
+# [1] 110160      8
 
 
 # save chicken
@@ -161,39 +161,37 @@ put_object(	file = rawConnectionValue(zz), bucket = 'trase-storage',
 close(zz)
 
 
-		  
+
+
+### Summary table
+	  
 # Table 6669 Slaughtered animals, by herd type
+
 herd <- get_sidra(x = 6669,
-          #variable = 63,
           period = 'all',
-          #geo = "City",
-          #geo.filter = 5002407,
-          #classific = "c315",
-          #category = list(7169),
-          #header = FALSE,
-          format = 3)  
+          geo = 'Brazil',
+          format = 3)
+# has only Brazil, no states
+
+table_from_browser <- fread(paste0(current_folder, '/', 'tabela6669_all.csv'), stringsAsFactors = FALSE)
+dim(table_from_browser)
+# > dim(table_from_browser)
+# [1] 6 7
+
+# > dim(herd)
+# [1] 6 7
 
 
-# save chicken
-write.table(chicken, paste0(current_folder, '/', 'IBGE_1092_chicken_year_mun.csv'), quote = FALSE, 
+# save herd
+write.table(herd, paste0(current_folder, '/', 'IBGE_6669_beef_pigs_chicken_1_2018.csv'), quote = FALSE, 
 			row.names = FALSE, dec = '.', sep = ';')
 
 zz <- rawConnection(raw(0), "r+")
 write.table(chicken, zz, quote = FALSE, row.names = FALSE, dec = '.', sep = ';')
 put_object(	file = rawConnectionValue(zz), bucket = 'trase-storage', 
-			object = paste0('data/2-PRODUCTION/STATISTICS/BRAZIL/IBGE/chicken/chicken_ _ .csv') )
+			object = paste0('data/2-PRODUCTION/STATISTICS/BRAZIL/IBGE/herd_beef_pigs_chicken/herd_beef_pigs_chicken_1_2018.csv') )
 close(zz)
 
-
-# save herd
-write.table(herd, paste0(current_folder, '/', 'IBGE_1092_herd', yy, '.csv'), quote = FALSE, 
-			row.names = FALSE, dec = '.', sep = ';')
-
-# zz <- rawConnection(raw(0), "r+")
-# write.table(herd, zz, quote = FALSE, row.names = FALSE, dec = '.', sep = ';')
-# put_object(	file = rawConnectionValue(zz), bucket = 'trase-storage', 
-			# object = paste0('data/2-PRODUCTION/STATISTICS/BRAZIL/IBGE/herd/herd_ _ .csv') )
-# close(zz)
 
 
 # clean up
