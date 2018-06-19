@@ -151,6 +151,22 @@ for (i in codes){
 # [1] 110160      8
 
 
+# bring into wider format
+
+# the units are better attached to column names
+tapply(chicken$'Unidade de Medida', chicken$Variável, unique)
+# > tapply(chicken$'Unidade de Medida', chicken$Variável, unique)
+       # Animais abatidos   Número de informantes Peso total das carcaças 
+              # "Cabeças"              "Unidades"           "Quilogramas" 
+
+chicken$Variável <- paste0(chicken$Variável, ' (', chicken$'Unidade de Medida', ')')
+chicken <- chicken[,-which(names(chicken) %in% c('Unidade de Medida'))]
+
+chicken <- spread(	data = chicken, 
+				key = Variável,
+				value = Valor)
+				
+
 # save chicken
 write.table(chicken, paste0(current_folder, '/', 'IBGE_1094_chicken_1997_1_2018.csv'), quote = FALSE, 
 			row.names = FALSE, dec = '.', sep = ';')
