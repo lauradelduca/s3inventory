@@ -74,7 +74,32 @@ cattle <- spread(	data = cattle,
 					key = Variável,
 					value = Valor)
 			
+## add year column
 
+cattle <- cattle[cattle$'Referência temporal' == 'Total do trimestre',]
+cattle <- cattle[cattle$'Tipo de inspeção' == 'Total',]
+
+cattle$Year <- str_sub(cattle$Trimestre,-4,-1)
+			
+			
+## remove special characters from column names
+setnames(	cattle, 
+			old = c(	'Unidade da Federação (Código)', 
+						'Unidade da Federação', 
+						'Referência temporal', 
+						'Tipo de inspeção', 
+						'Animais abatidos (Cabeças)', 
+						'Número de informantes (Unidades)', 
+						'Peso total das carcaças (Quilogramas)'	),
+			new = c(	'Unidade da Federacao (Codigo)', 
+						'Unidade da Federacao', 
+						'Referencia temporal', 
+						'Tipo de inspecao', 
+						'Animais abatidos (Cabecas)', 
+						'Numero de informantes (Unidades)', 
+						'Peso total das carcacas (Quilogramas)'	)	)
+
+			
 # save cattle	  
 write.table(cattle, paste0(current_folder, '/', 'IBGE_1092_cattle_1997_1_2018.csv'), quote = FALSE, 
 			row.names = FALSE, dec = '.', sep = ';')
@@ -128,6 +153,33 @@ pigs <- pigs[,-which(names(pigs) %in% c('Unidade de Medida'))]
 pigs <- spread(	data = pigs, 
 				key = Variável,
 				value = Valor)
+				
+				
+## add year column
+
+pigs <- pigs[pigs$'Referência temporal' == 'Total do trimestre',]
+pigs <- pigs[pigs$'Tipo de inspeção' == 'Total',]
+
+pigs$Year <- str_sub(pigs$Trimestre,-4,-1)
+			
+			
+## remove special characters from column names
+setnames(	cattle, 
+			old = c(	'Unidade da Federação (Código)', 
+						'Unidade da Federação', 
+						'Referência temporal', 
+						'Tipo de inspeção', 
+						'Animais abatidos (Cabeças)', 
+						'Número de informantes (Unidades)', 
+						'Peso total das carcaças (Quilogramas)'	),
+			new = c(	'Unidade da Federacao (Codigo)', 
+						'Unidade da Federacao', 
+						'Referencia temporal', 
+						'Tipo de inspecao', 
+						'Animais abatidos (Cabecas)', 
+						'Numero de informantes (Unidades)', 
+						'Peso total das carcacas (Quilogramas)'	)	)
+
 			
 # save pigs
 write.table(pigs, paste0(current_folder, '/', 'IBGE_1093_pigs_1997_1_2018.csv'), quote = FALSE, 
