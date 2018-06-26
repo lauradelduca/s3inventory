@@ -164,7 +164,7 @@ pigs$Year <- str_sub(pigs$Trimestre,-4,-1)
 			
 			
 ## remove special characters from column names
-setnames(	cattle, 
+setnames(	pigs, 
 			old = c(	'Unidade da Federação (Código)', 
 						'Unidade da Federação', 
 						'Referência temporal', 
