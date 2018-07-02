@@ -84,17 +84,7 @@ for (yy in 2013:2017){
 	D$TOTAL.Quantity.1 <- as.numeric(as.character(gsub(",", "", D$TOTAL.Quantity.1)))
 	D$TOTAL.FOB.Value..US.. <- as.numeric(as.character(gsub(",", "", D$TOTAL.FOB.Value..US..)))
 	D$FOB.per.Unit..Quantity1. <- as.numeric(as.character(gsub(",", "", D$FOB.per.Unit..Quantity1.)))
-	D$TOTAL.CIF.Value..US.. <- as.numeric(as.character(gsub(",", "", D$TOTAL.CIF.Value..US..)))
-	D$TOTAL.Net.Weight..Kg. <- as.numeric(as.character(gsub(",", "", D$TOTAL.Net.Weight..Kg.)))
 	D$TOTAL.Gross.Weight..Kg. <- as.numeric(as.character(gsub(",", "", D$TOTAL.Gross.Weight..Kg.)))
-	D$Freight <- as.numeric(as.character(gsub(",", "", D$Freight)))
-	D$Insurance <- as.numeric(as.character(gsub(",", "", D$Insurance)))
-	D$Commercial.Quantity <- as.numeric(as.character(gsub(",", "", D$Commercial.Quantity)))
-	D$Calculated.Tax <- as.numeric(as.character(gsub(",", "", D$Calculated.Tax)))
-	D$Imp.Sel.Consum <- as.numeric(as.character(gsub(",", "", D$Imp.Sel.Consum)))
-	D$Icddp <- as.numeric(as.character(gsub(",", "", D$Icddp)))
-	D$Imp.Import <- as.numeric(as.character(gsub(",", "", D$Imp.Import)))
-	D$Imp.Total.Payment <- as.numeric(as.character(gsub(",", "", D$Imp.Total.Payment)))
 	
 	# make sure HS column is even number of digits, here 6
 	D$Harmonized.Code.Product.English <- as.numeric(as.character(D$Harmonized.Code.Product.English))
@@ -102,7 +92,7 @@ for (yy in 2013:2017){
 	# this should be 10 digits:
 	D$Product.Schedule.B.Code <- as.numeric(as.character(D$Product.Schedule.B.Code))
 	D$Product.Schedule.B.Code <- AT.add.leading.zeros(D$Product.Schedule.B.Code, digits = 10)
-	
+
 	
 	# just for testing... save a copy locally
 	write.table(	D, 
