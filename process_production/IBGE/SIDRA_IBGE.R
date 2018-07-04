@@ -40,8 +40,7 @@ cattle <- get_sidra(x = 1092,
           format = 3)
 		  
 table_from_browser <- fread(paste0(current_folder, '/', 'tabela1092_all.csv'), stringsAsFactors = FALSE)
-# > dim(table_from_browser)
-# [1] 685440      9
+
 codes <- as.vector(unique(as.numeric(table_from_browser$CÃ³d.)))
 codes <- codes[-c(1)] 		# the first in codes, 1, is for Brazil, so skip
 
@@ -56,16 +55,11 @@ for (i in codes){
 	cattle <- rbind(cattle, cattle_state)
 }
 
-dim(cattle)
-# > dim(cattle)
-# [1] 685440      9
 
-
-# bring into wider format
-# the units are better attached to column names
+# bring into wider format, the units are better attached to column names
 tapply(cattle$'Unidade de Medida', cattle$Variável, unique)
-       # Animais abatidos   Número de informantes Peso total das carcaças 
-              # "Cabeças"              "Unidades"           "Quilogramas"
+  # Animais abatidos   Número de informantes Peso total das carcaças 
+    # "Cabeças"              "Unidades"           "Quilogramas"
 			  
 cattle$Variável <- paste0(cattle$Variável, ' (', cattle$'Unidade de Medida', ')')
 cattle <- cattle[,-which(names(cattle) %in% c('Unidade de Medida'))]
@@ -120,8 +114,7 @@ pigs <- get_sidra(x = 1093,
           format = 3)
 		  
 table_from_browser <- fread(paste0(current_folder, '/', 'tabela1093_all.csv'), stringsAsFactors = FALSE)
-# > dim(table_from_browser)
-# [1] 110160      8
+
 codes <- as.vector(unique(as.numeric(table_from_browser$CÃ³d.)))
 codes <- codes[-c(1)] 		# the first in codes, 1, is for Brazil, so skip
 
@@ -135,17 +128,11 @@ for (i in codes){
 	pigs <- rbind(pigs, pigs_state)
 }
 
-dim(pigs)
-# > dim(pigs)
-# [1] 110160      8
 
-
-# bring into wider format
-# the units are better attached to column names
+# bring into wider format, the units are better attached to column names
 tapply(pigs$'Unidade de Medida', pigs$Variável, unique)
-# > tapply(pigs$'Unidade de Medida', pigs$Variável, unique)
-       # Animais abatidos   Número de informantes Peso total das carcaças 
-              # "Cabeças"              "Unidades"           "Quilogramas" 
+ # Animais abatidos   Número de informantes Peso total das carcaças 
+    # "Cabeças"              "Unidades"           "Quilogramas" 
 
 pigs$Variável <- paste0(pigs$Variável, ' (', pigs$'Unidade de Medida', ')')
 pigs <- pigs[,-which(names(pigs) %in% c('Unidade de Medida'))]
@@ -201,9 +188,6 @@ chicken <- get_sidra(x = 1094,
           format = 3)
 		  
 table_from_browser <- fread(paste0(current_folder, '/', 'tabela1094_all.csv'), stringsAsFactors = FALSE)
-dim(table_from_browser)
-# > dim(table_from_browser)
-# [1] 110160      8
 codes <- as.vector(unique(as.numeric(table_from_browser$CÃ³d.)))
 codes <- codes[-c(1)] 		# the first in codes, 1, is for Brazil, so skip
 
@@ -217,24 +201,30 @@ for (i in codes){
 	chicken <- rbind(chicken, chicken_state)
 }
 
-# > dim(chicken)
-# [1] 110160      8
 
-
-# bring into wider format
-# the units are better attached to column names
+# bring into wider format, the units are better attached to column names
 tapply(chicken$'Unidade de Medida', chicken$Variável, unique)
-# > tapply(chicken$'Unidade de Medida', chicken$Variável, unique)
-       # Animais abatidos   Número de informantes Peso total das carcaças 
-              # "Cabeças"              "Unidades"           "Quilogramas" 
+   # Animais abatidos   Número de informantes Peso total das carcaças 
+      # "Cabeças"              "Unidades"           "Quilogramas" 
 
 chicken$Variável <- paste0(chicken$Variável, ' (', chicken$'Unidade de Medida', ')')
 chicken <- chicken[,-which(names(chicken) %in% c('Unidade de Medida'))]
-
 chicken <- spread(	data = chicken, 
 				key = Variável,
 				value = Valor)
 				
+	
+## add year column
+
+chicken <- chicken[chicken$'Referência temporal' == 'Total do trimestre',]
+chicken <- chicken[chicken$'Tipo de inspeção' == 'Total',]
+
+chicken$Year <- str_sub(chicken$Trimestre,-4,-1)
+
+
+
+
+
 
 # save chicken
 write.table(chicken, paste0(current_folder, '/', 'IBGE_1094_chicken_1997_1_2018.csv'), quote = FALSE, 
@@ -256,26 +246,21 @@ herd <- get_sidra(x = 6669,
           format = 3)
 # has only Brazil, no states
 
-table_from_browser <- fread(paste0(current_folder, '/', 'tabela6669_all.csv'), stringsAsFactors = FALSE)
-dim(table_from_browser)
-# > dim(table_from_browser)
-# [1] 6 7
-# > dim(herd)
-# [1] 6 7
+#table_from_browser <- fread(paste0(current_folder, '/', 'tabela6669_all.csv'), stringsAsFactors = FALSE)
 
-# bring into wide format				
-# the units are better attached to column names
+# bring into wide format, the units are better attached to column names
 tapply(herd$'Unidade de Medida', herd$Variável, unique)
-       # Animais abatidos Peso total das carcaças 
-          # "Mil cabeças"             "Toneladas" 
-
+  # Animais abatidos Peso total das carcaças 
+  # "Mil cabeças"             "Toneladas" 
+  
 herd$Variável <- paste0(herd$Variável, ' (', herd$'Unidade de Medida', ')')
 herd <- herd[,-which(names(herd) %in% c('Unidade de Medida'))]
-
 herd <- spread(	data = herd, 
 				key = Variável,
 				value = Valor)
-				
+
+herd$Year <- str_sub(herd$Trimestre,-4,-1)		# add Year column
+
 
 # save herd
 write.table(herd, paste0(current_folder, '/', 'IBGE_6669_beef_pigs_chicken_1_2018.csv'), quote = FALSE, 
