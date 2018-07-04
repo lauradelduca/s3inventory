@@ -214,14 +214,18 @@ chicken <- spread(	data = chicken,
 				value = Valor)
 				
 	
-## add year column
+## add year column and aggregate by year
 
 chicken <- chicken[chicken$'Referência temporal' == 'Total do trimestre',]
-chicken <- chicken[chicken$'Tipo de inspeção' == 'Total',]
+chicken <- chicken[chicken$'Tipo de inspeção' == 'Total',]		# refers to informant
 
 chicken$Year <- str_sub(chicken$Trimestre,-4,-1)
 
+chicken <- chicken[,-which(names(chicken) %in% c('Trimestre'))]
+chicken <- chicken[,-which(names(chicken) %in% c('Referência temporal'))]
+chicken <- chicken[,-which(names(chicken) %in% c('Tipo de inspeção'))]
 
+# need to check if aggregating Número de informantes (Unidades) by sum makes sense
 
 
 
