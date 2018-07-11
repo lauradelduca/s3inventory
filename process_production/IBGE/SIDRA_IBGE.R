@@ -227,9 +227,19 @@ chicken <- chicken[,-which(names(chicken) %in% c('Tipo de inspeção'))]
 
 # need to check if aggregating Número de informantes (Unidades) by sum makes sense
 
-test <- aggregate(x = c(chicken$'Animais abatidos (Cabeças)', chicken$'Número de informantes (Unidades)', chicken$'Peso total das carcaças (Quilogramas)'), by = list('Unidade da Federação (Código)' = chicken$'Unidade da Federação (Código)', 'Unidade da Federação' = chicken$'Unidade da Federação', Year = chicken$'Year'), FUN = sum, na.rm = TRUE)
+test1 <- aggregate(	x = c(	chicken$'Animais abatidos (Cabeças)', 
+							chicken$'Número de informantes (Unidades)', 
+							chicken$'Peso total das carcaças (Quilogramas)'), 
+					by = list(	'Unidade da Federação (Código)' = chicken$'Unidade da Federação (Código)', 
+								'Unidade da Federação' = chicken$'Unidade da Federação', 
+								Year = chicken$'Year'), 
+					FUN = sum, 
+					na.rm = TRUE)
+head(test1)
 
-head(test)
+
+test2 <- aggregate(. ~'Unidade da Federação (Código)'+'Unidade da Federação'+Year, data = chicken, sum, na.rm = TRUE)
+
 
 
 # save chicken
