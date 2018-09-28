@@ -64,8 +64,9 @@ for (f in as.vector(CD$file)){
 		CD$price_column[CD$file == f] <- price_column <- 'FOB.Value..US..'
 		CD$weight_column[CD$file == f] <- weight_column <- 'Net.Weight'
 				
-		release <- c('BEEF', 'CHICKEN', 'COCOA', 'COFFEE', 'CORN', 'COTTON', 'LEATHER', 
-					'TIMBER', 'PALM OIL', 'WOOD PULP', 'SOYBEANS', 'SUGAR CANE')
+		#release <- c('BEEF', 'CHICKEN', 'COCOA', 'COFFEE', 'CORN', 'COTTON', 'LEATHER', 
+		#			'TIMBER', 'PALM OIL', 'WOOD PULP', 'SOYBEANS', 'SUGAR CANE')
+		release <- c('PORK')
 		CD$comtrade_country[CD$file == f] <- 'Brazil'
 	}
 		
@@ -75,8 +76,9 @@ for (f in as.vector(CD$file)){
 		CD$price_column[CD$file == f] <- price_column <- 'VMLE.DOLAR.BAL.EXP'
 		CD$weight_column[CD$file == f] <- weight_column <- 'PESO.LIQ.MERC.BAL.EXP'
 		
-		release <- c('BEEF', 'CHICKEN', 'COCOA', 'COFFEE', 'CORN', 'COTTON', 'LEATHER', 
-					'TIMBER', 'PALM OIL', 'WOOD PULP', 'SOYBEANS', 'SUGAR CANE')
+		#release <- c('BEEF', 'CHICKEN', 'COCOA', 'COFFEE', 'CORN', 'COTTON', 'LEATHER', 
+		#			'TIMBER', 'PALM OIL', 'WOOD PULP', 'SOYBEANS', 'SUGAR CANE')
+		release <- c('PORK')
 		CD$comtrade_country[CD$file == f] <- 'Brazil'
 	}
 

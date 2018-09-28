@@ -8,8 +8,8 @@ obj <- get_object(object = 'data/1-TRADE/commodity_equivalents_final.csv', bucke
 
 hs <- read.csv(text = rawToChar(obj), sep = ';', quote = '',
 				colClasses = c("character", "character", "character", 
-				"character", "character", "character", "numeric", 
-				"numeric"))
+				"character", "character", "numeric", "character", 
+				"character"))
 
 hs6 <- as.vector(as.numeric(hs$code_value))
 
@@ -18,6 +18,7 @@ chicken <- as.vector(as.numeric(sort(unique(hs$code_value[hs$com_name == 'CHICKE
 corn <- as.vector(as.numeric(sort(unique(hs$code_value[hs$com_name == 'CORN']))))
 cotton <- as.vector(as.numeric(sort(unique(hs$code_value[hs$com_name == 'COTTON']))))
 leather <- as.vector(as.numeric(sort(unique(hs$code_value[hs$com_name == 'LEATHER']))))
+pork <- as.vector(as.numeric(sort(unique(hs$code_value[hs$com_name == 'PORK']))))
 timber <- as.vector(as.numeric(sort(unique(hs$code_value[hs$com_name == 'TIMBER']))))
 woodpulp <- as.vector(as.numeric(sort(unique(hs$code_value[hs$com_name == 'WOOD PULP']))))
 shrimps <- as.vector(as.numeric(sort(unique(hs$code_value[hs$com_name == 'SHRIMPS']))))

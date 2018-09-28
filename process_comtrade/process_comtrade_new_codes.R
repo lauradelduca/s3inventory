@@ -9,7 +9,7 @@ options(scipen=999999999999999999999999999999999999999999)
  
 
 # set location of files and get all file paths
-din <- 'C:/Users/laura.delduca/Desktop/code/0409/comtrade'
+din <- 'C:/Users/laura.delduca/Desktop/code/0928/comtrade'
 
 setwd(din)
 
@@ -17,7 +17,7 @@ ff <- list.files(din)
 
 # filter for our HS codes
 
-hs <- fread('C:/Users/laura.delduca/Downloads/commodity_equivalents_final_reformat_2018_04_09.csv')
+hs <- fread('C:/Users/laura.delduca/Desktop/code/0928/commodity_equivalents_final.csv')
 
 hs <- as.vector(as.numeric(hs$code_value))
 #hs6 <- as.vector(as.numeric(hs$code_value[hs$code_type == 'HS_6']))
@@ -29,8 +29,13 @@ for (f in ff){
 	j <- fread(f)
 
 	countries <- c("Argentina", "Bolivia (Plurinational State of)", "Brazil", "Colombia", 
-				"Costa Rica", "Ecuador", "Mexico", "Panama", "Paraguay", 
-				"Peru", "Uruguay", "Venezuela")
+				"Costa Rica", "Ecuador", "Guatemala", "Mexico", "Panama", "Paraguay", 
+				"Peru", "Uruguay", "Venezuela",
+				"Bangladesh", "Cambodia", "China", "China, Hong Kong SAR", "China, Macao SAR", 
+				"India", "Indonesia", "Japan", "Lao People's Dem. Rep.", 
+				"Malaysia", "Myanmar", "Nepal", "Pakistan", "Philippines",
+				"Sri Lanka", "Thailand", "Viet Nam",
+				"USA")
 
 	j <- j[(j$'Trade Flow' == 'Export') & (j$Reporter %in% countries) & (j$Partner == 'World')]
 
