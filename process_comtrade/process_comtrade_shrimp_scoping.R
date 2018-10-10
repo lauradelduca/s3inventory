@@ -15,28 +15,32 @@ setwd(din)
 
 ff <- list.files(din)
 
-# only select from 2013 onwards
 
+# filter for our shrimp HS codes
 
-# filter for our HS codes
+obj <- get_object(object = 'data/1-TRADE/commodity_equivalents_final.csv', bucket = 'trase-storage')
 
-hs <- fread('C:/Users/laura.delduca/Desktop/code/0928/commodity_equivalents_final.csv')
+hs <- read.csv(text = rawToChar(obj), sep = ';', quote = '',
+               colClasses = c("character", "character", "character", 
+                              "character", "character", "numeric", "character", 
+                              "character"))
 
-hs <- as.vector(as.numeric(hs$code_value))
+hs6 <- as.vector(as.numeric(hs$code_value[hs$com_name == 'SHRIMPS']))
+hs6 <- AT.add.leading.zeros(hs6, digits = 6)
 
-# only select shrimp codes
 
 for (f in ff){
 
 	j <- fread(f)
 	
-	j <- j[j$'Commodity Code' %in% hs,]
+	j <- j[j$'Commodity Code' %in% hs6,]
 
-	j <- data.frame('trade_flow' = j$'Trade Flow',
+	j <- data.frame('flow' = j$'Trade Flow',
 	                'partner' = j$Partner,
 	                'country' = j$Reporter,
 			'commodity' = as.integer(j$'Commodity Code'), 
-			'netweight_kg' = j$'Netweight (kg)')
+			'netweight_kg' = j$'Netweight (kg)',
+			'value_USD' = j$'Trade Value (US$)')
 
 
 	write.csv2(j, paste0(f, '_shrimp', ".csv"), quote = FALSE, row.names = FALSE)
