@@ -18,7 +18,7 @@ setwd('C:/Users/laura.delduca/Desktop/code')
 current_folder <- '0928'
 script_folder <- 's3inventory/comtrade_checks'
 
-source('R_aws.s3_credentials.R')											# load AWS S3 credentials
+source('R_aws.s3_credentials.R')								# load AWS S3 credentials
 source(paste0(script_folder, '/', 'get_comtrade_files.R'))					# load preprocessed COMTRADE files 2005 - 2016
 source(paste0(script_folder, '/', 'get_hs_codes.R'))						# load relevant HS codes from commodity dictionary
 
