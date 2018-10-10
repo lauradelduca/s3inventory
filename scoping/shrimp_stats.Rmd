@@ -31,7 +31,7 @@ Countries requested so far are: Argentina, Colombia, Ecuador, Peru, Indonesia, I
 
 ## Production
 
-FISHSTAT data (FAO)
+Source: Jon's compilation of FISHSTATJ shrimp data (FAOSTAT)
 
 ```{r, include=FALSE}
 ## load FISHSTAT (FAO) data 
@@ -102,10 +102,11 @@ kable(fishstat_2016_countries, caption = 'Production of requested countries 2016
 ```
 
 
-
 ## Exports
 
 Relative importance of exports for a country is included as percentage of GDP.
+
+Source: COMTRADE (trade data), OECD (GDP)
 
 ```{r, include=FALSE}
 ## COMTRADE
@@ -123,24 +124,24 @@ comtrade16 <- read.csv(text = rawToChar(obj), quote = '', sep = ';')
 ## _________
 ## 2013
 
-comtrade13_export <- comtrade13[(comtrade13$flow == 'Export') & (comtrade13$partner == 'World'),]
+comtrade_export <- comtrade13[(comtrade13$flow == 'Export') & (comtrade13$partner == 'World'),]
 
-total_export_13 <- data.frame('country' = comtrade13_export$country,
-				'netweight_kg' = comtrade13_export$netweight_kg, 
-				'value_USD' = comtrade13_export$value_USD)
+total_export <- data.frame('country' = comtrade_export$country,
+				'netweight_kg' = comtrade_export$netweight_kg, 
+				'value_USD' = comtrade_export$value_USD)
 
 # sum by country
-total_export_13 <- aggregate(cbind('netweight_kg' = total_export_13$netweight_kg, 
-                                   'value_USD' = total_export_13$value_USD),
-                             by=list(country=total_export_13$country),
+total_export <- aggregate(cbind('netweight_kg' = total_export$netweight_kg, 
+                                   'value_USD' = total_export$value_USD),
+                             by=list(country=total_export$country),
                              FUN=sum, 
                              na.rm=TRUE)
-total_export_13 <- total_export_13[order(-total_export_13$netweight_kg),] 
+total_export <- total_export[order(-total_export$netweight_kg),] 
 
 # add gdp and %
 iso <- fread('C:/Users/laura.delduca/Desktop/isocodes.csv')
-total_export_13$iso <- iso$ISO3[match(toupper(as.character(total_export_13$country)), as.character(iso$COUNTRY))]
-total_export_13$iso[total_export_13$country == 'Viet Nam'] <- 'VNM'
+total_export$iso <- iso$ISO3[match(toupper(as.character(total_export$country)), as.character(iso$COUNTRY))]
+total_export$iso[total_export$country == 'Viet Nam'] <- 'VNM'
 
 # load OECD GDP data
 obj <- get_object(object = 'data/1-TRADE/STATISTICAL_DATA/GLOBAL/OECD/OECD_GDP_YEARLY.csv', bucket = 'trase-storage')
@@ -149,130 +150,153 @@ gdp <- gdp[gdp$MEASURE == 'MLN_USD',]
 gdp_year <- gdp[gdp$TIME == 2013,]
 
 # add GDP and percentage
-total_export_13$gdp_MLN_USD <- as.numeric(gdp_year$Value[match(total_export_13$iso, gdp_year$LOCATION)])
-total_export_13$value_per_gdp <- round( total_export_13$value_USD / total_export_13$gdp_MLN_USD , digits = 2)
+total_export$gdp_MLN_USD <- as.numeric(gdp_year$Value[match(total_export$iso, gdp_year$LOCATION)])
+total_export$value_per_gdp <- round( total_export$value_USD / total_export$gdp_MLN_USD , digits = 2)
 
 # drop iso column
-#mydata2 = select(mydata, -a, -x, -y)
+total_export <- select(total_export, -iso)
+```
+
+```{r, echo = FALSE, results = 'asis'}
+
+rownames(total_export) <- c()
+kable(total_export[1:10,], caption = 'Top ten exporting countries 2013')
+total_export_countries <- total_export[total_export$country %in% countries,]
+rownames(total_export_countries) <- c()
+kable(total_export_countries, caption = 'Export of requested countries 2013')
+```
 
 
-
-
+```{r, include=FALSE}
 ## _________
 ## 2014
 
-comtrade14_export <- comtrade14[(comtrade14$flow == 'Export') & (comtrade14$partner == 'World'),]
+comtrade_export <- comtrade14[(comtrade14$flow == 'Export') & (comtrade14$partner == 'World'),]
 
-total_export_14 <- data.frame('country' = comtrade14_export$country,
-				'netweight_kg' = comtrade14_export$netweight_kg, 
-				'value_USD' = comtrade14_export$value_USD)
+total_export <- data.frame('country' = comtrade_export$country,
+				'netweight_kg' = comtrade_export$netweight_kg, 
+				'value_USD' = comtrade_export$value_USD)
 
 # sum by country
-total_export_14 <- aggregate(cbind('netweight_kg' = total_export_14$netweight_kg, 
-                                   'value_USD' = total_export_14$value_USD),
-                             by=list(country=total_export_14$country),
+total_export <- aggregate(cbind('netweight_kg' = total_export$netweight_kg, 
+                                   'value_USD' = total_export$value_USD),
+                             by=list(country=total_export$country),
                              FUN=sum, 
                              na.rm=TRUE)
-total_export_14 <- total_export_14[order(-total_export_14$netweight_kg),] 
+total_export <- total_export[order(-total_export$netweight_kg),] 
 
 # add gdp and %
-total_export_14$iso <- iso$ISO3[match(toupper(as.character(total_export_14$country)), as.character(iso$COUNTRY))]
-total_export_14$iso[total_export_14$country == 'Viet Nam'] <- 'VNM'
+total_export$iso <- iso$ISO3[match(toupper(as.character(total_export$country)), as.character(iso$COUNTRY))]
+total_export$iso[total_export$country == 'Viet Nam'] <- 'VNM'
 
 # load OECD GDP data
 gdp_year <- gdp[gdp$TIME == 2014,]
 
 # add GDP and percentage
-total_export_14$gdp_MLN_USD <- as.numeric(gdp_year$Value[match(total_export_14$iso, gdp_year$LOCATION)])
-total_export_14$value_per_gdp <- round( total_export_14$value_USD / total_export_14$gdp_MLN_USD , digits = 2)
+total_export$gdp_MLN_USD <- as.numeric(gdp_year$Value[match(total_export$iso, gdp_year$LOCATION)])
+total_export$value_per_gdp <- round( total_export$value_USD / total_export$gdp_MLN_USD , digits = 2)
+
+# drop iso column
+total_export <- select(total_export, -iso)
+```
+
+```{r, echo = FALSE, results = 'asis'}
+
+rownames(total_export) <- c()
+kable(total_export[1:10,], caption = 'Top ten exporting countries 2014')
+total_export_countries <- total_export[total_export$country %in% countries,]
+rownames(total_export_countries) <- c()
+kable(total_export_countries, caption = 'Export of requested countries 2014')
+```
 
 
+
+```{r, include=FALSE}
 ## _________
 ## 2015
 
-comtrade15_export <- comtrade15[(comtrade15$flow == 'Export') & (comtrade15$partner == 'World'),]
+comtrade_export <- comtrade15[(comtrade15$flow == 'Export') & (comtrade15$partner == 'World'),]
 
-total_export_15 <- data.frame('country' = comtrade15_export$country,
-				'netweight_kg' = comtrade15_export$netweight_kg, 
-				'value_USD' = comtrade15_export$value_USD)
+total_export <- data.frame('country' = comtrade_export$country,
+				'netweight_kg' = comtrade_export$netweight_kg, 
+				'value_USD' = comtrade_export$value_USD)
 
 # sum by country
-total_export_15 <- aggregate(cbind('netweight_kg' = total_export_15$netweight_kg, 
-                                   'value_USD' = total_export_15$value_USD),
-                             by=list(country=total_export_15$country),
+total_export <- aggregate(cbind('netweight_kg' = total_export$netweight_kg, 
+                                   'value_USD' = total_export$value_USD),
+                             by=list(country=total_export$country),
                              FUN=sum, 
                              na.rm=TRUE)
-total_export_15 <- total_export_15[order(-total_export_15$netweight_kg),] 
+total_export <- total_export[order(-total_export$netweight_kg),] 
 
 # add gdp and %
-total_export_15$iso <- iso$ISO3[match(toupper(as.character(total_export_15$country)), as.character(iso$COUNTRY))]
-total_export_15$iso[total_export_15$country == 'Viet Nam'] <- 'VNM'
+total_export$iso <- iso$ISO3[match(toupper(as.character(total_export$country)), as.character(iso$COUNTRY))]
+total_export$iso[total_export$country == 'Viet Nam'] <- 'VNM'
 
 # load OECD GDP data
 gdp_year <- gdp[gdp$TIME == 2015,]
 
 # add GDP and percentage
-total_export_15$gdp_MLN_USD <- as.numeric(gdp_year$Value[match(total_export_15$iso, gdp_year$LOCATION)])
-total_export_15$value_per_gdp <- round( total_export_15$value_USD / total_export_15$gdp_MLN_USD , digits = 2)
+total_export$gdp_MLN_USD <- as.numeric(gdp_year$Value[match(total_export$iso, gdp_year$LOCATION)])
+total_export$value_per_gdp <- round( total_export$value_USD / total_export$gdp_MLN_USD , digits = 2)
+
+# drop iso column
+total_export <- select(total_export, -iso)
+```
+
+```{r, echo = FALSE, results = 'asis'}
+
+rownames(total_export) <- c()
+kable(total_export[1:10,], caption = 'Top ten exporting countries 2015')
+total_export_countries <- total_export[total_export$country %in% countries,]
+rownames(total_export_countries) <- c()
+kable(total_export_countries, caption = 'Export of requested countries 2015')
+```
 
 
+```{r, include=FALSE}
 ## _________
 ## 2016
 
-comtrade16_export <- comtrade16[(comtrade16$flow == 'Export') & (comtrade16$partner == 'World'),]
+comtrade_export <- comtrade16[(comtrade16$flow == 'Export') & (comtrade16$partner == 'World'),]
 
-total_export_16 <- data.frame('country' = comtrade16_export$country,
-				'netweight_kg' = comtrade16_export$netweight_kg, 
-				'value_USD' = comtrade16_export$value_USD)
+total_export <- data.frame('country' = comtrade_export$country,
+				'netweight_kg' = comtrade_export$netweight_kg, 
+				'value_USD' = comtrade_export$value_USD)
 
 # sum by country
-total_export_16 <- aggregate(cbind('netweight_kg' = total_export_16$netweight_kg, 
-                                   'value_USD' = total_export_16$value_USD),
-                             by=list(country=total_export_16$country),
+total_export <- aggregate(cbind('netweight_kg' = total_export$netweight_kg, 
+                                   'value_USD' = total_export$value_USD),
+                             by=list(country=total_export$country),
                              FUN=sum, 
                              na.rm=TRUE)
-total_export_16 <- total_export_16[order(-total_export_16$netweight_kg),] 
+total_export <- total_export[order(-total_export$netweight_kg),] 
 
 # add gdp and %
-total_export_16$iso <- iso$ISO3[match(toupper(as.character(total_export_16$country)), as.character(iso$COUNTRY))]
-total_export_16$iso[total_export_16$country == 'Viet Nam'] <- 'VNM'
+total_export$iso <- iso$ISO3[match(toupper(as.character(total_export$country)), as.character(iso$COUNTRY))]
+total_export$iso[total_export$country == 'Viet Nam'] <- 'VNM'
 
 # load OECD GDP data
 gdp_year <- gdp[gdp$TIME == 2016,]
 
 # add GDP and percentage
-total_export_16$gdp_MLN_USD <- as.numeric(gdp_year$Value[match(total_export_16$iso, gdp_year$LOCATION)])
-total_export_16$value_per_gdp <- round( total_export_16$value_USD / total_export_16$gdp_MLN_USD , digits = 2)
+total_export$gdp_MLN_USD <- as.numeric(gdp_year$Value[match(total_export$iso, gdp_year$LOCATION)])
+total_export$value_per_gdp <- round( total_export$value_USD / total_export$gdp_MLN_USD , digits = 2)
 
+# drop iso column
+total_export <- select(total_export, -iso)
 ```
 
 ```{r, echo = FALSE, results = 'asis'}
 
-rownames(total_export_13) <- c()
-kable(total_export_13[1:10,], caption = 'Top ten exporting countries 2013')
-total_export_13_countries <- total_export_13[total_export_13$country %in% countries,]
-rownames(total_export_13_countries) <- c()
-kable(total_export_13_countries, caption = 'Export of requested countries 2013')
-
-rownames(total_export_14) <- c()
-kable(total_export_14[1:10,], caption = 'Top ten exporting countries 2014')
-total_export_14_countries <- total_export_14[total_export_13$country %in% countries,]
-rownames(total_export_14_countries) <- c()
-kable(total_export_14_countries, caption = 'Export of requested countries 2014')
-
-rownames(total_export_15) <- c()
-kable(total_export_15[1:10,], caption = 'Top ten exporting countries 2015')
-total_export_15_countries <- total_export_15[total_export_15$country %in% countries,]
-rownames(total_export_15_countries) <- c()
-kable(total_export_15_countries, caption = 'Export of requested countries 2015')
-
-rownames(total_export_16) <- c()
-kable(total_export_16[1:10,], caption = 'Top ten exporting countries 2016')
-total_export_16_countries <- total_export_16[total_export_13$country %in% countries,]
-rownames(total_export_16_countries) <- c()
-kable(total_export_16_countries, caption = 'Export of requested countries 2016')
-
+rownames(total_export) <- c()
+kable(total_export[1:10,], caption = 'Top ten exporting countries 2016')
+total_export_countries <- total_export[total_export$country %in% countries,]
+rownames(total_export_countries) <- c()
+kable(total_export_countries, caption = 'Export of requested countries 2016')
 ```
+
+
 
 
 ## Imports
@@ -306,6 +330,9 @@ gdp_year <- gdp[gdp$TIME == 2013,]
 # add GDP and percentage
 total_import$gdp_MLN_USD <- as.numeric(gdp_year$Value[match(total_import$iso, gdp_year$LOCATION)])
 total_import$value_per_gdp <- round( total_import$value_USD / total_import$gdp_MLN_USD , digits = 2)
+
+# drop iso column
+total_import <- select(total_import, -iso)
 
 ```
 
@@ -346,6 +373,9 @@ gdp_year <- gdp[gdp$TIME == 2014,]
 # add GDP and percentage
 total_import$gdp_MLN_USD <- as.numeric(gdp_year$Value[match(total_import$iso, gdp_year$LOCATION)])
 total_import$value_per_gdp <- round( total_import$value_USD / total_import$gdp_MLN_USD , digits = 2)
+
+# drop iso column
+total_import <- select(total_import, -iso)
 
 ```
 
@@ -388,6 +418,9 @@ gdp_year <- gdp[gdp$TIME == 2015,]
 total_import$gdp_MLN_USD <- as.numeric(gdp_year$Value[match(total_import$iso, gdp_year$LOCATION)])
 total_import$value_per_gdp <- round( total_import$value_USD / total_import$gdp_MLN_USD , digits = 2)
 
+# drop iso column
+total_import <- select(total_import, -iso)
+
 ```
 
 ```{r, echo = FALSE, results = 'asis'}
@@ -429,6 +462,9 @@ gdp_year <- gdp[gdp$TIME == 2016,]
 total_import$gdp_MLN_USD <- as.numeric(gdp_year$Value[match(total_import$iso, gdp_year$LOCATION)])
 total_import$value_per_gdp <- round( total_import$value_USD / total_import$gdp_MLN_USD , digits = 2)
 
+# drop iso column
+total_import <- select(total_import, -iso)
+
 ```
 
 ```{r, echo = FALSE, results = 'asis'}
@@ -440,7 +476,56 @@ kable(total_import_countries, caption = 'Import of requested countries 2016')
 ```
 
 
+## Which CD export data HS codes should we buy?
 
 
-# how total volume of top countries is split into codes
+```{r, include=FALSE}
+comtrade_export <- comtrade16[(comtrade16$flow == 'Export') & (comtrade16$partner == 'World'),]
+
+total_export <- data.frame('country' = comtrade_export$country,
+                           'commodity' = comtrade_export$commodity,
+                           'netweight_kg' = comtrade_export$netweight_kg)
+
+codes <- data.frame(matrix(ncol = 7, nrow = 7))
+colnames(codes) <- c('country', 'total_netweight_kg', '030616', '030617', '030635', '030636', '030695')
+codes$country <- countries
+codes$'030635' <- codes$'030636' <- codes$'030695' <- 0
+
+total_country <- aggregate( x = total_export$netweight_kg,
+                             by=list(country=total_export$country),
+                             FUN=sum, 
+                             na.rm=TRUE)
+
+codes$total_netweight_kg[codes$country == 'Argentina'] <- total_country$x[total_country$country == 'Argentina']
+codes$total_netweight_kg[codes$country == 'Colombia'] <- total_country$x[total_country$country == 'Colombia']
+codes$total_netweight_kg[codes$country == 'Ecuador'] <- total_country$x[total_country$country == 'Ecuador']
+codes$total_netweight_kg[codes$country == 'Peru'] <- total_country$x[total_country$country == 'Peru']
+codes$total_netweight_kg[codes$country == 'Indonesia'] <- total_country$x[total_country$country == 'Indonesia']
+codes$total_netweight_kg[codes$country == 'India'] <- total_country$x[total_country$country == 'India']
+codes$total_netweight_kg[codes$country == 'Viet Nam'] <- NA
+
+codes$`030616`[codes$country == 'Argentina'] <- 0
+codes$`030616`[codes$country == 'Colombia'] <- round( total_export$netweight_kg[(total_export$country == 'Colombia') & (total_export$commodity == 30616)] / codes$total_netweight_kg[codes$country == 'Colombia'], digits = 3 )
+codes$`030616`[codes$country == 'Ecuador'] <- round( total_export$netweight_kg[(total_export$country == 'Ecuador') & (total_export$commodity == 30616)] / codes$total_netweight_kg[codes$country == 'Ecuador'], digits = 3 )
+codes$`030616`[codes$country == 'Peru'] <- round( total_export$netweight_kg[(total_export$country == 'Peru') & (total_export$commodity == 30616)] / codes$total_netweight_kg[codes$country == 'Peru'], digits = 3 )
+codes$`030616`[codes$country == 'Indonesia'] <-round( total_export$netweight_kg[(total_export$country == 'Indonesia') & (total_export$commodity == 30616)] / codes$total_netweight_kg[codes$country == 'Indonesia'], digits = 3 )
+codes$`030616`[codes$country == 'India'] <- round( total_export$netweight_kg[(total_export$country == 'India') & (total_export$commodity == 30616)] / codes$total_netweight_kg[codes$country == 'India'], digits = 3 )
+codes$`030616`[codes$country == 'Viet Nam'] <- 0
+
+
+codes$`030617`[codes$country == 'Argentina'] <- round( total_export$netweight_kg[(total_export$country == 'Argentina') & (total_export$commodity == 30617)] / codes$total_netweight_kg[codes$country == 'Argentina'], digits = 3 )
+codes$`030617`[codes$country == 'Colombia'] <- round( total_export$netweight_kg[(total_export$country == 'Colombia') & (total_export$commodity == 30617)] / codes$total_netweight_kg[codes$country == 'Colombia'], digits = 3 )
+codes$`030617`[codes$country == 'Ecuador'] <- round( total_export$netweight_kg[(total_export$country == 'Ecuador') & (total_export$commodity == 30617)] / codes$total_netweight_kg[codes$country == 'Ecuador'], digits = 3 )
+codes$`030617`[codes$country == 'Peru'] <- round( total_export$netweight_kg[(total_export$country == 'Peru') & (total_export$commodity == 30617)] / codes$total_netweight_kg[codes$country == 'Peru'], digits = 3 )
+codes$`030617`[codes$country == 'Indonesia'] <-round( total_export$netweight_kg[(total_export$country == 'Indonesia') & (total_export$commodity == 30617)] / codes$total_netweight_kg[codes$country == 'Indonesia'], digits = 3 )
+codes$`030617`[codes$country == 'India'] <- round( total_export$netweight_kg[(total_export$country == 'India') & (total_export$commodity == 30617)] / codes$total_netweight_kg[codes$country == 'India'], digits = 3 )
+codes$`030617`[codes$country == 'Viet Nam'] <- 0
+
+```
+
+```{r, echo = FALSE, results = 'asis'}
+
+rownames(total_export) <- c()
+kable(codes, caption = 'Percentage of 2016 export volume by HS code for requested countries')
+```
 
