@@ -1,0 +1,133 @@
+---
+title: 'Shrimp Scoping Key Statistics'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, include=FALSE}
+require(stringr)
+require(gsubfn)
+require(dplyr)
+require(readxl)
+require(data.table)
+require(libamtrack)
+require(aws.s3)
+require(knitr)
+
+options(scipen=999)
+
+setwd('C:/Users/laura.delduca/Desktop/code')
+
+## not needed: current_folder <- '1009'
+## not needed: script_folder <- 's3inventory/comtrade_checks'
+
+source('R_aws.s3_credentials.R')
+```
+
+Countries requested so far are: Argentina, Colombia, Ecuador, Peru, Indonesia, India, Vietnam
+
+## Production
+
+FISHSTAT data (FAO)
+
+```{r, echo=FALSE}
+## load FISHSTAT (FAO) data 
+obj <- get_object(object = 'data/1-TRADE/STATISTICAL_DATA/GLOBAL/FAOSTAT/fishstatj_shrimp_global.csv', bucket = 'trase-storage')
+fishstat <- read.csv(text = rawToChar(obj), quote = '', sep = ';')
+
+## substitute 0 for '...' or '-', delete 'F'
+fishstat$X2013 <- as.numeric(gsub("F", "", as.character(fishstat$X2013)))
+fishstat$X2014 <- as.numeric(gsub("F", "", as.character(fishstat$X2014)))
+fishstat$X2015 <- as.numeric(gsub("F", "", as.character(fishstat$X2015)))
+fishstat$X2016 <- as.numeric(gsub("F", "", as.character(fishstat$X2016)))
+
+## table with: year, total production volume, top ten producers with volume and percentage
+## only countries and year column
+fishstat_2013 <- data.frame(fishstat$'Country..Country.', fishstat$X2013)[order(-fishstat$X2013),] 
+names(fishstat_2013) <- c('Country', 'Volume (tonnes)')
+fishstat_2014 <- data.frame(fishstat$'Country..Country.', fishstat$X2014)[order(-fishstat$X2014),] 
+names(fishstat_2014) <- c('Country', 'Volume (tonnes)')
+fishstat_2015 <- data.frame(fishstat$'Country..Country.', fishstat$X2015)[order(-fishstat$X2015),] 
+names(fishstat_2015) <- c('Country', 'Volume (tonnes)')
+fishstat_2016 <- data.frame(fishstat$'Country..Country.', fishstat$X2016)[order(-fishstat$X2016),] 
+names(fishstat_2016) <- c('Country', 'Volume (tonnes)')
+total_2013 <- fishstat_2013$'Volume (tonnes)'[1]
+total_2014 <- fishstat_2014$'Volume (tonnes)'[1]
+total_2015 <- fishstat_2015$'Volume (tonnes)'[1]
+total_2016 <- fishstat_2016$'Volume (tonnes)'[1]
+
+fishstat_2013 <- fishstat_2013[-1,]
+rownames(fishstat_2013) <- c()
+fishstat_2014 <- fishstat_2014[-1,]
+rownames(fishstat_2014) <- c()
+fishstat_2015 <- fishstat_2015[-1,]
+rownames(fishstat_2015) <- c()
+fishstat_2016 <- fishstat_2016[-1,]
+rownames(fishstat_2016) <- c()
+
+fishstat_2013$'Percent of total' <- round( fishstat_2013$`Volume (tonnes)`/total_2013 , digits = 3)
+fishstat_2014$'Percent of total' <- round( fishstat_2014$`Volume (tonnes)`/total_2014 , digits = 3)
+fishstat_2015$'Percent of total' <- round( fishstat_2015$`Volume (tonnes)`/total_2015 , digits = 3)
+fishstat_2016$'Percent of total' <- round( fishstat_2016$`Volume (tonnes)`/total_2016 , digits = 3)
+```
+
+```{r, echo = FALSE, results = 'asis'}
+
+# Requested countries
+countries <- c('Argentina', 'Colombia', 'Ecuador', 'Peru', 'Indonesia', 'India', 'Viet Nam')
+
+kable(fishstat_2013[1:10,], caption = 'Production 2013')
+fishstat_2013_countries <- fishstat_2013[fishstat_2013$Country %in% countries,]
+rownames(fishstat_2013_countries) <- c()
+kable(fishstat_2013_countries, caption = 'Production of requested countries 2013')
+
+kable(fishstat_2014[1:10,], caption = 'Production 2014')
+fishstat_2014_countries <- fishstat_2014[fishstat_2014$Country %in% countries,]
+rownames(fishstat_2014_countries) <- c()
+kable(fishstat_2014_countries, caption = 'Production of requested countries 2014')
+
+kable(fishstat_2015[1:10,], caption = 'Production 2015')
+fishstat_2015_countries <- fishstat_2015[fishstat_2015$Country %in% countries,]
+rownames(fishstat_2015_countries) <- c()
+kable(fishstat_2015_countries, caption = 'Production of requested countries 2015')
+
+kable(fishstat_2016[1:10,], caption = 'Production 2016')
+fishstat_2016_countries <- fishstat_2016[fishstat_2016$Country %in% countries,]
+rownames(fishstat_2016_countries) <- c()
+kable(fishstat_2016_countries, caption = 'Production of requested countries 2016')
+
+```
+
+last four years as we bought most data from 2013
+
+
+## Volume of exports
+
+```{r, echo=FALSE}
+## COMTRADE
+
+## Need to preprocess COMTRADE and filter for shrimp codes
+obj <- get_object(object = 'data/1-TRADE/STATISTICAL_DATA/GLOBAL/COMTRADE/COMTRADE_2013.csv', bucket = 'trase-storage')
+comtrade13 <- read.csv(text = rawToChar(obj), quote = '', sep = ';')
+obj <- get_object(object = 'data/1-TRADE/STATISTICAL_DATA/GLOBAL/COMTRADE/COMTRADE_2014.csv', bucket = 'trase-storage')
+comtrade14 <- read.csv(text = rawToChar(obj), quote = '', sep = ';')
+obj <- get_object(object = 'data/1-TRADE/STATISTICAL_DATA/GLOBAL/COMTRADE/COMTRADE_2015.csv', bucket = 'trase-storage')
+comtrade15 <- read.csv(text = rawToChar(obj), quote = '', sep = ';')
+obj <- get_object(object = 'data/1-TRADE/STATISTICAL_DATA/GLOBAL/COMTRADE/COMTRADE_2016.csv', bucket = 'trase-storage')
+comtrade16 <- read.csv(text = rawToChar(obj), quote = '', sep = ';')
+
+```
+
+
+main exporters, main importers
+
+## relative importance of exports for that country (e.g. as percentage of GDP)
+## who are main importers
+
+## maybe include stats for surrounding countries
+
+## Do we have something more on TRASE?
+
