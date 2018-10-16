@@ -1,0 +1,686 @@
+---
+title: 'HS Codes for National Data Purchase (COMTRADE)'
+author: "Laura Del Duca"
+date: "October 16, 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, include=FALSE}
+require(stringr)
+require(gsubfn)
+require(dplyr)
+require(readxl)
+require(data.table)
+require(libamtrack)
+require(aws.s3)
+require(knitr)
+
+options(scipen=999999999)
+
+setwd('C:/Users/laura.delduca/Desktop/code')
+
+source('R_aws.s3_credentials.R')
+```
+
+
+Country/commodity combinations requested:
+
+* Indonesia (Export Genius): pulp, shrimp and coffee
+* India (Export Genius): shrimp
+* Philippines and India (Datamyne)
+* Vietnam (Export Genius, IMPEXP more expensive)
+
+
+## SHRIMP
+
+```{r, include=FALSE}
+
+countries <- c('Indonesia', 'India', 'Philippines', 'Viet Nam')
+
+## Need to preprocess COMTRADE and filter for shrimp codes
+obj <- get_object(object = 'data/1-TRADE/STATISTICAL_DATA/GLOBAL/COMTRADE/COMTRADE_SHRIMP/COMTRADE_2013_shrimp.csv', bucket = 'trase-storage')
+comtrade13 <- read.csv(text = rawToChar(obj), quote = '', sep = ';')
+obj <- get_object(object = 'data/1-TRADE/STATISTICAL_DATA/GLOBAL/COMTRADE/COMTRADE_SHRIMP/COMTRADE_2014_shrimp.csv', bucket = 'trase-storage')
+comtrade14 <- read.csv(text = rawToChar(obj), quote = '', sep = ';')
+obj <- get_object(object = 'data/1-TRADE/STATISTICAL_DATA/GLOBAL/COMTRADE/COMTRADE_SHRIMP/COMTRADE_2015_shrimp.csv', bucket = 'trase-storage')
+comtrade15 <- read.csv(text = rawToChar(obj), quote = '', sep = ';')
+obj <- get_object(object = 'data/1-TRADE/STATISTICAL_DATA/GLOBAL/COMTRADE/COMTRADE_SHRIMP/COMTRADE_2016_shrimp.csv', bucket = 'trase-storage')
+comtrade16 <- read.csv(text = rawToChar(obj), quote = '', sep = ';')
+
+
+# _____
+# 2013
+
+comtrade_export <- comtrade13[(comtrade13$flow == 'Export') & (comtrade13$partner == 'World'),]
+
+total_export <- data.frame('country' = comtrade_export$country,
+                           'commodity' = comtrade_export$commodity,
+                           'netweight_kg' = comtrade_export$netweight_kg)
+
+codes <- data.frame(matrix(ncol = 7, nrow = 4))
+colnames(codes) <- c('country', 'total_netweight_kg', '030616', '030617', '030635', '030636', '030695')
+codes$country <- countries
+codes$'030635' <- codes$'030636' <- codes$'030695' <- 0
+
+total_country <- aggregate( x = total_export$netweight_kg,
+                             by=list(country=total_export$country),
+                             FUN=sum, 
+                             na.rm=TRUE)
+
+
+codes$total_netweight_kg[codes$country == 'Indonesia'] <- total_country$x[total_country$country == 'Indonesia']
+codes$total_netweight_kg[codes$country == 'India'] <- total_country$x[total_country$country == 'India']
+codes$total_netweight_kg[codes$country == 'Philippines'] <- NA
+codes$total_netweight_kg[codes$country == 'Viet Nam'] <- NA
+
+
+
+codes$`030616`[codes$country == 'Indonesia'] <-round( total_export$netweight_kg[(total_export$country == 'Indonesia') & (total_export$commodity == 30616)] / codes$total_netweight_kg[codes$country == 'Indonesia'], digits = 3 )
+codes$`030616`[codes$country == 'India'] <- round( total_export$netweight_kg[(total_export$country == 'India') & (total_export$commodity == 30616)] / codes$total_netweight_kg[codes$country == 'India'], digits = 3 )
+codes$`030616`[codes$country == 'Philippines'] <- NA
+codes$`030616`[codes$country == 'Viet Nam'] <- NA
+
+
+codes$`030617`[codes$country == 'Indonesia'] <-round( total_export$netweight_kg[(total_export$country == 'Indonesia') & (total_export$commodity == 30617)] / codes$total_netweight_kg[codes$country == 'Indonesia'], digits = 3 )
+codes$`030617`[codes$country == 'India'] <- round( total_export$netweight_kg[(total_export$country == 'India') & (total_export$commodity == 30617)] / codes$total_netweight_kg[codes$country == 'India'], digits = 3 )
+codes$`030617`[codes$country == 'Philippines'] <- NA
+codes$`030617`[codes$country == 'Viet Nam'] <- NA
+
+```
+
+```{r, echo = FALSE, results = 'asis'}
+
+rownames(total_export) <- c()
+kable(codes, caption = 'Percentage of shrimp export volume by HS code (2013)')
+```
+
+
+```{r, include=FALSE}
+# _____
+# 2014
+
+comtrade_export <- comtrade14[(comtrade14$flow == 'Export') & (comtrade14$partner == 'World'),]
+
+total_export <- data.frame('country' = comtrade_export$country,
+                           'commodity' = comtrade_export$commodity,
+                           'netweight_kg' = comtrade_export$netweight_kg)
+
+codes <- data.frame(matrix(ncol = 7, nrow = 4))
+colnames(codes) <- c('country', 'total_netweight_kg', '030616', '030617', '030635', '030636', '030695')
+codes$country <- countries
+codes$'030635' <- codes$'030636' <- codes$'030695' <- 0
+
+total_country <- aggregate( x = total_export$netweight_kg,
+                             by=list(country=total_export$country),
+                             FUN=sum, 
+                             na.rm=TRUE)
+
+
+codes$total_netweight_kg[codes$country == 'Indonesia'] <- total_country$x[total_country$country == 'Indonesia']
+codes$total_netweight_kg[codes$country == 'India'] <- total_country$x[total_country$country == 'India']
+codes$total_netweight_kg[codes$country == 'Philippines'] <- NA
+codes$total_netweight_kg[codes$country == 'Viet Nam'] <- NA
+
+
+
+codes$`030616`[codes$country == 'Indonesia'] <-round( total_export$netweight_kg[(total_export$country == 'Indonesia') & (total_export$commodity == 30616)] / codes$total_netweight_kg[codes$country == 'Indonesia'], digits = 3 )
+codes$`030616`[codes$country == 'India'] <- round( total_export$netweight_kg[(total_export$country == 'India') & (total_export$commodity == 30616)] / codes$total_netweight_kg[codes$country == 'India'], digits = 3 )
+codes$`030616`[codes$country == 'Philippines'] <- NA
+codes$`030616`[codes$country == 'Viet Nam'] <- NA
+
+
+codes$`030617`[codes$country == 'Indonesia'] <-round( total_export$netweight_kg[(total_export$country == 'Indonesia') & (total_export$commodity == 30617)] / codes$total_netweight_kg[codes$country == 'Indonesia'], digits = 3 )
+codes$`030617`[codes$country == 'India'] <- round( total_export$netweight_kg[(total_export$country == 'India') & (total_export$commodity == 30617)] / codes$total_netweight_kg[codes$country == 'India'], digits = 3 )
+codes$`030617`[codes$country == 'Philippines'] <- NA
+codes$`030617`[codes$country == 'Viet Nam'] <- NA
+
+```
+
+```{r, echo = FALSE, results = 'asis'}
+
+rownames(total_export) <- c()
+kable(codes, caption = 'Percentage of shrimp export volume by HS code (2014)')
+```
+
+
+```{r, include=FALSE}
+# _____
+# 2015
+
+comtrade_export <- comtrade15[(comtrade15$flow == 'Export') & (comtrade15$partner == 'World'),]
+
+total_export <- data.frame('country' = comtrade_export$country,
+                           'commodity' = comtrade_export$commodity,
+                           'netweight_kg' = comtrade_export$netweight_kg)
+
+codes <- data.frame(matrix(ncol = 7, nrow = 4))
+colnames(codes) <- c('country', 'total_netweight_kg', '030616', '030617', '030635', '030636', '030695')
+codes$country <- countries
+codes$'030635' <- codes$'030636' <- codes$'030695' <- 0
+
+total_country <- aggregate( x = total_export$netweight_kg,
+                             by=list(country=total_export$country),
+                             FUN=sum, 
+                             na.rm=TRUE)
+
+
+codes$total_netweight_kg[codes$country == 'Indonesia'] <- total_country$x[total_country$country == 'Indonesia']
+codes$total_netweight_kg[codes$country == 'India'] <- total_country$x[total_country$country == 'India']
+codes$total_netweight_kg[codes$country == 'Philippines'] <- NA
+codes$total_netweight_kg[codes$country == 'Viet Nam'] <- NA
+
+
+
+codes$`030616`[codes$country == 'Indonesia'] <-round( total_export$netweight_kg[(total_export$country == 'Indonesia') & (total_export$commodity == 30616)] / codes$total_netweight_kg[codes$country == 'Indonesia'], digits = 3 )
+codes$`030616`[codes$country == 'India'] <- round( total_export$netweight_kg[(total_export$country == 'India') & (total_export$commodity == 30616)] / codes$total_netweight_kg[codes$country == 'India'], digits = 3 )
+codes$`030616`[codes$country == 'Philippines'] <- NA
+codes$`030616`[codes$country == 'Viet Nam'] <- NA
+
+
+codes$`030617`[codes$country == 'Indonesia'] <-round( total_export$netweight_kg[(total_export$country == 'Indonesia') & (total_export$commodity == 30617)] / codes$total_netweight_kg[codes$country == 'Indonesia'], digits = 3 )
+codes$`030617`[codes$country == 'India'] <- round( total_export$netweight_kg[(total_export$country == 'India') & (total_export$commodity == 30617)] / codes$total_netweight_kg[codes$country == 'India'], digits = 3 )
+codes$`030617`[codes$country == 'Philippines'] <- NA
+codes$`030617`[codes$country == 'Viet Nam'] <- NA
+
+```
+
+```{r, echo = FALSE, results = 'asis'}
+
+rownames(total_export) <- c()
+kable(codes, caption = 'Percentage of shrimp export volume by HS code (2015)')
+```
+
+```{r, include=FALSE}
+# _____
+# 2016
+
+comtrade_export <- comtrade16[(comtrade16$flow == 'Export') & (comtrade16$partner == 'World'),]
+
+total_export <- data.frame('country' = comtrade_export$country,
+                           'commodity' = comtrade_export$commodity,
+                           'netweight_kg' = comtrade_export$netweight_kg)
+
+codes <- data.frame(matrix(ncol = 7, nrow = 4))
+colnames(codes) <- c('country', 'total_netweight_kg', '030616', '030617', '030635', '030636', '030695')
+codes$country <- countries
+codes$'030635' <- codes$'030636' <- codes$'030695' <- 0
+
+total_country <- aggregate( x = total_export$netweight_kg,
+                             by=list(country=total_export$country),
+                             FUN=sum, 
+                             na.rm=TRUE)
+
+
+codes$total_netweight_kg[codes$country == 'Indonesia'] <- total_country$x[total_country$country == 'Indonesia']
+codes$total_netweight_kg[codes$country == 'India'] <- total_country$x[total_country$country == 'India']
+codes$total_netweight_kg[codes$country == 'Philippines'] <- NA
+codes$total_netweight_kg[codes$country == 'Viet Nam'] <- NA
+
+
+
+codes$`030616`[codes$country == 'Indonesia'] <-round( total_export$netweight_kg[(total_export$country == 'Indonesia') & (total_export$commodity == 30616)] / codes$total_netweight_kg[codes$country == 'Indonesia'], digits = 3 )
+codes$`030616`[codes$country == 'India'] <- round( total_export$netweight_kg[(total_export$country == 'India') & (total_export$commodity == 30616)] / codes$total_netweight_kg[codes$country == 'India'], digits = 3 )
+codes$`030616`[codes$country == 'Philippines'] <- NA
+codes$`030616`[codes$country == 'Viet Nam'] <- NA
+
+
+codes$`030617`[codes$country == 'Indonesia'] <-round( total_export$netweight_kg[(total_export$country == 'Indonesia') & (total_export$commodity == 30617)] / codes$total_netweight_kg[codes$country == 'Indonesia'], digits = 3 )
+codes$`030617`[codes$country == 'India'] <- round( total_export$netweight_kg[(total_export$country == 'India') & (total_export$commodity == 30617)] / codes$total_netweight_kg[codes$country == 'India'], digits = 3 )
+codes$`030617`[codes$country == 'Philippines'] <- NA
+codes$`030617`[codes$country == 'Viet Nam'] <- NA
+
+```
+
+```{r, echo = FALSE, results = 'asis'}
+
+rownames(total_export) <- c()
+kable(codes, caption = 'Percentage of shrimp export volume by HS code (2016)')
+```
+
+
+
+
+## COFFEE
+
+```{r, include=FALSE}
+
+## COFFEE
+countries <- c('Indonesia')
+
+## Need to preprocess COMTRADE and filter for coffee codes
+obj <- get_object(object = 'data/1-TRADE/STATISTICAL_DATA/GLOBAL/COMTRADE/COMTRADE_COFFEE/COMTRADE_2013_coffee.csv', bucket = 'trase-storage')
+comtrade13 <- read.csv(text = rawToChar(obj), quote = '', sep = ';')
+obj <- get_object(object = 'data/1-TRADE/STATISTICAL_DATA/GLOBAL/COMTRADE/COMTRADE_COFFEE/COMTRADE_2014_coffee.csv', bucket = 'trase-storage')
+comtrade14 <- read.csv(text = rawToChar(obj), quote = '', sep = ';')
+obj <- get_object(object = 'data/1-TRADE/STATISTICAL_DATA/GLOBAL/COMTRADE/COMTRADE_COFFEE/COMTRADE_2015_coffee.csv', bucket = 'trase-storage')
+comtrade15 <- read.csv(text = rawToChar(obj), quote = '', sep = ';')
+obj <- get_object(object = 'data/1-TRADE/STATISTICAL_DATA/GLOBAL/COMTRADE/COMTRADE_COFFEE/COMTRADE_2016_coffee.csv', bucket = 'trase-storage')
+comtrade16 <- read.csv(text = rawToChar(obj), quote = '', sep = ';')
+
+
+# _____
+# 2013
+
+comtrade_export <- comtrade13[(comtrade13$flow == 'Export') & (comtrade13$partner == 'World'),]
+
+total_export <- data.frame('country' = comtrade_export$country,
+                           'commodity' = comtrade_export$commodity,
+                           'netweight_kg' = comtrade_export$netweight_kg)
+
+codes <- data.frame(matrix(ncol = 9, nrow = 1))
+colnames(codes) <- c('country', 'total_netweight_kg',  '090111', '090112', '090121', '090122', '090190', '210111', '210112')
+codes$country <- countries
+
+total_country <- aggregate( x = total_export$netweight_kg,
+                             by=list(country=total_export$country),
+                             FUN=sum, 
+                             na.rm=TRUE)
+
+
+codes$total_netweight_kg[codes$country == 'Indonesia'] <- total_country$x[total_country$country == 'Indonesia']
+
+
+codes$`090111`[codes$country == 'Indonesia'] <-round( total_export$netweight_kg[(total_export$country == 'Indonesia') & (total_export$commodity == 90111)] / codes$total_netweight_kg[codes$country == 'Indonesia'], digits = 3 )
+
+codes$`090112`[codes$country == 'Indonesia'] <-round( total_export$netweight_kg[(total_export$country == 'Indonesia') & (total_export$commodity == 90112)] / codes$total_netweight_kg[codes$country == 'Indonesia'], digits = 3 )
+
+codes$`090121`[codes$country == 'Indonesia'] <-round( total_export$netweight_kg[(total_export$country == 'Indonesia') & (total_export$commodity == 90121)] / codes$total_netweight_kg[codes$country == 'Indonesia'], digits = 3 )
+
+codes$`090122`[codes$country == 'Indonesia'] <-round( total_export$netweight_kg[(total_export$country == 'Indonesia') & (total_export$commodity == 90122)] / codes$total_netweight_kg[codes$country == 'Indonesia'], digits = 3 )
+
+codes$`090190`[codes$country == 'Indonesia'] <-round( total_export$netweight_kg[(total_export$country == 'Indonesia') & (total_export$commodity == 90190)] / codes$total_netweight_kg[codes$country == 'Indonesia'], digits = 3 )
+
+codes$`210111`[codes$country == 'Indonesia'] <-round( total_export$netweight_kg[(total_export$country == 'Indonesia') & (total_export$commodity == 210111)] / codes$total_netweight_kg[codes$country == 'Indonesia'], digits = 3 )
+
+codes$`210112`[codes$country == 'Indonesia'] <-round( total_export$netweight_kg[(total_export$country == 'Indonesia') & (total_export$commodity == 210112)] / codes$total_netweight_kg[codes$country == 'Indonesia'], digits = 3 )
+
+```
+
+```{r, echo = FALSE, results = 'asis'}
+
+rownames(total_export) <- c()
+kable(codes, caption = 'Percentage of coffee export volume by HS code (2013)')
+```
+
+
+
+```{r, include=FALSE}
+
+# _____
+# 2014
+
+comtrade_export <- comtrade14[(comtrade14$flow == 'Export') & (comtrade14$partner == 'World'),]
+
+total_export <- data.frame('country' = comtrade_export$country,
+                           'commodity' = comtrade_export$commodity,
+                           'netweight_kg' = comtrade_export$netweight_kg)
+
+codes <- data.frame(matrix(ncol = 9, nrow = 1))
+colnames(codes) <- c('country', 'total_netweight_kg',  '090111', '090112', '090121', '090122', '090190', '210111', '210112')
+codes$country <- countries
+
+total_country <- aggregate( x = total_export$netweight_kg,
+                             by=list(country=total_export$country),
+                             FUN=sum, 
+                             na.rm=TRUE)
+
+
+codes$total_netweight_kg[codes$country == 'Indonesia'] <- total_country$x[total_country$country == 'Indonesia']
+
+
+codes$`090111`[codes$country == 'Indonesia'] <-round( total_export$netweight_kg[(total_export$country == 'Indonesia') & (total_export$commodity == 90111)] / codes$total_netweight_kg[codes$country == 'Indonesia'], digits = 3 )
+
+codes$`090112`[codes$country == 'Indonesia'] <-round( total_export$netweight_kg[(total_export$country == 'Indonesia') & (total_export$commodity == 90112)] / codes$total_netweight_kg[codes$country == 'Indonesia'], digits = 3 )
+
+codes$`090121`[codes$country == 'Indonesia'] <-round( total_export$netweight_kg[(total_export$country == 'Indonesia') & (total_export$commodity == 90121)] / codes$total_netweight_kg[codes$country == 'Indonesia'], digits = 3 )
+
+codes$`090122`[codes$country == 'Indonesia'] <-round( total_export$netweight_kg[(total_export$country == 'Indonesia') & (total_export$commodity == 90122)] / codes$total_netweight_kg[codes$country == 'Indonesia'], digits = 3 )
+
+codes$`090190`[codes$country == 'Indonesia'] <-round( total_export$netweight_kg[(total_export$country == 'Indonesia') & (total_export$commodity == 90190)] / codes$total_netweight_kg[codes$country == 'Indonesia'], digits = 3 )
+
+codes$`210111`[codes$country == 'Indonesia'] <-round( total_export$netweight_kg[(total_export$country == 'Indonesia') & (total_export$commodity == 210111)] / codes$total_netweight_kg[codes$country == 'Indonesia'], digits = 3 )
+
+codes$`210112`[codes$country == 'Indonesia'] <-round( total_export$netweight_kg[(total_export$country == 'Indonesia') & (total_export$commodity == 210112)] / codes$total_netweight_kg[codes$country == 'Indonesia'], digits = 3 )
+
+```
+
+```{r, echo = FALSE, results = 'asis'}
+
+rownames(total_export) <- c()
+kable(codes, caption = 'Percentage of coffee export volume by HS code (2014)')
+```
+
+
+```{r, include=FALSE}
+
+# _____
+# 2015
+
+comtrade_export <- comtrade15[(comtrade15$flow == 'Export') & (comtrade15$partner == 'World'),]
+
+total_export <- data.frame('country' = comtrade_export$country,
+                           'commodity' = comtrade_export$commodity,
+                           'netweight_kg' = comtrade_export$netweight_kg)
+
+codes <- data.frame(matrix(ncol = 9, nrow = 1))
+colnames(codes) <- c('country', 'total_netweight_kg',  '090111', '090112', '090121', '090122', '090190', '210111', '210112')
+codes$country <- countries
+
+total_country <- aggregate( x = total_export$netweight_kg,
+                             by=list(country=total_export$country),
+                             FUN=sum, 
+                             na.rm=TRUE)
+
+
+codes$total_netweight_kg[codes$country == 'Indonesia'] <- total_country$x[total_country$country == 'Indonesia']
+
+
+codes$`090111`[codes$country == 'Indonesia'] <-round( total_export$netweight_kg[(total_export$country == 'Indonesia') & (total_export$commodity == 90111)] / codes$total_netweight_kg[codes$country == 'Indonesia'], digits = 3 )
+
+codes$`090112`[codes$country == 'Indonesia'] <-round( total_export$netweight_kg[(total_export$country == 'Indonesia') & (total_export$commodity == 90112)] / codes$total_netweight_kg[codes$country == 'Indonesia'], digits = 3 )
+
+codes$`090121`[codes$country == 'Indonesia'] <-round( total_export$netweight_kg[(total_export$country == 'Indonesia') & (total_export$commodity == 90121)] / codes$total_netweight_kg[codes$country == 'Indonesia'], digits = 3 )
+
+codes$`090122`[codes$country == 'Indonesia'] <-round( total_export$netweight_kg[(total_export$country == 'Indonesia') & (total_export$commodity == 90122)] / codes$total_netweight_kg[codes$country == 'Indonesia'], digits = 3 )
+
+codes$`090190`[codes$country == 'Indonesia'] <-round( total_export$netweight_kg[(total_export$country == 'Indonesia') & (total_export$commodity == 90190)] / codes$total_netweight_kg[codes$country == 'Indonesia'], digits = 3 )
+
+codes$`210111`[codes$country == 'Indonesia'] <-round( total_export$netweight_kg[(total_export$country == 'Indonesia') & (total_export$commodity == 210111)] / codes$total_netweight_kg[codes$country == 'Indonesia'], digits = 3 )
+
+codes$`210112`[codes$country == 'Indonesia'] <-round( total_export$netweight_kg[(total_export$country == 'Indonesia') & (total_export$commodity == 210112)] / codes$total_netweight_kg[codes$country == 'Indonesia'], digits = 3 )
+
+```
+
+```{r, echo = FALSE, results = 'asis'}
+
+rownames(total_export) <- c()
+kable(codes, caption = 'Percentage of coffee export volume by HS code (2015)')
+```
+
+```{r, include=FALSE}
+
+# _____
+# 2016
+
+comtrade_export <- comtrade16[(comtrade16$flow == 'Export') & (comtrade16$partner == 'World'),]
+
+total_export <- data.frame('country' = comtrade_export$country,
+                           'commodity' = comtrade_export$commodity,
+                           'netweight_kg' = comtrade_export$netweight_kg)
+
+codes <- data.frame(matrix(ncol = 9, nrow = 1))
+colnames(codes) <- c('country', 'total_netweight_kg',  '090111', '090112', '090121', '090122', '090190', '210111', '210112')
+codes$country <- countries
+
+total_country <- aggregate( x = total_export$netweight_kg,
+                             by=list(country=total_export$country),
+                             FUN=sum, 
+                             na.rm=TRUE)
+
+
+codes$total_netweight_kg[codes$country == 'Indonesia'] <- total_country$x[total_country$country == 'Indonesia']
+
+
+codes$`090111`[codes$country == 'Indonesia'] <-round( total_export$netweight_kg[(total_export$country == 'Indonesia') & (total_export$commodity == 90111)] / codes$total_netweight_kg[codes$country == 'Indonesia'], digits = 3 )
+
+codes$`090112`[codes$country == 'Indonesia'] <-round( total_export$netweight_kg[(total_export$country == 'Indonesia') & (total_export$commodity == 90112)] / codes$total_netweight_kg[codes$country == 'Indonesia'], digits = 3 )
+
+codes$`090121`[codes$country == 'Indonesia'] <-round( total_export$netweight_kg[(total_export$country == 'Indonesia') & (total_export$commodity == 90121)] / codes$total_netweight_kg[codes$country == 'Indonesia'], digits = 3 )
+
+codes$`090122`[codes$country == 'Indonesia'] <-round( total_export$netweight_kg[(total_export$country == 'Indonesia') & (total_export$commodity == 90122)] / codes$total_netweight_kg[codes$country == 'Indonesia'], digits = 3 )
+
+codes$`090190`[codes$country == 'Indonesia'] <-round( total_export$netweight_kg[(total_export$country == 'Indonesia') & (total_export$commodity == 90190)] / codes$total_netweight_kg[codes$country == 'Indonesia'], digits = 3 )
+
+codes$`210111`[codes$country == 'Indonesia'] <-round( total_export$netweight_kg[(total_export$country == 'Indonesia') & (total_export$commodity == 210111)] / codes$total_netweight_kg[codes$country == 'Indonesia'], digits = 3 )
+
+codes$`210112`[codes$country == 'Indonesia'] <-round( total_export$netweight_kg[(total_export$country == 'Indonesia') & (total_export$commodity == 210112)] / codes$total_netweight_kg[codes$country == 'Indonesia'], digits = 3 )
+
+```
+
+```{r, echo = FALSE, results = 'asis'}
+
+rownames(total_export) <- c()
+kable(codes, caption = 'Percentage of coffee export volume by HS code (2016)')
+```
+
+
+
+
+## PULP
+
+```{r, include=FALSE}
+
+## PULP
+countries <- c('Indonesia')
+
+## Need to preprocess COMTRADE and filter for pulp codes
+obj <- get_object(object = 'data/1-TRADE/STATISTICAL_DATA/GLOBAL/COMTRADE/COMTRADE_PULP/COMTRADE_2013_pulp.csv', bucket = 'trase-storage')
+comtrade13 <- read.csv(text = rawToChar(obj), quote = '', sep = ';')
+obj <- get_object(object = 'data/1-TRADE/STATISTICAL_DATA/GLOBAL/COMTRADE/COMTRADE_PULP/COMTRADE_2014_pulp.csv', bucket = 'trase-storage')
+comtrade14 <- read.csv(text = rawToChar(obj), quote = '', sep = ';')
+obj <- get_object(object = 'data/1-TRADE/STATISTICAL_DATA/GLOBAL/COMTRADE/COMTRADE_PULP/COMTRADE_2015_pulp.csv', bucket = 'trase-storage')
+comtrade15 <- read.csv(text = rawToChar(obj), quote = '', sep = ';')
+obj <- get_object(object = 'data/1-TRADE/STATISTICAL_DATA/GLOBAL/COMTRADE/COMTRADE_PULP/COMTRADE_2016_pulp.csv', bucket = 'trase-storage')
+comtrade16 <- read.csv(text = rawToChar(obj), quote = '', sep = ';')
+
+
+# _____
+# 2013
+
+comtrade_export <- comtrade13[(comtrade13$flow == 'Export') & (comtrade13$partner == 'World'),]
+
+total_export <- data.frame('country' = comtrade_export$country,
+                           'commodity' = comtrade_export$commodity,
+                           'netweight_kg' = comtrade_export$netweight_kg)
+
+codes <- data.frame(matrix(ncol = 13, nrow = 1))
+colnames(codes) <- c('country', 'total_netweight_kg',  '470100', '470200', '470311', '470319', '470321', '470329', '470500', '470411', '470419', '470421', '470429')
+codes$country <- countries
+
+total_country <- aggregate( x = total_export$netweight_kg,
+                             by=list(country=total_export$country),
+                             FUN=sum, 
+                             na.rm=TRUE)
+
+
+codes$total_netweight_kg[codes$country == 'Indonesia'] <- total_country$x[total_country$country == 'Indonesia']
+
+
+codes$`470100`[codes$country == 'Indonesia'] <- 0
+
+codes$`470200`[codes$country == 'Indonesia'] <- 0
+
+codes$`470311`[codes$country == 'Indonesia'] <- 0
+
+codes$`470319`[codes$country == 'Indonesia'] <- 0
+
+codes$`470321`[codes$country == 'Indonesia'] <-round( total_export$netweight_kg[(total_export$country == 'Indonesia') & (total_export$commodity == 470321)] / codes$total_netweight_kg[codes$country == 'Indonesia'], digits = 3 )
+
+codes$`470329`[codes$country == 'Indonesia'] <-round( total_export$netweight_kg[(total_export$country == 'Indonesia') & (total_export$commodity == 470329)] / codes$total_netweight_kg[codes$country == 'Indonesia'], digits = 3 )
+
+codes$`470500`[codes$country == 'Indonesia'] <- 0
+
+codes$`470411`[codes$country == 'Indonesia'] <- 0
+
+codes$`470419`[codes$country == 'Indonesia'] <- 0
+
+codes$`470421`[codes$country == 'Indonesia'] <- 0
+
+codes$`470429`[codes$country == 'Indonesia'] <- 0
+
+```
+
+```{r, echo = FALSE, results = 'asis'}
+
+rownames(total_export) <- c()
+kable(codes, caption = 'Percentage of pulp export volume by HS code (2013)')
+```
+
+
+
+```{r, include=FALSE}
+# _____
+# 2014
+
+comtrade_export <- comtrade14[(comtrade14$flow == 'Export') & (comtrade14$partner == 'World'),]
+
+total_export <- data.frame('country' = comtrade_export$country,
+                           'commodity' = comtrade_export$commodity,
+                           'netweight_kg' = comtrade_export$netweight_kg)
+
+codes <- data.frame(matrix(ncol = 13, nrow = 1))
+colnames(codes) <- c('country', 'total_netweight_kg',  '470100', '470200', '470311', '470319', '470321', '470329', '470500', '470411', '470419', '470421', '470429')
+codes$country <- countries
+
+total_country <- aggregate( x = total_export$netweight_kg,
+                             by=list(country=total_export$country),
+                             FUN=sum, 
+                             na.rm=TRUE)
+
+
+codes$total_netweight_kg[codes$country == 'Indonesia'] <- total_country$x[total_country$country == 'Indonesia']
+
+
+codes$`470100`[codes$country == 'Indonesia'] <- 0
+
+codes$`470200`[codes$country == 'Indonesia'] <- 0
+
+codes$`470311`[codes$country == 'Indonesia'] <- 0
+
+codes$`470319`[codes$country == 'Indonesia'] <- 0
+
+codes$`470321`[codes$country == 'Indonesia'] <- 0
+
+codes$`470329`[codes$country == 'Indonesia'] <-round( total_export$netweight_kg[(total_export$country == 'Indonesia') & (total_export$commodity == 470329)] / codes$total_netweight_kg[codes$country == 'Indonesia'], digits = 3 )
+
+codes$`470500`[codes$country == 'Indonesia'] <- 0
+
+codes$`470411`[codes$country == 'Indonesia'] <- 0
+
+codes$`470419`[codes$country == 'Indonesia'] <- 0
+
+codes$`470421`[codes$country == 'Indonesia'] <- 0
+
+codes$`470429`[codes$country == 'Indonesia'] <- 0
+
+```
+
+```{r, echo = FALSE, results = 'asis'}
+
+rownames(total_export) <- c()
+kable(codes, caption = 'Percentage of pulp export volume by HS code (2014)')
+```
+
+
+
+```{r, include=FALSE}
+# _____
+# 2015
+
+comtrade_export <- comtrade15[(comtrade15$flow == 'Export') & (comtrade15$partner == 'World'),]
+
+total_export <- data.frame('country' = comtrade_export$country,
+                           'commodity' = comtrade_export$commodity,
+                           'netweight_kg' = comtrade_export$netweight_kg)
+
+codes <- data.frame(matrix(ncol = 13, nrow = 1))
+colnames(codes) <- c('country', 'total_netweight_kg',  '470100', '470200', '470311', '470319', '470321', '470329', '470500', '470411', '470419', '470421', '470429')
+codes$country <- countries
+
+total_country <- aggregate( x = total_export$netweight_kg,
+                             by=list(country=total_export$country),
+                             FUN=sum, 
+                             na.rm=TRUE)
+
+
+codes$total_netweight_kg[codes$country == 'Indonesia'] <- total_country$x[total_country$country == 'Indonesia']
+
+
+codes$`470100`[codes$country == 'Indonesia'] <- 0
+
+codes$`470200`[codes$country == 'Indonesia'] <- 0
+
+codes$`470311`[codes$country == 'Indonesia'] <- 0
+
+codes$`470319`[codes$country == 'Indonesia'] <- 0
+
+codes$`470321`[codes$country == 'Indonesia'] <- 0
+
+codes$`470329`[codes$country == 'Indonesia'] <-round( total_export$netweight_kg[(total_export$country == 'Indonesia') & (total_export$commodity == 470329)] / codes$total_netweight_kg[codes$country == 'Indonesia'], digits = 3 )
+
+codes$`470500`[codes$country == 'Indonesia'] <- 0
+
+codes$`470411`[codes$country == 'Indonesia'] <- 0
+
+codes$`470419`[codes$country == 'Indonesia'] <- 0
+
+codes$`470421`[codes$country == 'Indonesia'] <- 0
+
+codes$`470429`[codes$country == 'Indonesia'] <- 0
+
+```
+
+```{r, echo = FALSE, results = 'asis'}
+
+rownames(total_export) <- c()
+kable(codes, caption = 'Percentage of pulp export volume by HS code (2015)')
+```
+
+
+
+```{r, include=FALSE}
+# _____
+# 2016
+
+comtrade_export <- comtrade16[(comtrade16$flow == 'Export') & (comtrade16$partner == 'World'),]
+
+total_export <- data.frame('country' = comtrade_export$country,
+                           'commodity' = comtrade_export$commodity,
+                           'netweight_kg' = comtrade_export$netweight_kg)
+
+codes <- data.frame(matrix(ncol = 13, nrow = 1))
+colnames(codes) <- c('country', 'total_netweight_kg',  '470100', '470200', '470311', '470319', '470321', '470329', '470500', '470411', '470419', '470421', '470429')
+codes$country <- countries
+
+total_country <- aggregate( x = total_export$netweight_kg,
+                             by=list(country=total_export$country),
+                             FUN=sum, 
+                             na.rm=TRUE)
+
+
+codes$total_netweight_kg[codes$country == 'Indonesia'] <- total_country$x[total_country$country == 'Indonesia']
+
+
+codes$`470100`[codes$country == 'Indonesia'] <- 0
+
+codes$`470200`[codes$country == 'Indonesia'] <- 0
+
+codes$`470311`[codes$country == 'Indonesia'] <- 0
+
+codes$`470319`[codes$country == 'Indonesia'] <- 0
+
+codes$`470321`[codes$country == 'Indonesia'] <- 0
+
+codes$`470329`[codes$country == 'Indonesia'] <-round( total_export$netweight_kg[(total_export$country == 'Indonesia') & (total_export$commodity == 470329)] / codes$total_netweight_kg[codes$country == 'Indonesia'], digits = 3 )
+
+codes$`470500`[codes$country == 'Indonesia'] <- 0
+
+codes$`470411`[codes$country == 'Indonesia'] <- 0
+
+codes$`470419`[codes$country == 'Indonesia'] <- 0
+
+codes$`470421`[codes$country == 'Indonesia'] <- 0
+
+codes$`470429`[codes$country == 'Indonesia'] <- 0
+
+```
+
+```{r, echo = FALSE, results = 'asis'}
+
+rownames(total_export) <- c()
+kable(codes, caption = 'Percentage of pulp export volume by HS code (2016)')
+```
